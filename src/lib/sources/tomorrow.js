@@ -62,6 +62,6 @@ export const TOMORROW_META = {
   label:       'Tomorrow.io',
   requiresKey: true,
   keyUrl:      'https://www.tomorrow.io',
-  keyHint:     'Free tier: 500 req/day',
+  keyHint:     'Free plan available — see tomorrow.io for limits',
   keyPattern:  /^[A-Za-z0-9]{32,}$/,
 }

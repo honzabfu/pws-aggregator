@@ -119,6 +119,6 @@ export const WINDY_META = {
   label:       'Windy',
   requiresKey: true,
   keyUrl:      'https://api.windy.com/point-forecast',
-  keyHint:     'Free tier available — Point Forecast API',
+  keyHint:     'Free tier (testing only, data deliberately shuffled/modified) — 500 req/day',
   keyPattern:  /^[A-Za-z0-9]{32,}$/,
 }
