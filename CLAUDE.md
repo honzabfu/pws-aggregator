@@ -35,8 +35,11 @@ A `StationReading` is `{ stationId, stationName, source, fetchedAt, [lat, lon], 
 ## Deploy
 Single source of truth: [.github/workflows/deploy.yml](.github/workflows/deploy.yml) — GitHub Actions builds with `npm run build` and publishes `dist/` to Pages on push to `main`. (The old `static.yml`, which deployed the un-built repo root, was removed.)
 
-## Planned / not yet implemented
-- **Windy + Tomorrow.io sources** — `windy`/`tomorrow` apiKeys slots, Settings UI, and i18n labels already exist; only the source modules + `useWeather` wiring are missing. Full step-by-step (contract, wiring, CORS caveat, per-provider endpoints/units): [docs/adding-a-data-source.md](docs/adding-a-data-source.md).
+## TODO / not yet implemented
+- **Windy source** — the last advertised source still missing. `windy` apiKeys slot, Settings UI, and i18n labels already exist; only `src/lib/sources/windy.js` + the `useWeather` wiring remain. Step-by-step incl. Windy specifics (Point Forecast POST, time-series, K/Pa/u-v unit conversions, CORS caveat): [docs/adding-a-data-source.md](docs/adding-a-data-source.md). Implement like the now-done Tomorrow.io source.
+
+## Done sources
+- `open-meteo` (3 models, UV, sea-level pressure), `owm` (live-tested), `tomorrow` (Tomorrow.io realtime).
 
 ## Known gaps / caveats
 - `uvIndex` is populated only by Open-Meteo (`uv_index` in the current endpoint); OWM `/find` cannot supply it. Open-Meteo returns one UV value per model, so all 3 models report the same figure.

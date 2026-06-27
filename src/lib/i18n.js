@@ -102,6 +102,9 @@ const strings = {
     locationSearching: 'Searching…',
     locationSearchEmpty:'No places found',
     locationOrManual:  'or enter coordinates manually',
+    locationLabelHint: 'e.g. Home, Cottage, Prague…',
+    locationUseMine:   'Use my location',
+    locationLocating:  'Locating…',
 
     // API keys
     keyOWM:       'OpenWeatherMap API key',
@@ -220,6 +223,9 @@ const strings = {
     locationSearching: 'Hledám…',
     locationSearchEmpty:'Nic nenalezeno',
     locationOrManual:  'nebo zadej souřadnice ručně',
+    locationLabelHint: 'např. Domov, Chata, Praha…',
+    locationUseMine:   'Použít mou polohu',
+    locationLocating:  'Zjišťuji polohu…',
 
     keyOWM:      'API klíč OpenWeatherMap',
     keyWindy:    'API klíč Windy',
@@ -333,6 +339,9 @@ const strings = {
     locationSearching: 'Buscando…',
     locationSearchEmpty:'No se encontró ningún lugar',
     locationOrManual:  'o introduce coordenadas manualmente',
+    locationLabelHint: 'p. ej. Casa, Oficina, Madrid…',
+    locationUseMine:   'Usar mi ubicación',
+    locationLocating:  'Localizando…',
 
     keyOWM:      'Clave API OpenWeatherMap',
     keyWindy:    'Clave API Windy',

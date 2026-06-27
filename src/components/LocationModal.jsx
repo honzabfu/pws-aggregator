@@ -1,7 +1,7 @@
 // src/components/LocationModal.jsx
 import { useState, useEffect } from 'react'
 import { t } from '../lib/i18n.js'
-import { searchPlaces } from '../lib/geocode.js'
+import { searchPlaces, reverseGeocode } from '../lib/geocode.js'
 
 export function LocationModal({ onAdd, onClose, lang }) {
   const [label,    setLabel]    = useState('')
@@ -48,9 +48,17 @@ export function LocationModal({ onAdd, onClose, lang }) {
     if (!navigator.geolocation) { setError('Geolocation not supported'); return }
     setLocating(true)
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setLat(pos.coords.latitude.toFixed(5))
-        setLon(pos.coords.longitude.toFixed(5))
+      async (pos) => {
+        const la = pos.coords.latitude
+        const lo = pos.coords.longitude
+        setLat(la.toFixed(5))
+        setLon(lo.toFixed(5))
+        // Prefill the name from the coordinates, but never overwrite what the
+        // user already typed; the name stays optional if lookup fails.
+        try {
+          const name = await reverseGeocode(la, lo, lang)
+          if (name) setLabel(prev => (prev.trim() ? prev : name))
+        } catch { /* ignore — reverse geocoding is best-effort */ }
         setLocating(false)
       },
       () => {
@@ -161,7 +169,7 @@ export function LocationModal({ onAdd, onClose, lang }) {
           <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
         </div>
 
-        {field(t(lang, 'locationLabel'), label, setLabel, 'text', 'Ostrava-Poruba')}
+        {field(t(lang, 'locationLabel'), label, setLabel, 'text', t(lang, 'locationLabelHint'))}
 
         <div style={{ display: 'flex', gap: 10 }}>
           <div style={{ flex: 1 }}>
@@ -174,7 +182,7 @@ export function LocationModal({ onAdd, onClose, lang }) {
 
         <button onClick={useGeoLocation} disabled={locating} className="btn btn-ghost"
           style={{ width: '100%', marginBottom: 14, justifyContent: 'center' }}>
-          {locating ? '⟳ Locating…' : '📍 Use my location'}
+          {locating ? `⟳ ${t(lang, 'locationLocating')}` : `📍 ${t(lang, 'locationUseMine')}`}
         </button>
 
         {field(t(lang, 'locationRadius'), radius, setRadius, 'number', '10')}
