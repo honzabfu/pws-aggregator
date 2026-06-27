@@ -7,8 +7,8 @@
 const BASE = 'https://api.windy.com/api/point-forecast/v2'
 
 const PARAMS = [
-  'temp', 'dewpoint', 'pressure',
-  'wind_u', 'wind_v',
+  'temp', 'rh', 'pressure',
+  'wind',
   'lclouds', 'mclouds', 'hclouds',
   'precip',
 ]
@@ -65,18 +65,7 @@ export async function fetchWindy(lat, lon, apiKey) {
   }
 
   // Temperature: K → °C
-  const tempK     = get('temp')
-  const dewpointK = get('dewpoint')
-
-  // Humidity: derived from dewpoint via August-Roche-Magnus formula
-  let humidity = null
-  if (tempK != null && dewpointK != null) {
-    const tC  = tempK - 273.15
-    const tdC = dewpointK - 273.15
-    const a = 17.625, b = 243.04
-    const rh = 100 * Math.exp(a * tdC / (b + tdC)) / Math.exp(a * tC / (b + tC))
-    humidity = Math.round(Math.max(0, Math.min(100, rh)))
-  }
+  const tempK = get('temp')
 
   // Pressure: Pa → hPa
   const pressurePa = get('pressure')
@@ -107,7 +96,7 @@ export async function fetchWindy(lat, lon, apiKey) {
       lon:         Number(lon),
       metrics: {
         temp:      tempK      != null ? tempK - 273.15 : null,
-        humidity,
+        humidity:  get('rh'),
         pressure:  pressurePa != null ? pressurePa / 100 : null,
         windSpeed,
         windDeg,
