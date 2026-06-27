@@ -31,11 +31,13 @@ Agregátor dat z více meteorologických zdrojů. Aplikace sbírá měření ze 
 | **Open-Meteo** | nevyžadován | 3 numerické modely (best\_match, ICON, ECMWF); poskytuje i UV index |
 | **OpenWeatherMap** | vyžadován (zdarma) | Stanice fyzických měřidel v okolí zadané polohy |
 | **Tomorrow.io** | vyžadován (zdarma) | Realtime data z modelu Tomorrow.io |
+| **Windy** | vyžadován (zdarma) | Point Forecast API v2, GFS model; data jsou označena jako přibližná (≈) a nevstupují do agregace |
 
 ### Kde získat API klíče
 
 - **OpenWeatherMap** — https://openweathermap.org/api (volný tarif: 60 dotazů/min)
 - **Tomorrow.io** — https://www.tomorrow.io (volný tarif: 500 dotazů/den)
+- **Windy** — https://api.windy.com/point-forecast (volný tarif: Point Forecast API)
 
 Klíče se zadávají v **Nastavení → API Keys** a ukládají se výhradně do `localStorage` vašeho prohlížeče — nikam se neodesílají.
 
@@ -54,7 +56,7 @@ Nastavení otevřete ikonou ozubeného kola vpravo nahoře.
 | **Wind display** | m/s, km/h, mph, Beaufortova stupnice nebo kombinace |
 | **IQR factor** | Přísnost filtrace odlehlých hodnot (1,0 = přísné, 3,0 = volné) |
 | **Auto-refresh** | Automatické obnovení každých 5 / 10 / 30 min nebo vypnuto |
-| **API Keys** | Klíče pro OpenWeatherMap a Tomorrow.io |
+| **API Keys** | Klíče pro OpenWeatherMap, Tomorrow.io a Windy |
 | **Export / Import** | Záloha a obnova celé konfigurace jako JSON |
 
 ---

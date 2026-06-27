@@ -57,6 +57,11 @@ export async function fetchWindy(lat, lon, apiKey) {
     (best, t, i) => Math.abs(t - now) < Math.abs(ts[best] - now) ? i : best,
     0,
   )
+  console.log(
+    '[Windy] ts[0]=%d → as-ms:%s as-s:%s | idx=%d ts[idx]=%d → as-ms:%s as-s:%s',
+    ts[0], new Date(ts[0]).toISOString(), new Date(ts[0] * 1000).toISOString(),
+    idx, ts[idx], new Date(ts[idx]).toISOString(), new Date(ts[idx] * 1000).toISOString(),
+  )
 
   const get = (param) => {
     const arr = data[`${param}-surface`]
