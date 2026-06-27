@@ -38,7 +38,7 @@ export async function fetchWindy(lat, lon, apiKey) {
     })
     if (!res.ok) {
       const text = await res.text().catch(() => '')
-      throw new Error(`HTTP ${res.status}${text ? ': ' + text.slice(0, 120) : ''}`)
+      throw new Error(`HTTP ${res.status}${text ? ': ' + text : ''}`)
     }
     data = await res.json()
   } catch (e) {
