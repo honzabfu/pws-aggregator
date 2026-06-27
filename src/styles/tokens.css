@@ -1,0 +1,232 @@
+/* ── Reset ────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body { font-family: 'Inter', system-ui, -apple-system, sans-serif; line-height: 1.5; }
+button { cursor: pointer; font-family: inherit; }
+input { font-family: inherit; }
+
+/* ── Tokens — light ───────────────────────────────────────────────────────── */
+:root,
+[data-theme="light"] {
+  --bg-base:      #f8fafc;
+  --bg-surface:   #ffffff;
+  --bg-elevated:  #f1f5f9;
+  --bg-overlay:   rgba(0,0,0,0.4);
+
+  --border:       #e2e8f0;
+  --border-focus: #0ea5e9;
+
+  --text-primary:   #0f172a;
+  --text-secondary: #475569;
+  --text-muted:     #94a3b8;
+  --text-inverse:   #f8fafc;
+
+  --accent:         #0ea5e9;
+  --accent-hover:   #0284c7;
+  --accent-subtle:  #e0f2fe;
+
+  --success:        #22c55e;
+  --warning:        #f59e0b;
+  --error:          #ef4444;
+  --error-subtle:   #fef2f2;
+
+  --metric-temp:    #f97316;
+  --metric-humid:   #3b82f6;
+  --metric-press:   #8b5cf6;
+  --metric-wind:    #06b6d4;
+  --metric-cloud:   #64748b;
+  --metric-precip:  #6366f1;
+  --metric-uv:      #eab308;
+
+  --shadow-sm:  0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md:  0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.05);
+  --shadow-lg:  0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  20px;
+
+  color-scheme: light;
+}
+
+/* ── Tokens — dark ────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg-base:      #020817;
+  --bg-surface:   #0f172a;
+  --bg-elevated:  #1e293b;
+  --bg-overlay:   rgba(0,0,0,0.6);
+
+  --border:       #1e293b;
+  --border-focus: #0ea5e9;
+
+  --text-primary:   #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted:     #475569;
+  --text-inverse:   #0f172a;
+
+  --accent:         #0ea5e9;
+  --accent-hover:   #38bdf8;
+  --accent-subtle:  #0c2340;
+
+  --success:        #4ade80;
+  --warning:        #fbbf24;
+  --error:          #f87171;
+  --error-subtle:   #1c0a0a;
+
+  --metric-temp:    #fb923c;
+  --metric-humid:   #60a5fa;
+  --metric-press:   #a78bfa;
+  --metric-wind:    #22d3ee;
+  --metric-cloud:   #94a3b8;
+  --metric-precip:  #818cf8;
+  --metric-uv:      #fcd34d;
+
+  --shadow-sm:  0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md:  0 4px 6px -1px rgba(0,0,0,0.4);
+  --shadow-lg:  0 10px 15px -3px rgba(0,0,0,0.5);
+
+  color-scheme: dark;
+}
+
+/* ── System preference fallback ───────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-base:      #020817;
+    --bg-surface:   #0f172a;
+    --bg-elevated:  #1e293b;
+    --bg-overlay:   rgba(0,0,0,0.6);
+    --border:       #1e293b;
+    --border-focus: #0ea5e9;
+    --text-primary:   #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted:     #475569;
+    --text-inverse:   #0f172a;
+    --accent:         #0ea5e9;
+    --accent-hover:   #38bdf8;
+    --accent-subtle:  #0c2340;
+    --success:        #4ade80;
+    --warning:        #fbbf24;
+    --error:          #f87171;
+    --error-subtle:   #1c0a0a;
+    --metric-temp:    #fb923c;
+    --metric-humid:   #60a5fa;
+    --metric-press:   #a78bfa;
+    --metric-wind:    #22d3ee;
+    --metric-cloud:   #94a3b8;
+    --metric-precip:  #818cf8;
+    --metric-uv:      #fcd34d;
+    --shadow-sm:  0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md:  0 4px 6px -1px rgba(0,0,0,0.4);
+    --shadow-lg:  0 10px 15px -3px rgba(0,0,0,0.5);
+    color-scheme: dark;
+  }
+}
+
+/* ── Base layout ──────────────────────────────────────────────────────────── */
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background 0.2s, color 0.2s;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Typography ───────────────────────────────────────────────────────────── */
+.mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+.label-xs {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ── Utility classes ──────────────────────────────────────────────────────── */
+.surface {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.elevated {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.15s, opacity 0.15s;
+}
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--text-inverse);
+}
+.btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover:not(:disabled) { background: var(--bg-elevated); }
+
+.btn-icon {
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  line-height: 1;
+}
+.btn-icon:hover { background: var(--bg-elevated); }
+
+.input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg-base);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.input:focus { border-color: var(--border-focus); }
+
+/* ── Status dot ───────────────────────────────────────────────────────────── */
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-ok      { background: var(--success); }
+.dot-loading { background: var(--warning); animation: pulse 1s infinite; }
+.dot-error   { background: var(--error); }
+.dot-idle    { background: var(--border); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
