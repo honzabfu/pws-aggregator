@@ -10,6 +10,20 @@ Personal weather station aggregator. Collects readings from physical stations an
 
 **Live app:** https://honzabfu.github.io/jz-weatherfusion/
 
+### Screenshots
+
+| Light mode | Dark mode |
+|:---:|:---:|
+| ![Aggregated tab — light](docs/screenshots/light-aggregated.png) | ![Aggregated tab — dark](docs/screenshots/dark-aggregated.png) |
+| ![Stations tab — light](docs/screenshots/light-stations.png) | ![Dark mode stations](docs/screenshots/dark-stations.png) |
+
+<details>
+<summary>Mobile view</summary>
+
+![Mobile — aggregated tab](docs/screenshots/mobile-aggregated.png)
+
+</details>
+
 ### Quick start
 
 1. Open the app at the link above.
@@ -110,6 +124,20 @@ Deployment is automated via GitHub Actions — every push to `main` builds and p
 Agregátor dat z více meteorologických zdrojů. Aplikace sbírá měření ze stanic i numerických modelů, filtruje odlehlé hodnoty a zobrazuje jejich průměr v přehledném rozhraní. Čistě klientská React PWA — veškerá konfigurace (API klíče, lokality) zůstává v `localStorage` vašeho prohlížeče a odesílá se pouze na příslušná API.
 
 **Živá aplikace:** https://honzabfu.github.io/jz-weatherfusion/
+
+### Screenshoty
+
+| Světlý motiv | Tmavý motiv |
+|:---:|:---:|
+| ![Záložka Aggregated — světlý](docs/screenshots/light-aggregated.png) | ![Záložka Aggregated — tmavý](docs/screenshots/dark-aggregated.png) |
+| ![Záložka Stations — světlý](docs/screenshots/light-stations.png) | ![Záložka Stations — tmavý](docs/screenshots/dark-stations.png) |
+
+<details>
+<summary>Mobilní zobrazení</summary>
+
+![Mobilní — záložka Aggregated](docs/screenshots/mobile-aggregated.png)
+
+</details>
 
 ### Rychlý start
 
