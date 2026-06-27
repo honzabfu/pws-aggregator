@@ -15,7 +15,7 @@ Personal weather station aggregator. Collects readings from physical stations an
 | Aggregated | Stations | Sources |
 |:---:|:---:|:---:|
 | ![Aggregated — light](docs/screenshots/light-aggregated.png) | ![Stations — light](docs/screenshots/light-stations.png) | ![Sources — light](docs/screenshots/light-sources.png) |
-| ![Aggregated — dark](docs/screenshots/dark-aggregated.png) | ![Stations — dark](docs/screenshots/dark-stations.png) | |
+| ![Aggregated — dark](docs/screenshots/dark-aggregated.png) | ![Stations — dark](docs/screenshots/dark-stations.png) | ![Sources — dark](docs/screenshots/dark-sources.png) |
 
 ### Quick start
 
