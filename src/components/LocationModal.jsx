@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react'
 import { t } from '../lib/i18n.js'
 import { searchPlaces, reverseGeocode } from '../lib/geocode.js'
 
-export function LocationModal({ onAdd, onClose, lang }) {
-  const [label,    setLabel]    = useState('')
-  const [lat,      setLat]      = useState('')
-  const [lon,      setLon]      = useState('')
-  const [radius,   setRadius]   = useState('10')
+export function LocationModal({ onAdd, onClose, lang, initialValues }) {
+  const [label,    setLabel]    = useState(initialValues?.label    ?? '')
+  const [lat,      setLat]      = useState(initialValues ? String(initialValues.lat) : '')
+  const [lon,      setLon]      = useState(initialValues ? String(initialValues.lon) : '')
+  const [radius,   setRadius]   = useState(initialValues ? String(initialValues.radiusKm) : '10')
   const [locating, setLocating] = useState(false)
   const [error,    setError]    = useState('')
 
@@ -105,7 +105,7 @@ export function LocationModal({ onAdd, onClose, lang }) {
         padding: 24,
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-          <h2 style={{ fontSize: 16, fontWeight: 700 }}>{t(lang, 'locationAdd')}</h2>
+          <h2 style={{ fontSize: 16, fontWeight: 700 }}>{t(lang, initialValues ? 'locationEdit' : 'locationAdd')}</h2>
           <button onClick={onClose} className="btn-icon" style={{ fontSize: 18 }}>×</button>
         </div>
 

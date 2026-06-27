@@ -14,7 +14,7 @@ import strings from './lib/i18n.js'
 
 const TABS = ['aggregated', 'stations', 'sources']
 
-function LocationPicker({ locations, activeId, onSelect, onDelete, onAdd, lang }) {
+function LocationPicker({ locations, activeId, onSelect, onDelete, onEdit, onAdd, lang }) {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
   const active = locations.find(l => l.id === activeId)
@@ -76,6 +76,18 @@ function LocationPicker({ locations, activeId, onSelect, onDelete, onAdd, lang }
                 {l.id === activeId && '✓ '}{l.label}
               </button>
               <button
+                onClick={() => { onEdit(l); setOpen(false) }}
+                title={t(lang, 'locationEdit')}
+                style={{
+                  padding: '10px 10px',
+                  background: 'transparent', border: 'none',
+                  color: 'var(--text-muted)', fontSize: 14, lineHeight: 1,
+                  cursor: 'pointer', flexShrink: 0,
+                }}
+              >
+                ✎
+              </button>
+              <button
                 onClick={() => onDelete(l.id)}
                 title={t(lang, 'locationDelete')}
                 style={{
@@ -111,7 +123,7 @@ export default function App() {
   const {
     config, activeLocation,
     setPreference, setApiKey,
-    addLocation, deleteLocation, setActiveLocation,
+    addLocation, updateLocation, deleteLocation, setActiveLocation,
     replaceConfig,
   } = useConfig()
 
@@ -132,7 +144,9 @@ export default function App() {
   const [tab,          setTab]          = useState('aggregated')
   const [showSettings, setShowSettings] = useState(false)
   const [showAddLoc,   setShowAddLoc]   = useState(false)
+  const [editLoc,      setEditLoc]      = useState(null)
   const [showLog,      setShowLog]      = useState(false)
+  const [stationFilter, setStationFilter] = useState('all')
 
   const METRIC_DEFS = [
     { key: 'temp',      labelKey: 'metricTemp'     },
@@ -165,7 +179,7 @@ export default function App() {
       }}>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 15, fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--accent)' }}>
-            JZ WeatherFusion
+            {t(lang, 'appName')}
           </div>
         </div>
 
@@ -176,6 +190,7 @@ export default function App() {
             activeId={config.activeLocationId}
             onSelect={setActiveLocation}
             onDelete={deleteLocation}
+            onEdit={setEditLoc}
             onAdd={() => setShowAddLoc(true)}
             lang={lang}
           />
@@ -325,13 +340,43 @@ export default function App() {
         )}
 
         {/* ── Tab: Stations ───────────────────────────────────────────────── */}
-        {tab === 'stations' && (
-          <StationsTable
-            readings={result?.rawReadings ?? []}
-            prefs={preferences}
-            langStrings={langStrings}
-          />
-        )}
+        {tab === 'stations' && (() => {
+          const raw = result?.rawReadings ?? []
+          const filtered = stationFilter === 'active'
+            ? raw.filter(r => !r.isOutlier && !r.approximate)
+            : stationFilter === 'outlier'
+              ? raw.filter(r => r.isOutlier || r.approximate)
+              : raw
+          return (
+            <>
+              {raw.length > 0 && (
+                <div style={{ display: 'flex', gap: 4, marginBottom: 12 }}>
+                  {[
+                    { key: 'all',     label: t(lang, 'stationAll') },
+                    { key: 'active',  label: t(lang, 'stationActive') },
+                    { key: 'outlier', label: t(lang, 'stationOutlier') },
+                  ].map(f => (
+                    <button key={f.key} onClick={() => setStationFilter(f.key)} style={{
+                      padding: '5px 12px',
+                      fontSize: 12, fontWeight: stationFilter === f.key ? 700 : 400,
+                      border: '1px solid var(--border)',
+                      borderRadius: 'var(--radius-sm)',
+                      background: stationFilter === f.key ? 'var(--accent)' : 'var(--bg-elevated)',
+                      color: stationFilter === f.key ? '#fff' : 'var(--text-secondary)',
+                      cursor: 'pointer',
+                    }}>{f.label}</button>
+                  ))}
+                </div>
+              )}
+              {raw.length === 0 && !loading && (
+                <div style={{ color: 'var(--text-muted)', fontSize: 13, padding: '12px 0' }}>
+                  {t(lang, 'errorNoSources')}
+                </div>
+              )}
+              <StationsTable readings={filtered} prefs={preferences} langStrings={langStrings} />
+            </>
+          )
+        })()}
 
         {/* ── Tab: Sources ────────────────────────────────────────────────── */}
         {tab === 'sources' && (
@@ -407,6 +452,18 @@ export default function App() {
           lang={lang}
           onAdd={addLocation}
           onClose={() => setShowAddLoc(false)}
+        />
+      )}
+
+      {editLoc && (
+        <LocationModal
+          lang={lang}
+          initialValues={editLoc}
+          onAdd={(label, lat, lon, radiusKm) => {
+            updateLocation(editLoc.id, { label, lat, lon, radiusKm })
+            setEditLoc(null)
+          }}
+          onClose={() => setEditLoc(null)}
         />
       )}
     </div>
