@@ -28,14 +28,16 @@ Open http://localhost:5173/pws-aggregator/
 
 ```bash
 npm run build       # output in dist/
-npm run deploy      # builds + pushes to gh-pages branch
 ```
+
+Deployment is automatic via GitHub Actions: every push to `main` builds the app
+and publishes `dist/` to GitHub Pages (see `.github/workflows/deploy.yml`).
 
 First deploy setup:
 ```bash
-# In your GitHub repo: Settings → Pages → Source: gh-pages branch
+# In your GitHub repo: Settings → Pages → Source: GitHub Actions
 git remote add origin https://github.com/[user]/pws-aggregator.git
-npm run deploy
+git push -u origin main
 ```
 
 ## API keys (optional)

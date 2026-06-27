@@ -7,7 +7,7 @@ const MODELS = [
 ]
 
 const BASE = 'https://api.open-meteo.com/v1/forecast'
-const PARAMS = 'current=temperature_2m,relative_humidity_2m,surface_pressure,wind_speed_10m,wind_direction_10m,cloud_cover,precipitation&wind_speed_unit=ms'
+const PARAMS = 'current=temperature_2m,relative_humidity_2m,surface_pressure,wind_speed_10m,wind_direction_10m,cloud_cover,precipitation,uv_index&wind_speed_unit=ms'
 
 async function fetchModel(lat, lon, model) {
   const url = `${BASE}?latitude=${lat}&longitude=${lon}&${PARAMS}&models=${model.id}`
@@ -31,7 +31,7 @@ async function fetchModel(lat, lon, model) {
       windDeg:   c.wind_direction_10m    ?? null,
       clouds:    c.cloud_cover           ?? null,
       precip:    c.precipitation         ?? null,
-      uvIndex:   null,
+      uvIndex:   c.uv_index              ?? null,
     }
   }
 }
