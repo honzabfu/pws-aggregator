@@ -12,7 +12,7 @@ export const DEFAULT_CONFIG = {
     tomorrow: '',
   },
   preferences: {
-    language:          'en',
+    language:          'auto',
     theme:             'system',
     units:             'metric',
     windDisplay:       'combined',

@@ -1,5 +1,5 @@
 // src/App.jsx
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useConfig }   from './hooks/useConfig.js'
 import { useWeather }  from './hooks/useWeather.js'
 import { useTheme }    from './hooks/useTheme.js'
@@ -9,10 +9,103 @@ import { StationsTable } from './components/StationsTable.jsx'
 import { SettingsModal } from './components/SettingsModal.jsx'
 import { LocationModal } from './components/LocationModal.jsx'
 import { windDirLabel, displayWind } from './lib/units.js'
-import { t } from './lib/i18n.js'
+import { t, resolveLanguage } from './lib/i18n.js'
 import strings from './lib/i18n.js'
 
 const TABS = ['aggregated', 'stations', 'sources']
+
+function LocationPicker({ locations, activeId, onSelect, onDelete, onAdd, lang }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef(null)
+  const active = locations.find(l => l.id === activeId)
+
+  useEffect(() => {
+    if (!open) return
+    const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false) }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [open])
+
+  return (
+    <div ref={ref} style={{ position: 'relative' }}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 6,
+          background: 'var(--bg-elevated)',
+          border: '1px solid var(--border)',
+          borderRadius: 'var(--radius-sm)',
+          color: 'var(--text-primary)',
+          padding: '6px 10px',
+          fontSize: 13, fontWeight: 600,
+          cursor: 'pointer', maxWidth: 180,
+        }}
+      >
+        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>
+          📍 {active?.label ?? '—'}
+        </span>
+        <span style={{ fontSize: 10, color: 'var(--text-muted)', flexShrink: 0 }}>▾</span>
+      </button>
+
+      {open && (
+        <div style={{
+          position: 'absolute', top: 'calc(100% + 6px)', left: 0,
+          minWidth: 200, zIndex: 200,
+          background: 'var(--bg-surface)',
+          border: '1px solid var(--border)',
+          borderRadius: 'var(--radius-md)',
+          boxShadow: 'var(--shadow-md)',
+          overflow: 'hidden',
+        }}>
+          {locations.map(l => (
+            <div key={l.id} style={{
+              display: 'flex', alignItems: 'center',
+              borderBottom: '1px solid var(--border)',
+            }}>
+              <button
+                onClick={() => { onSelect(l.id); setOpen(false) }}
+                style={{
+                  flex: 1, textAlign: 'left',
+                  padding: '10px 12px',
+                  background: l.id === activeId ? 'var(--bg-elevated)' : 'transparent',
+                  border: 'none', color: 'var(--text-primary)',
+                  fontSize: 13, fontWeight: l.id === activeId ? 700 : 400,
+                  cursor: 'pointer',
+                }}
+              >
+                {l.id === activeId && '✓ '}{l.label}
+              </button>
+              <button
+                onClick={() => onDelete(l.id)}
+                title={t(lang, 'locationDelete')}
+                style={{
+                  padding: '10px 12px',
+                  background: 'transparent', border: 'none',
+                  color: 'var(--error)', fontSize: 18, lineHeight: 1,
+                  cursor: 'pointer', flexShrink: 0,
+                }}
+              >
+                ×
+              </button>
+            </div>
+          ))}
+          <button
+            onClick={() => { onAdd(); setOpen(false) }}
+            style={{
+              display: 'block', width: '100%', textAlign: 'left',
+              padding: '10px 12px',
+              background: 'transparent', border: 'none',
+              color: 'var(--accent)', fontSize: 13, fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            + {t(lang, 'actionAddLocation')}
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function App() {
   const {
@@ -23,7 +116,7 @@ export default function App() {
   } = useConfig()
 
   const { preferences, apiKeys } = config
-  const lang = preferences.language
+  const lang = resolveLanguage(preferences.language)
   const langStrings = strings[lang] ?? strings.en
 
   useTheme(preferences.theme)
@@ -78,26 +171,16 @@ export default function App() {
           </div>
         </div>
 
-        {/* Location selector */}
+        {/* Location picker */}
         {config.locations.length > 0 && (
-          <select
-            value={config.activeLocationId ?? ''}
-            onChange={e => setActiveLocation(e.target.value)}
-            style={{
-              background: 'var(--bg-elevated)',
-              border: '1px solid var(--border)',
-              borderRadius: 'var(--radius-sm)',
-              color: 'var(--text-primary)',
-              padding: '6px 10px',
-              fontSize: 13,
-              fontWeight: 600,
-              maxWidth: 160,
-            }}
-          >
-            {config.locations.map(l => (
-              <option key={l.id} value={l.id}>{l.label}</option>
-            ))}
-          </select>
+          <LocationPicker
+            locations={config.locations}
+            activeId={config.activeLocationId}
+            onSelect={setActiveLocation}
+            onDelete={deleteLocation}
+            onAdd={() => setShowAddLoc(true)}
+            lang={lang}
+          />
         )}
 
         <button
@@ -139,25 +222,17 @@ export default function App() {
 
         {/* Location info bar */}
         {activeLocation && (
-          <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            marginBottom: 16, flexWrap: 'wrap', gap: 8,
-          }}>
-            <div>
-              <div style={{ fontSize: 20, fontWeight: 700 }}>{activeLocation.label}</div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'monospace' }}>
-                {activeLocation.lat.toFixed(4)}° N, {activeLocation.lon.toFixed(4)}° E
-                {' · '}{activeLocation.radiusKm} km
-                {lastUpdated && (
-                  <span style={{ marginLeft: 8, color: 'var(--text-muted)' }}>
-                    · {t(lang, 'statusUpdated')} {lastUpdated.toLocaleTimeString()}
-                  </span>
-                )}
-              </div>
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ fontSize: 20, fontWeight: 700 }}>{activeLocation.label}</div>
+            <div style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'monospace' }}>
+              {activeLocation.lat.toFixed(4)}° N, {activeLocation.lon.toFixed(4)}° E
+              {' · '}{activeLocation.radiusKm} km
+              {lastUpdated && (
+                <span style={{ marginLeft: 8 }}>
+                  · {t(lang, 'statusUpdated')} {lastUpdated.toLocaleTimeString()}
+                </span>
+              )}
             </div>
-            <button className="btn btn-ghost" onClick={() => setShowAddLoc(true)} style={{ fontSize: 12 }}>
-              + {t(lang, 'actionAddLocation')}
-            </button>
           </div>
         )}
 

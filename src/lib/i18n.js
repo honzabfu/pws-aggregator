@@ -1,10 +1,27 @@
 // src/lib/i18n.js
 
+export const SUPPORTED_LANG_CODES = ['en', 'cs', 'es']
+
 export const LANGUAGES = [
+  { code: 'auto', label: 'Auto', flag: '🌐' },
   { code: 'en', label: 'English', flag: '🇬🇧' },
   { code: 'cs', label: 'Čeština', flag: '🇨🇿' },
   { code: 'es', label: 'Español', flag: '🇪🇸' },
 ]
+
+export function detectBrowserLanguage() {
+  const langs = navigator.languages?.length ? navigator.languages : [navigator.language ?? 'en']
+  for (const l of langs) {
+    const tag = l.split('-')[0].toLowerCase()
+    if (SUPPORTED_LANG_CODES.includes(tag)) return tag
+  }
+  return 'en'
+}
+
+export function resolveLanguage(pref) {
+  if (!pref || pref === 'auto') return detectBrowserLanguage()
+  return SUPPORTED_LANG_CODES.includes(pref) ? pref : 'en'
+}
 
 const strings = {
   en: {
