@@ -18,7 +18,7 @@ input { font-family: inherit; }
 
   --text-primary:   #0f172a;
   --text-secondary: #475569;
-  --text-muted:     #64748b;
+  --text-muted:     #5c6f82;
   --text-inverse:   #f8fafc;
 
   --accent:         #0ea5e9;
@@ -62,7 +62,7 @@ input { font-family: inherit; }
 
   --text-primary:   #f1f5f9;
   --text-secondary: #94a3b8;
-  --text-muted:     #7b90a7;
+  --text-muted:     #8196ac;
   --text-inverse:   #0f172a;
 
   --accent:         #0ea5e9;
@@ -100,7 +100,7 @@ input { font-family: inherit; }
     --border-focus: #0ea5e9;
     --text-primary:   #f1f5f9;
     --text-secondary: #94a3b8;
-    --text-muted:     #7b90a7;
+    --text-muted:     #8196ac;
     --text-inverse:   #0f172a;
     --accent:         #0ea5e9;
     --accent-hover:   #38bdf8;
@@ -140,7 +140,7 @@ body {
 /* ── Typography ───────────────────────────────────────────────────────────── */
 .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
 .label-xs {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;

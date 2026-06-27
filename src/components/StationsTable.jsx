@@ -78,7 +78,7 @@ export function StationsTable({ readings, prefs, langStrings }) {
                     letterSpacing: '0.04em',
                   }}>{r.source.toUpperCase()}</span>
                   {r.sourceType && (
-                    <div style={{ fontSize: 9, color: 'var(--text-muted)', fontFamily: 'monospace', marginTop: 1 }}>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'monospace', marginTop: 1 }}>
                       {t(lang, r.sourceType === 'station' ? 'sourceTypeStation' : 'sourceTypeModel')}
                     </div>
                   )}

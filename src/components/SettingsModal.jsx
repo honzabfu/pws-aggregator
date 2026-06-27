@@ -45,7 +45,7 @@ function Section({ title, hint, children }) {
   return (
     <div style={{ marginBottom: 24 }}>
       <div style={{
-        fontSize: 10,
+        fontSize: 11,
         fontWeight: 700,
         letterSpacing: '0.1em',
         textTransform: 'uppercase',
