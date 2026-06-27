@@ -102,7 +102,11 @@ export function LocationModal({ onAdd, onClose, lang, initialValues }) {
         border: '1px solid var(--border)',
         borderRadius: 'var(--radius-xl)',
         width: '100%', maxWidth: 400,
+        maxHeight: 'calc(100dvh - 32px)',
+        overflowY: 'auto',
+        overflowX: 'hidden',
         padding: 24,
+        boxSizing: 'border-box',
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
           <h2 style={{ fontSize: 16, fontWeight: 700 }}>{t(lang, initialValues ? 'locationEdit' : 'locationAdd')}</h2>

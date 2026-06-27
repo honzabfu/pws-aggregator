@@ -20,6 +20,6 @@ export function useTheme(theme, fontSize = 'medium') {
 
   useEffect(() => {
     const scale = FONT_SCALES[fontSize] ?? 1
-    document.body.style.zoom = scale === 1 ? '' : String(scale)
+    document.documentElement.style.zoom = scale === 1 ? '' : String(scale)
   }, [fontSize])
 }
