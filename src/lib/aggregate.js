@@ -47,8 +47,18 @@ function circularMean(degrees) {
 export function aggregate(readings, iqrFactor = 1.5) {
   // Approximate readings (e.g. Windy free tier) are shown in Stations
   // but excluded from the aggregate calculation.
-  const measured    = readings.filter(r => !r.approximate)
-  const approximate = readings.filter(r =>  r.approximate)
+  const approximate  = readings.filter(r =>  r.approximate)
+  const nonApprox    = readings.filter(r => !r.approximate)
+
+  // Physical stations (sourceType === 'station') reflect actual local conditions.
+  // Prefer them over NWP model readings when any are available.
+  const stationReadings = nonApprox.filter(r => r.sourceType === 'station')
+  const usingStations   = stationReadings.length > 0
+  const measured        = usingStations ? stationReadings : nonApprox
+  // Model readings excluded from the aggregate because stations are preferred
+  const excludedModels  = usingStations
+    ? nonApprox.filter(r => r.sourceType !== 'station')
+    : []
 
   const perMetric = {}
 
@@ -91,12 +101,15 @@ export function aggregate(readings, iqrFactor = 1.5) {
       ...r,
       isOutlier: r.metrics.temp !== null && !tempFiltered.has(Number(r.metrics.temp)),
     })),
+    // Model readings not used because physical stations are available
+    ...excludedModels.map(r => ({ ...r, isOutlier: false, excludedBySourceType: true })),
     ...approximate.map(r => ({ ...r, isOutlier: true, approximate: true })),
   ]
 
   return {
     computedAt:   new Date().toISOString(),
     stationCount: measured.length,
+    usingStations,
     perMetric,
     windDirMean,
     rawReadings:  taggedReadings,

@@ -284,6 +284,11 @@ export default function App() {
         {/* ── Tab: Aggregated ─────────────────────────────────────────────── */}
         {tab === 'aggregated' && result && (
           <>
+            {result.stationCount > 0 && (
+              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 12, fontStyle: 'italic' }}>
+                {t(lang, result.usingStations ? 'aggUsingStations' : 'aggUsingModels', result.stationCount)}
+              </div>
+            )}
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
@@ -343,9 +348,9 @@ export default function App() {
         {tab === 'stations' && (() => {
           const raw = result?.rawReadings ?? []
           const filtered = stationFilter === 'active'
-            ? raw.filter(r => !r.isOutlier && !r.approximate)
+            ? raw.filter(r => !r.isOutlier && !r.approximate && !r.excludedBySourceType)
             : stationFilter === 'outlier'
-              ? raw.filter(r => r.isOutlier || r.approximate)
+              ? raw.filter(r => r.isOutlier || r.approximate || r.excludedBySourceType)
               : raw
           return (
             <>

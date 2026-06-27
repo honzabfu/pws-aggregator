@@ -38,6 +38,7 @@ export async function fetchOWM(lat, lon, apiKey, radiusKm = 10) {
     stationId:   String(s.id),
     stationName: s.name,
     source:      'owm',
+    sourceType:  'station',
     fetchedAt:   new Date().toISOString(),
     lat:         s.coord.lat,
     lon:         s.coord.lon,
