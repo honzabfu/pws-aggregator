@@ -55,7 +55,7 @@ export function MetricCard({ metric, label, data, prefs, langStrings, style }) {
     }}>
       {/* Label row */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-        <span style={{ fontSize: '0.875rem' }}>{icon}</span>
+        <span style={{ fontSize: '1.5rem', lineHeight: 1 }}>{icon}</span>
         <span className="label-xs">{label}</span>
       </div>
 
