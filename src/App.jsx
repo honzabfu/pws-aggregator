@@ -126,6 +126,7 @@ export default function App() {
     apiKeys,
     preferences.iqrFactor,
     preferences.refreshIntervalMin,
+    preferences.windyKeyFree,
   )
 
   const [tab,          setTab]          = useState('aggregated')

@@ -45,7 +45,8 @@ export function StationsTable({ readings, prefs, langStrings }) {
             const windD   = displayWind(r.metrics.windSpeed, prefs.windDisplay, lang, langStrings)
             const pressD  = displayPressure(r.metrics.pressure, prefs.units)
             const srcColor = sourceColors[r.source] ?? 'var(--text-muted)'
-            const isOutlier = r.isOutlier
+            const isOutlier   = r.isOutlier
+            const isApprox    = r.approximate
 
             return (
               <tr key={r.stationId + i} style={{
@@ -53,11 +54,13 @@ export function StationsTable({ readings, prefs, langStrings }) {
                 opacity: isOutlier ? 0.45 : 1,
                 background: isOutlier ? 'var(--bg-base)' : undefined,
               }}>
-                {/* Outlier indicator */}
+                {/* Outlier / approximate indicator */}
                 <td style={{ padding: '7px 6px 7px 10px', width: 16 }}>
-                  {isOutlier
-                    ? <span title={t(lang, 'stationExcl')} style={{ fontSize: 12 }}>○</span>
-                    : <span title={t(lang, 'stationActive')} style={{ fontSize: 12, color: 'var(--success)' }}>●</span>
+                  {isApprox
+                    ? <span title={t(lang, 'stationApprox')} style={{ fontSize: 12, color: 'var(--warning)' }}>≈</span>
+                    : isOutlier
+                      ? <span title={t(lang, 'stationExcl')} style={{ fontSize: 12 }}>○</span>
+                      : <span title={t(lang, 'stationActive')} style={{ fontSize: 12, color: 'var(--success)' }}>●</span>
                   }
                 </td>
 

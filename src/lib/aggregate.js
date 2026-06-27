@@ -38,10 +38,15 @@ function circularMean(degrees) {
  * @returns {AggregatedResult}
  */
 export function aggregate(readings, iqrFactor = 1.5) {
+  // Approximate readings (e.g. Windy free tier) are shown in Stations
+  // but excluded from the aggregate calculation.
+  const measured    = readings.filter(r => !r.approximate)
+  const approximate = readings.filter(r =>  r.approximate)
+
   const perMetric = {}
 
   for (const metric of METRICS) {
-    const raw = readings
+    const raw = measured
       .map(r => r.metrics[metric])
       .filter(v => v !== null && v !== undefined && !isNaN(Number(v)))
       .map(Number)
@@ -60,28 +65,31 @@ export function aggregate(readings, iqrFactor = 1.5) {
   }
 
   // Wind direction — circular mean, no IQR (directional data)
-  const wdirs = readings
+  const wdirs = measured
     .map(r => r.metrics.windDeg)
     .filter(v => v !== null && v !== undefined && !isNaN(Number(v)))
     .map(Number)
 
   const windDirMean = circularMean(wdirs)
 
-  // Tag each reading: is it an outlier for temp? (primary indicator)
-  const tempRaw = readings
+  // Tag each measured reading: is it an outlier for temp? (primary indicator)
+  const tempRaw = measured
     .map(r => r.metrics.temp)
     .filter(v => v !== null && !isNaN(Number(v)))
     .map(Number)
   const tempFiltered = new Set(iqrFilter(tempRaw, iqrFactor))
 
-  const taggedReadings = readings.map(r => ({
-    ...r,
-    isOutlier: r.metrics.temp !== null && !tempFiltered.has(Number(r.metrics.temp)),
-  }))
+  const taggedReadings = [
+    ...measured.map(r => ({
+      ...r,
+      isOutlier: r.metrics.temp !== null && !tempFiltered.has(Number(r.metrics.temp)),
+    })),
+    ...approximate.map(r => ({ ...r, isOutlier: true, approximate: true })),
+  ]
 
   return {
     computedAt:   new Date().toISOString(),
-    stationCount: readings.length,
+    stationCount: measured.length,
     perMetric,
     windDirMean,
     rawReadings:  taggedReadings,

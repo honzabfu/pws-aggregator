@@ -148,6 +148,9 @@ const strings = {
     stationAll:     'All stations',
     stationActive:  'Used in average',
     stationExcl:    'Excluded (outlier)',
+    stationApprox:  'Approximate — excluded from average (free tier data)',
+
+    windyKeyFreeLabel: 'Free API key — data has intentional inaccuracies, excluded from average',
 
     // Errors
     errorFetch:     'Fetch failed',
@@ -277,6 +280,9 @@ const strings = {
     stationAll:     'Všechny stanice',
     stationActive:  'Použito v průměru',
     stationExcl:    'Vyloučeno (outlier)',
+    stationApprox:  'Přibližné — vyloučeno z průměru (bezplatný tarif)',
+
+    windyKeyFreeLabel: 'Bezplatný klíč — data jsou záměrně zkreslena, vyloučena z průměru',
 
     errorFetch:     'Chyba načítání',
     errorNoSources: 'Žádné zdroje dat. Přidej API klíč v Nastavení.',
@@ -403,6 +409,9 @@ const strings = {
     stationAll:     'Todas las estaciones',
     stationActive:  'Usado en promedio',
     stationExcl:    'Excluido (atípico)',
+    stationApprox:  'Aproximado — excluido del promedio (nivel gratuito)',
+
+    windyKeyFreeLabel: 'Clave gratuita — los datos tienen imprecisiones intencionales, excluidos del promedio',
 
     errorFetch:     'Error al obtener datos',
     errorNoSources: 'Sin fuentes de datos. Añade una clave API en Ajustes.',
