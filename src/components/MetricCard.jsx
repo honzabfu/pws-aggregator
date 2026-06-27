@@ -35,7 +35,7 @@ function getDisplay(metric, data, prefs, langStrings) {
   }
 }
 
-export function MetricCard({ metric, label, data, prefs, langStrings, style }) {
+export function MetricCard({ metric, label, data, prefs, langStrings, style, hero = false }) {
   const display = getDisplay(metric, data, prefs, langStrings)
   const color   = METRIC_COLORS[metric]
   const icon    = METRIC_ICONS[metric]
@@ -46,7 +46,7 @@ export function MetricCard({ metric, label, data, prefs, langStrings, style }) {
       background: 'var(--bg-surface)',
       border: `1px solid var(--border)`,
       borderRadius: 'var(--radius-lg)',
-      padding: '16px 18px',
+      padding: hero ? '20px 22px' : '16px 18px',
       display: 'flex',
       flexDirection: 'column',
       gap: 4,
@@ -61,7 +61,7 @@ export function MetricCard({ metric, label, data, prefs, langStrings, style }) {
 
       {/* Value */}
       <div style={{
-        fontSize: '2rem',
+        fontSize: hero ? '3rem' : '2rem',
         fontWeight: 700,
         color: hasData ? 'var(--text-primary)' : 'var(--text-muted)',
         fontVariantNumeric: 'tabular-nums',

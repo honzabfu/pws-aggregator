@@ -159,14 +159,13 @@ export default function App() {
     { key: 'temp',      labelKey: 'metricTemp'     },
     { key: 'humidity',  labelKey: 'metricHumidity' },
     { key: 'pressure',  labelKey: 'metricPressure' },
-    { key: 'windSpeed', labelKey: 'metricWind'     },
     { key: 'clouds',    labelKey: 'metricClouds'   },
     { key: 'precip',    labelKey: 'metricPrecip'   },
     { key: 'uvIndex',   labelKey: 'metricUV'       },
   ]
 
-  const windDisplay = result?.windDirMean !== null
-    ? displayWind(result?.perMetric?.windSpeed?.value, preferences.windDisplay, lang, langStrings)
+  const windDisplay = result
+    ? displayWind(result.perMetric?.windSpeed?.value ?? null, preferences.windDisplay, lang, langStrings)
     : null
 
   return (
@@ -352,6 +351,7 @@ export default function App() {
               {METRIC_DEFS.map(({ key, labelKey }) => {
                 const data = result.perMetric[key]
                 if (!data || data.total === 0) return null
+                const isHero = key === 'temp'
                 return (
                   <MetricCard
                     key={key}
@@ -360,13 +360,15 @@ export default function App() {
                     data={data}
                     prefs={preferences}
                     langStrings={langStrings}
+                    hero={isHero}
+                    style={isHero ? { gridColumn: 'span 2' } : undefined}
                   />
                 )
               })}
             </div>
 
-            {/* Wind direction card */}
-            {result.windDirMean !== null && (
+            {/* Merged wind card — speed + direction + compass */}
+            {(result.windDirMean !== null || (result.perMetric?.windSpeed?.total ?? 0) > 0) && (
               <div style={{
                 background: 'var(--bg-surface)',
                 border: '1px solid var(--border)',
@@ -378,20 +380,53 @@ export default function App() {
                 marginBottom: 16,
                 borderTop: '3px solid var(--metric-wind)',
               }}>
-                <Compass deg={result.windDirMean} lang={lang} size={88} />
+                {result.windDirMean !== null && (
+                  <Compass deg={result.windDirMean} lang={lang} size={88} />
+                )}
                 <div>
-                  <div className="label-xs" style={{ marginBottom: 6 }}>{t(lang, 'metricWindDir')}</div>
-                  <div style={{ fontSize: '1.75rem', fontWeight: 700 }}>
-                    {windDirLabel(result.windDirMean, lang)}
-                    <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginLeft: 10, fontFamily: 'monospace' }}>
-                      {result.windDirMean}°
-                    </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                    <span style={{ fontSize: '1.5rem', lineHeight: 1 }}>💨</span>
+                    <span className="label-xs">{t(lang, 'metricWind')}</span>
                   </div>
-                  {windDisplay && windDisplay.combined && windDisplay.beaufort !== null && (
-                    <div style={{ fontSize: '0.75rem', color: 'var(--metric-wind)', marginTop: 4 }}>
+                  {windDisplay?.value !== null && (
+                    <div style={{
+                      fontSize: '2rem', fontWeight: 700,
+                      fontVariantNumeric: 'tabular-nums', lineHeight: 1.1,
+                    }}>
+                      {windDisplay.value}
+                      <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginLeft: 4 }}>
+                        {windDisplay.unit}
+                      </span>
+                    </div>
+                  )}
+                  {result.windDirMean !== null && (
+                    <div style={{ fontSize: '1rem', fontWeight: 600, marginTop: 4 }}>
+                      {windDirLabel(result.windDirMean, lang)}
+                      <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginLeft: 8, fontFamily: 'monospace' }}>
+                        {result.windDirMean}°
+                      </span>
+                    </div>
+                  )}
+                  {windDisplay?.combined && windDisplay.beaufort !== null && windDisplay.label && (
+                    <div style={{ fontSize: '0.6875rem', color: 'var(--metric-wind)', fontWeight: 600, marginTop: 2 }}>
                       Bft {windDisplay.beaufort} · {windDisplay.label}
                     </div>
                   )}
+                  {(() => {
+                    const ws = result.perMetric?.windSpeed
+                    if (!ws) return null
+                    return (
+                      <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)', fontFamily: 'monospace', marginTop: 4 }}>
+                        {ws.contributors}/{ws.total}
+                        {ws.removed > 0 && (
+                          <span style={{ color: 'var(--warning)', marginLeft: 6 }}>−{ws.removed} outlier{ws.removed !== 1 ? 's' : ''}</span>
+                        )}
+                        {ws.min !== null && ws.max !== null && (
+                          <span style={{ marginLeft: 6 }}>({ws.min}–{ws.max})</span>
+                        )}
+                      </div>
+                    )
+                  })()}
                 </div>
               </div>
             )}
