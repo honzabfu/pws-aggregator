@@ -39,7 +39,7 @@ const API_KEY_META = [
   },
 ]
 
-function Section({ title, children }) {
+function Section({ title, hint, children }) {
   return (
     <div style={{ marginBottom: 24 }}>
       <div style={{
@@ -53,6 +53,11 @@ function Section({ title, children }) {
         borderBottom: '1px solid var(--border)',
       }}>{title}</div>
       {children}
+      {hint && (
+        <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 7, lineHeight: 1.5 }}>
+          {hint}
+        </div>
+      )}
     </div>
   )
 }
@@ -187,7 +192,7 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
         </Section>
 
         {/* Wind display */}
-        <Section title={t(lang, 'settingsWind')}>
+        <Section title={t(lang, 'settingsWind')} hint={t(lang, 'hintWind')}>
           <SegmentedControl
             options={WIND_OPTIONS}
             value={preferences.windDisplay}
@@ -197,7 +202,7 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
         </Section>
 
         {/* IQR factor */}
-        <Section title={`${t(lang, 'settingsIQR')}: ${preferences.iqrFactor}`}>
+        <Section title={`${t(lang, 'settingsIQR')}: ${preferences.iqrFactor}`} hint={t(lang, 'hintIQR')}>
           <SegmentedControl
             options={IQR_OPTIONS}
             value={preferences.iqrFactor}
