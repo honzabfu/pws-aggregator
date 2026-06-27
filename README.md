@@ -12,17 +12,10 @@ Personal weather station aggregator. Collects readings from physical stations an
 
 ### Screenshots
 
-| Light mode | Dark mode |
-|:---:|:---:|
-| ![Aggregated tab — light](docs/screenshots/light-aggregated.png) | ![Aggregated tab — dark](docs/screenshots/dark-aggregated.png) |
-| ![Stations tab — light](docs/screenshots/light-stations.png) | ![Dark mode stations](docs/screenshots/dark-stations.png) |
-
-<details>
-<summary>Mobile view</summary>
-
-![Mobile — aggregated tab](docs/screenshots/mobile-aggregated.png)
-
-</details>
+| Aggregated | Stations | Sources |
+|:---:|:---:|:---:|
+| ![Aggregated — light](docs/screenshots/light-aggregated.png) | ![Stations — light](docs/screenshots/light-stations.png) | ![Sources — light](docs/screenshots/light-sources.png) |
+| ![Aggregated — dark](docs/screenshots/dark-aggregated.png) | ![Stations — dark](docs/screenshots/dark-stations.png) | |
 
 ### Quick start
 
@@ -127,17 +120,10 @@ Agregátor dat z více meteorologických zdrojů. Aplikace sbírá měření ze 
 
 ### Screenshoty
 
-| Světlý motiv | Tmavý motiv |
-|:---:|:---:|
-| ![Záložka Aggregated — světlý](docs/screenshots/light-aggregated.png) | ![Záložka Aggregated — tmavý](docs/screenshots/dark-aggregated.png) |
-| ![Záložka Stations — světlý](docs/screenshots/light-stations.png) | ![Záložka Stations — tmavý](docs/screenshots/dark-stations.png) |
-
-<details>
-<summary>Mobilní zobrazení</summary>
-
-![Mobilní — záložka Aggregated](docs/screenshots/mobile-aggregated.png)
-
-</details>
+| Aggregated | Stations | Sources |
+|:---:|:---:|:---:|
+| ![Aggregated — světlý](docs/screenshots/light-aggregated.png) | ![Stations — světlý](docs/screenshots/light-stations.png) | ![Sources — světlý](docs/screenshots/light-sources.png) |
+| ![Aggregated — tmavý](docs/screenshots/dark-aggregated.png) | ![Stations — tmavý](docs/screenshots/dark-stations.png) | |
 
 ### Rychlý start
 
