@@ -50,6 +50,3 @@ Single source of truth: [.github/workflows/deploy.yml](.github/workflows/deploy.
 - Windy free-tier CORS: the API does not send CORS headers for free keys, so the fetch may fail in-browser depending on the browser's handling of cross-origin errors.
 - Windy GFS data (temp, wind) can differ significantly from physical station observations — expected for a coarse 0.25° NWP model. Data are marked approximate (≈) and always excluded from aggregate.
 - NWP models (Open-Meteo, Windy, Tomorrow.io) vs. physical stations (OWM): humidity and temperature can differ 10–20 % due to grid resolution. Physical stations reflect actual local conditions; the aggregator now prefers them when available.
-
-## TODO / next session
-- **Windy timestamp unit** — `windy.js` contains a temporary `console.log('[Windy] ...')` that prints `ts[0]` and `ts[idx]` interpreted as both milliseconds and seconds. Open DevTools Console, reload Windy data, read the log line and determine which `as-ms` / `as-s` value is the sensible date. Then: remove the log, and set `const now = Date.now()` (if ts is ms) or keep `/ 1000` (if ts is seconds). The fix landed in commit `8f05c6e` on branch `claude/data-consistency-check-ki9xwu`.
