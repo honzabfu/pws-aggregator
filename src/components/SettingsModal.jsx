@@ -121,12 +121,16 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
       e.preventDefault()
       setInstallPrompt(e)
     }
-    window.addEventListener('beforeinstallprompt', handler)
-    window.addEventListener('appinstalled', () => {
+    const installedHandler = () => {
       setInstallPrompt(null)
       setInstalled(true)
-    })
-    return () => window.removeEventListener('beforeinstallprompt', handler)
+    }
+    window.addEventListener('beforeinstallprompt', handler)
+    window.addEventListener('appinstalled', installedHandler)
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler)
+      window.removeEventListener('appinstalled', installedHandler)
+    }
   }, [])
 
   const handleInstall = async () => {

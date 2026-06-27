@@ -57,11 +57,6 @@ export async function fetchWindy(lat, lon, apiKey) {
     (best, t, i) => Math.abs(t - now) < Math.abs(ts[best] - now) ? i : best,
     0,
   )
-  console.log(
-    '[Windy] ts[0]=%d → as-ms:%s as-s:%s | idx=%d ts[idx]=%d → as-ms:%s as-s:%s',
-    ts[0], new Date(ts[0]).toISOString(), new Date(ts[0] * 1000).toISOString(),
-    idx, ts[idx], new Date(ts[idx]).toISOString(), new Date(ts[idx] * 1000).toISOString(),
-  )
 
   const get = (param) => {
     const arr = data[`${param}-surface`]
@@ -72,6 +67,9 @@ export async function fetchWindy(lat, lon, apiKey) {
 
   // Temperature: K → °C
   const tempK = get('temp')
+
+  // Relative humidity (%) — keep null when the field is unavailable
+  const rh = get('rh')
 
   // Pressure: Pa → hPa
   const pressurePa = get('pressure')
@@ -103,7 +101,7 @@ export async function fetchWindy(lat, lon, apiKey) {
       lon:         Number(lon),
       metrics: {
         temp:      tempK      != null ? tempK - 273.15 : null,
-        humidity:  Math.round(get('rh')),
+        humidity:  rh != null ? Math.round(rh) : null,
         pressure:  pressurePa != null ? pressurePa / 100 : null,
         windSpeed,
         windDeg,
