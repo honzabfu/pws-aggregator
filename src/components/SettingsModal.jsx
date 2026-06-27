@@ -1,6 +1,6 @@
 // src/components/SettingsModal.jsx
 import { useRef } from 'react'
-import { t, LANGUAGES } from '../lib/i18n.js'
+import { t, LANGUAGES, detectBrowserLanguage } from '../lib/i18n.js'
 import { exportConfig, importConfig, clearConfig } from '../lib/config.js'
 
 const THEME_OPTIONS = ['system', 'light', 'dark']
@@ -146,6 +146,10 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
             onChange={(v) => onSetPreference('language', v)}
             getLabel={(code) => {
               const l = LANGUAGES.find(x => x.code === code)
+              if (code === 'auto') {
+                const detected = LANGUAGES.find(x => x.code === detectBrowserLanguage())
+                return `${l.flag} ${l.label} (${detected?.flag ?? ''})`
+              }
               return `${l.flag} ${l.label}`
             }}
           />

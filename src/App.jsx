@@ -9,7 +9,7 @@ import { StationsTable } from './components/StationsTable.jsx'
 import { SettingsModal } from './components/SettingsModal.jsx'
 import { LocationModal } from './components/LocationModal.jsx'
 import { windDirLabel, displayWind } from './lib/units.js'
-import { t } from './lib/i18n.js'
+import { t, resolveLanguage } from './lib/i18n.js'
 import strings from './lib/i18n.js'
 
 const TABS = ['aggregated', 'stations', 'sources']
@@ -23,7 +23,7 @@ export default function App() {
   } = useConfig()
 
   const { preferences, apiKeys } = config
-  const lang = preferences.language
+  const lang = resolveLanguage(preferences.language)
   const langStrings = strings[lang] ?? strings.en
 
   useTheme(preferences.theme)
