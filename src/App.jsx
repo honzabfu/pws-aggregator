@@ -126,6 +126,7 @@ export default function App() {
     apiKeys,
     preferences.iqrFactor,
     preferences.refreshIntervalMin,
+    preferences.windyKeyFree,
   )
 
   const [tab,          setTab]          = useState('aggregated')
@@ -163,11 +164,11 @@ export default function App() {
         zIndex: 50,
       }}>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--accent)' }}>
-            PWS
+          <div style={{ fontSize: 15, fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--accent)' }}>
+            JZ Weather
           </div>
           <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: -2 }}>
-            Aggregator
+            Fusion
           </div>
         </div>
 

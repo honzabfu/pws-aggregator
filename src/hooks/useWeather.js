@@ -8,7 +8,7 @@ import { aggregate } from '../lib/aggregate.js'
 
 const STATUS = { idle: 'idle', loading: 'loading', ok: 'ok', error: 'error' }
 
-export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin) {
+export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, windyKeyFree = true) {
   const [result, setResult]       = useState(null)   // AggregatedResult
   const [sourceStatus, setStatus] = useState({})     // { [key]: { status, count, error, fetchedAt } }
   const [loading, setLoading]     = useState(false)
@@ -97,7 +97,10 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin) {
       try {
         addLog('windy: fetching…')
         const { readings, errors } = await fetchWindy(location.lat, location.lon, apiKeys.windy)
-        allReadings.push(...readings)
+        const taggedWindy = windyKeyFree
+          ? readings.map(r => ({ ...r, approximate: true }))
+          : readings
+        allReadings.push(...taggedWindy)
         if (errors.length) errors.forEach(e => addLog(`  ✗ ${e}`))
         addLog(`  ✓ windy: ${readings.length} readings`)
         setStatus(p => ({

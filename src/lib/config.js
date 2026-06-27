@@ -19,6 +19,7 @@ export const DEFAULT_CONFIG = {
     iqrFactor:         1.5,
     refreshIntervalMin: 0,
     fontSize:          'medium',
+    windyKeyFree:      true,
   },
 }
 

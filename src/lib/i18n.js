@@ -26,8 +26,8 @@ export function resolveLanguage(pref) {
 const strings = {
   en: {
     // App
-    appName: 'PWS Aggregator',
-    appTagline: 'Personal Weather Station data from multiple sources',
+    appName: 'JZ WeatherFusion',
+    appTagline: 'Weather data from multiple sources, fused into one view',
 
     // Nav / tabs
     tabAggregated: 'Aggregated',
@@ -148,6 +148,9 @@ const strings = {
     stationAll:     'All stations',
     stationActive:  'Used in average',
     stationExcl:    'Excluded (outlier)',
+    stationApprox:  'Approximate — excluded from average (free tier data)',
+
+    windyKeyFreeLabel: 'Free API key — data has intentional inaccuracies, excluded from average',
 
     // Errors
     errorFetch:     'Fetch failed',
@@ -168,8 +171,8 @@ const strings = {
   },
 
   cs: {
-    appName: 'PWS Agregátor',
-    appTagline: 'Data z osobních meteostanic z více zdrojů',
+    appName: 'JZ WeatherFusion',
+    appTagline: 'Data o počasí z více zdrojů sloučená do jednoho přehledu',
 
     tabAggregated: 'Průměr',
     tabStations:   'Stanice',
@@ -277,6 +280,9 @@ const strings = {
     stationAll:     'Všechny stanice',
     stationActive:  'Použito v průměru',
     stationExcl:    'Vyloučeno (outlier)',
+    stationApprox:  'Přibližné — vyloučeno z průměru (bezplatný tarif)',
+
+    windyKeyFreeLabel: 'Bezplatný klíč — data jsou záměrně zkreslena, vyloučena z průměru',
 
     errorFetch:     'Chyba načítání',
     errorNoSources: 'Žádné zdroje dat. Přidej API klíč v Nastavení.',
@@ -294,8 +300,8 @@ const strings = {
   },
 
   es: {
-    appName: 'Agregador PWS',
-    appTagline: 'Datos de estaciones meteorológicas personales de múltiples fuentes',
+    appName: 'JZ WeatherFusion',
+    appTagline: 'Datos meteorológicos de múltiples fuentes, fusionados en una vista',
 
     tabAggregated: 'Promedio',
     tabStations:   'Estaciones',
@@ -403,6 +409,9 @@ const strings = {
     stationAll:     'Todas las estaciones',
     stationActive:  'Usado en promedio',
     stationExcl:    'Excluido (atípico)',
+    stationApprox:  'Aproximado — excluido del promedio (nivel gratuito)',
+
+    windyKeyFreeLabel: 'Clave gratuita — los datos tienen imprecisiones intencionales, excluidos del promedio',
 
     errorFetch:     'Error al obtener datos',
     errorNoSources: 'Sin fuentes de datos. Añade una clave API en Ajustes.',

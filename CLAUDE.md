@@ -1,9 +1,9 @@
-# CLAUDE.md — PWS Aggregator
+# CLAUDE.md — JZ WeatherFusion
 
 Personal Weather Station aggregator. Client-only React + Vite PWA, deployed to GitHub Pages. No backend — all config (API keys, locations) lives in browser LocalStorage and is sent only to the respective weather APIs.
 
 ## Commands
-- `npm run dev` — dev server at http://localhost:5173/pws-aggregator/
+- `npm run dev` — dev server at http://localhost:5173/jz-weatherfusion/
 - `npm run build` — output to `dist/`
 - `npm run preview` — preview built output
 - `npm run deploy` — build + push `dist/` to `gh-pages` branch (README method; see Deploy caveat below)
@@ -30,7 +30,7 @@ A `StationReading` is `{ stationId, stationName, source, fetchedAt, [lat, lon], 
 ## Conventions
 - React 18, function components + hooks. No TypeScript (JSDoc typedefs only).
 - Styling is inline `style={}` objects + CSS custom properties from [src/styles/tokens.css](src/styles/tokens.css). No CSS framework.
-- `base: '/pws-aggregator/'` in [vite.config.js](vite.config.js) — keep asset paths relative.
+- `base: '/jz-weatherfusion/'` in [vite.config.js](vite.config.js) — keep asset paths relative.
 
 ## Deploy
 Single source of truth: [.github/workflows/deploy.yml](.github/workflows/deploy.yml) — GitHub Actions builds with `npm run build` and publishes `dist/` to Pages on push to `main`. (The old `static.yml`, which deployed the un-built repo root, was removed.)

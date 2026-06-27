@@ -30,6 +30,7 @@ const API_KEY_META = [
     url: 'https://api.windy.com/point-forecast',
     pattern: /^[A-Za-z0-9]{32,}$/,
     noteKey: 'keyWindyNote',
+    freePref: 'windyKeyFree',
   },
   {
     service: 'tomorrow',
@@ -98,6 +99,7 @@ function SegmentedControl({ options, value, onChange, getLabel }) {
 
 export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceConfig, onClose, lang }) {
   const { preferences, apiKeys } = config
+
   const fileRef = useRef()
 
   const handleImport = async (e) => {
@@ -227,7 +229,7 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
 
         {/* API keys */}
         <Section title={t(lang, 'settingsApiKeys')}>
-          {API_KEY_META.map(({ service, labelKey, hint, url, pattern, noteKey }) => {
+          {API_KEY_META.map(({ service, labelKey, hint, url, pattern, noteKey, freePref }) => {
             const val     = apiKeys[service] ?? ''
             const isValid = val.length > 0 && pattern.test(val)
             const isSet   = val.length > 0
@@ -251,6 +253,22 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
                   placeholder={`${t(lang, 'keyFreeHint')} ${hint}`}
                   style={{ fontFamily: 'monospace', fontSize: 12 }}
                 />
+                {freePref && (
+                  <label style={{
+                    display: 'flex', alignItems: 'center', gap: 8,
+                    marginTop: 8, cursor: 'pointer',
+                  }}>
+                    <input
+                      type="checkbox"
+                      checked={preferences[freePref] ?? true}
+                      onChange={e => onSetPreference(freePref, e.target.checked)}
+                      style={{ width: 14, height: 14, cursor: 'pointer', accentColor: 'var(--accent)' }}
+                    />
+                    <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
+                      {t(lang, freePref + 'Label')}
+                    </span>
+                  </label>
+                )}
                 {!isSet && (
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 4 }}>
                     {t(lang, 'keyFreeHint')}{' '}
