@@ -2,11 +2,12 @@
 
 Personal Weather Station aggregator. Client-only React + Vite PWA, deployed to GitHub Pages. No backend — all config (API keys, locations) lives in browser LocalStorage and is sent only to the respective weather APIs.
 
+**Live:** https://honzabfu.github.io/jz-weatherfusion/
+
 ## Commands
 - `npm run dev` — dev server at http://localhost:5173/jz-weatherfusion/
 - `npm run build` — output to `dist/`
 - `npm run preview` — preview built output
-- `npm run deploy` — build + push `dist/` to `gh-pages` branch (README method; see Deploy caveat below)
 
 No test runner or linter is configured.
 
@@ -19,6 +20,8 @@ No test runner or linter is configured.
 - **Sources:** [src/lib/sources/](src/lib/sources/) — each exports `fetch<Source>()` returning `{ readings, errors }` and a `*_META` object.
   - `openmeteo.js` — no key, fetches 3 NWP models (best_match, ICON, ECMWF) in parallel.
   - `owm.js` — requires key, `/find` endpoint, filters stations by haversine-ish distance vs `radiusKm`.
+  - `tomorrow.js` — requires key, Tomorrow.io realtime endpoint.
+  - `windy.js` — requires key, Point Forecast POST (GFS model); converts K→°C, Pa→hPa, u/v→speed+dir; picks time-series step closest to now.
 - **Aggregation:** [src/lib/aggregate.js](src/lib/aggregate.js) — IQR outlier filter per metric (factor default 1.5), arithmetic mean; wind direction uses circular mean (no IQR). Readings tagged `isOutlier` based on temp.
 - **Geocoding:** [src/lib/geocode.js](src/lib/geocode.js) — `searchPlaces(query, lang, count, signal)` against Open-Meteo's free geocoding API (no key). Used by [LocationModal](src/components/LocationModal.jsx) so users can search by place name instead of entering coordinates; manual lat/lon entry remains available.
 - **Units:** [src/lib/units.js](src/lib/units.js) — **internal values are always SI (°C, hPa, m/s, mm/h); convert only at display time.** Includes Beaufort scale and localized wind-direction labels.
@@ -33,13 +36,15 @@ A `StationReading` is `{ stationId, stationName, source, fetchedAt, [lat, lon], 
 - `base: '/jz-weatherfusion/'` in [vite.config.js](vite.config.js) — keep asset paths relative.
 
 ## Deploy
-Single source of truth: [.github/workflows/deploy.yml](.github/workflows/deploy.yml) — GitHub Actions builds with `npm run build` and publishes `dist/` to Pages on push to `main`. (The old `static.yml`, which deployed the un-built repo root, was removed.)
+Single source of truth: [.github/workflows/deploy.yml](.github/workflows/deploy.yml) — GitHub Actions builds with `npm run build` and publishes `dist/` to Pages on push to `main`.
 
-## TODO / not yet implemented
-- **Windy source** — the last advertised source still missing. `windy` apiKeys slot, Settings UI, and i18n labels already exist; only `src/lib/sources/windy.js` + the `useWeather` wiring remain. Step-by-step incl. Windy specifics (Point Forecast POST, time-series, K/Pa/u-v unit conversions, CORS caveat): [docs/adding-a-data-source.md](docs/adding-a-data-source.md). Implement like the now-done Tomorrow.io source.
-
-## Done sources
-- `open-meteo` (3 models, UV, sea-level pressure), `owm` (live-tested), `tomorrow` (Tomorrow.io realtime).
+## Implemented sources
+- `open-meteo` — 3 NWP models (best_match, ICON, ECMWF), UV index, sea-level pressure. No key.
+- `owm` — OpenWeatherMap physical stations in radius. Requires key.
+- `tomorrow` — Tomorrow.io realtime point forecast. Requires key.
+- `windy` — Windy Point Forecast API v2, GFS model. Requires key. Note: free-tier key triggers CORS on direct browser requests; app tags these readings as approximate (`isApprox`).
 
 ## Known gaps / caveats
-- `uvIndex` is populated only by Open-Meteo (`uv_index` in the current endpoint); OWM `/find` cannot supply it. Open-Meteo returns one UV value per model, so all 3 models report the same figure.
+- `uvIndex` outside Open-Meteo: OWM `/find` cannot supply it; Windy's `uvindex` surface field is present but may be null outside daylight hours.
+- Open-Meteo returns one UV value shared across all 3 models (same source field).
+- Windy free-tier CORS: the API does not send CORS headers for free keys, so the fetch may fail in-browser depending on the browser's handling of cross-origin errors.

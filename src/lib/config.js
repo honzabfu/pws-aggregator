@@ -86,12 +86,11 @@ export function importConfig(file) {
 // ── Location helpers ──────────────────────────────────────────────────────────
 export function newLocation(label, lat, lon, radiusKm = 10) {
   return {
-    id:        crypto.randomUUID(),
+    id:       crypto.randomUUID(),
     label,
-    lat:       Number(lat),
-    lon:       Number(lon),
-    radiusKm:  Number(radiusKm),
-    isPrimary: false,
+    lat:      Number(lat),
+    lon:      Number(lon),
+    radiusKm: Number(radiusKm),
   }
 }
 

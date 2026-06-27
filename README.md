@@ -1,67 +1,88 @@
-# PWS Aggregator
+# JZ WeatherFusion
 
-Personal Weather Station data aggregator — combines readings from multiple sources, applies IQR outlier filtering, and displays weighted averages.
+Agregátor dat z více meteorologických zdrojů. Aplikace sbírá měření ze stanic i numerických modelů, filtruje odlehlé hodnoty a zobrazuje jejich průměr v přehledném rozhraní.
 
-**Live:** https://[your-username].github.io/pws-aggregator/
+**Živá aplikace:** https://honzabfu.github.io/jz-weatherfusion/
 
-## Features
+---
 
-- **Multi-source aggregation** — Open-Meteo (3 NWP models, no key required) + OpenWeatherMap stations
-- **IQR outlier filtering** — automatically removes readings from misplaced sensors
-- **Beaufort scale** — wind display in m/s, km/h, mph, Beaufort, or combined
-- **3 languages** — English, Czech, Spanish
-- **Light / dark / system** theme
-- **PWA** — installable, works offline (cached data)
-- **LocalStorage** — API keys and locations persist locally, never sent to any server
-- **Export / import** config as JSON
+## Rychlý start
 
-## Getting started
+1. Otevřete aplikaci na adrese výše.
+2. Klikněte na tlačítko **Add location** (nebo ikonu +) a vyhledejte místo jménem, nebo zadejte zeměpisné souřadnice.
+3. Aplikace okamžitě načte data ze všech nakonfigurovaných zdrojů.
+
+---
+
+## Záložky
+
+| Záložka | Popis |
+|---------|-------|
+| **Average** | Průměrné hodnoty ze všech platných zdrojů po filtraci odlehlých měření |
+| **Stations** | Přehled jednotlivých stanic — co bylo použito, co bylo vyloučeno a proč |
+| **Sources** | Stav jednotlivých datových zdrojů, chybové hlášky, čas posledního načtení |
+
+---
+
+## Datové zdroje
+
+| Zdroj | API klíč | Popis |
+|-------|----------|-------|
+| **Open-Meteo** | nevyžadován | 3 numerické modely (best\_match, ICON, ECMWF); poskytuje i UV index |
+| **OpenWeatherMap** | vyžadován (zdarma) | Stanice fyzických měřidel v okolí zadané polohy |
+| **Tomorrow.io** | vyžadován (zdarma) | Realtime data z modelu Tomorrow.io |
+
+### Kde získat API klíče
+
+- **OpenWeatherMap** — https://openweathermap.org/api (volný tarif: 60 dotazů/min)
+- **Tomorrow.io** — https://www.tomorrow.io (volný tarif: 500 dotazů/den)
+
+Klíče se zadávají v **Nastavení → API Keys** a ukládají se výhradně do `localStorage` vašeho prohlížeče — nikam se neodesílají.
+
+---
+
+## Nastavení
+
+Nastavení otevřete ikonou ozubeného kola vpravo nahoře.
+
+| Možnost | Popis |
+|---------|-------|
+| **Language** | Angličtina / Čeština / Španělština |
+| **Theme** | Světlý / Tmavý / Systémový |
+| **Font size** | Malé / Střední / Velké |
+| **Units** | Metrické (°C, hPa, m/s, mm) nebo imperiální (°F, inHg, mph, in) |
+| **Wind display** | m/s, km/h, mph, Beaufortova stupnice nebo kombinace |
+| **IQR factor** | Přísnost filtrace odlehlých hodnot (1,0 = přísné, 3,0 = volné) |
+| **Auto-refresh** | Automatické obnovení každých 5 / 10 / 30 min nebo vypnuto |
+| **API Keys** | Klíče pro OpenWeatherMap a Tomorrow.io |
+| **Export / Import** | Záloha a obnova celé konfigurace jako JSON |
+
+---
+
+## Jak funguje filtrování
+
+1. Ze všech zdrojů se shromáždí hodnoty pro každou veličinu (teplota, vlhkost, tlak, …).
+2. Aplikuje se IQR filtr (mezikvartilové rozpětí) — stanice s výrazně odlišnou hodnotou jsou označeny jako odlehlé a z průměru vyloučeny.
+3. Ze zbývajících hodnot se spočítá aritmetický průměr (pro směr větru kruhový průměr).
+4. Odlehlé stanice jsou viditelné v záložce **Stations** s označením ○.
+
+Faktor IQR lze upravit v nastavení — nižší hodnota je přísnější (vyloučí více stanic), vyšší hodnota je tolerantnější.
+
+---
+
+## PWA — instalace
+
+Aplikace je plně funkční jako Progressive Web App. V prohlížeči klikněte na „Instalovat aplikaci" (Chrome/Edge) nebo „Přidat na plochu" (Safari/iOS) a JZ WeatherFusion bude fungovat jako samostatná aplikace i bez připojení (zobrazí naposledy načtená data).
+
+---
+
+## Lokální vývoj
 
 ```bash
 npm install
-npm run dev
+npm run dev        # dev server na http://localhost:5173/jz-weatherfusion/
+npm run build      # výstup do dist/
+npm run preview    # náhled produkčního buildu
 ```
 
-Open http://localhost:5173/pws-aggregator/
-
-## Build & deploy
-
-```bash
-npm run build       # output in dist/
-```
-
-Deployment is automatic via GitHub Actions: every push to `main` builds the app
-and publishes `dist/` to GitHub Pages (see `.github/workflows/deploy.yml`).
-
-First deploy setup:
-```bash
-# In your GitHub repo: Settings → Pages → Source: GitHub Actions
-git remote add origin https://github.com/[user]/pws-aggregator.git
-git push -u origin main
-```
-
-## API keys (optional)
-
-| Source | Free tier | Link |
-|--------|-----------|------|
-| Open-Meteo | ✅ No key needed | https://open-meteo.com |
-| OpenWeatherMap | 60 req/min free | https://openweathermap.org/api |
-| Windy | 500 req/day free | https://api.windy.com |
-| Tomorrow.io | 500 req/day free | https://www.tomorrow.io |
-
-Keys are stored in browser LocalStorage only — never transmitted to any server other than the respective weather API.
-
-## Aggregation method
-
-1. Collect readings from all enabled sources
-2. Per metric: extract values, apply IQR filter (factor configurable 1.0–3.0)
-3. Compute arithmetic mean of remaining values
-4. Wind direction: circular mean (sin/cos averaging)
-5. Tag outlier readings for display in Stations tab
-
-## Tech stack
-
-- React 18 + Vite
-- CSS custom properties (no CSS framework)
-- vite-plugin-pwa (Workbox)
-- gh-pages for deployment
+Nasazení probíhá automaticky přes GitHub Actions při každém pushnutí do větve `main` — build se publikuje na GitHub Pages.
