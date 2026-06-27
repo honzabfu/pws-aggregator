@@ -50,8 +50,9 @@ export async function fetchWindy(lat, lon, apiKey) {
     return { readings: [], errors: ['Windy: missing time series'] }
   }
 
-  // Pick the step whose timestamp is closest to now
-  const now = Date.now()
+  // Pick the step whose timestamp is closest to now.
+  // Windy ts values are Unix seconds; Date.now() is ms — divide to match.
+  const now = Date.now() / 1000
   const idx = ts.reduce(
     (best, t, i) => Math.abs(t - now) < Math.abs(ts[best] - now) ? i : best,
     0,
@@ -96,7 +97,7 @@ export async function fetchWindy(lat, lon, apiKey) {
       lon:         Number(lon),
       metrics: {
         temp:      tempK      != null ? tempK - 273.15 : null,
-        humidity:  get('rh'),
+        humidity:  Math.round(get('rh')),
         pressure:  pressurePa != null ? pressurePa / 100 : null,
         windSpeed,
         windDeg,
