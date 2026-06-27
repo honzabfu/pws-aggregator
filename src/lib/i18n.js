@@ -186,6 +186,10 @@ const strings = {
     pwaInstallBtn:   'Install',
     pwaInstalled:    'App is already installed',
     pwaIosHint:      'To install: tap the Share button in Safari, then choose "Add to Home Screen".',
+
+    // Update banner
+    updateAvailable: 'A new version is available.',
+    updateBtn:       'Update',
   },
 
   cs: {
@@ -333,6 +337,10 @@ const strings = {
     pwaInstallBtn:   'Nainstalovat',
     pwaInstalled:    'Aplikace je již nainstalovaná',
     pwaIosHint:      'Instalace: klepni na tlačítko Sdílet v Safari a zvol „Přidat na plochu".',
+
+    // Update banner
+    updateAvailable: 'Je dostupná nová verze.',
+    updateBtn:       'Aktualizovat',
   },
 
   es: {
@@ -480,6 +488,10 @@ const strings = {
     pwaInstallBtn:   'Instalar',
     pwaInstalled:    'La aplicación ya está instalada',
     pwaIosHint:      'Para instalar: toca el botón Compartir en Safari y elige "Añadir a pantalla de inicio".',
+
+    // Update banner
+    updateAvailable: 'Hay una nueva versión disponible.',
+    updateBtn:       'Actualizar',
   }
 }
 
