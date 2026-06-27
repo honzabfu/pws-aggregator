@@ -7,7 +7,9 @@ const MODELS = [
 ]
 
 const BASE = 'https://api.open-meteo.com/v1/forecast'
-const PARAMS = 'current=temperature_2m,relative_humidity_2m,surface_pressure,wind_speed_10m,wind_direction_10m,cloud_cover,precipitation,uv_index&wind_speed_unit=ms'
+// pressure_msl (sea-level) to match OWM's main.pressure; mixing it with
+// surface_pressure produced a ~25 hPa systematic offset across sources.
+const PARAMS = 'current=temperature_2m,relative_humidity_2m,pressure_msl,wind_speed_10m,wind_direction_10m,cloud_cover,precipitation,uv_index&wind_speed_unit=ms'
 
 async function fetchModel(lat, lon, model) {
   const url = `${BASE}?latitude=${lat}&longitude=${lon}&${PARAMS}&models=${model.id}`
@@ -26,7 +28,7 @@ async function fetchModel(lat, lon, model) {
     metrics: {
       temp:      c.temperature_2m        ?? null,
       humidity:  c.relative_humidity_2m  ?? null,
-      pressure:  c.surface_pressure      ?? null,
+      pressure:  c.pressure_msl          ?? null,
       windSpeed: c.wind_speed_10m        ?? null,
       windDeg:   c.wind_direction_10m    ?? null,
       clouds:    c.cloud_cover           ?? null,
