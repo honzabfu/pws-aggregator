@@ -178,8 +178,8 @@ const strings = {
 
     // Settings footer — About
     settingsAbout:   'About',
-    footerGitHub:    'Source code on GitHub',
-    footerLive:      'Open live app',
+    footerHelp:      'Help',
+    footerApps:      'More apps',
 
     // Settings footer — PWA install
     settingsPWA:     'Install app',
@@ -325,8 +325,8 @@ const strings = {
 
     // Settings footer — About
     settingsAbout:   'O aplikaci',
-    footerGitHub:    'Zdrojový kód na GitHubu',
-    footerLive:      'Otevřít živou aplikaci',
+    footerHelp:      'Nápověda',
+    footerApps:      'Další aplikace',
 
     // Settings footer — PWA install
     settingsPWA:     'Instalovat aplikaci',
@@ -472,8 +472,8 @@ const strings = {
 
     // Settings footer — About
     settingsAbout:   'Acerca de',
-    footerGitHub:    'Código fuente en GitHub',
-    footerLive:      'Abrir app en vivo',
+    footerHelp:      'Ayuda',
+    footerApps:      'Más aplicaciones',
 
     // Settings footer — PWA install
     settingsPWA:     'Instalar aplicación',
