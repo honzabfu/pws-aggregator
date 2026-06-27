@@ -178,14 +178,18 @@ const strings = {
 
     // Settings footer — About
     settingsAbout:   'About',
-    footerGitHub:    'Source code on GitHub',
-    footerLive:      'Open live app',
+    footerHelp:      'Help',
+    footerApps:      'More apps',
 
     // Settings footer — PWA install
     settingsPWA:     'Install app',
     pwaInstallBtn:   'Install',
     pwaInstalled:    'App is already installed',
     pwaIosHint:      'To install: tap the Share button in Safari, then choose "Add to Home Screen".',
+
+    // Update banner
+    updateAvailable: 'A new version is available.',
+    updateBtn:       'Update',
   },
 
   cs: {
@@ -325,14 +329,18 @@ const strings = {
 
     // Settings footer — About
     settingsAbout:   'O aplikaci',
-    footerGitHub:    'Zdrojový kód na GitHubu',
-    footerLive:      'Otevřít živou aplikaci',
+    footerHelp:      'Nápověda',
+    footerApps:      'Další aplikace',
 
     // Settings footer — PWA install
     settingsPWA:     'Instalovat aplikaci',
     pwaInstallBtn:   'Nainstalovat',
     pwaInstalled:    'Aplikace je již nainstalovaná',
     pwaIosHint:      'Instalace: klepni na tlačítko Sdílet v Safari a zvol „Přidat na plochu".',
+
+    // Update banner
+    updateAvailable: 'Je dostupná nová verze.',
+    updateBtn:       'Aktualizovat',
   },
 
   es: {
@@ -472,14 +480,18 @@ const strings = {
 
     // Settings footer — About
     settingsAbout:   'Acerca de',
-    footerGitHub:    'Código fuente en GitHub',
-    footerLive:      'Abrir app en vivo',
+    footerHelp:      'Ayuda',
+    footerApps:      'Más aplicaciones',
 
     // Settings footer — PWA install
     settingsPWA:     'Instalar aplicación',
     pwaInstallBtn:   'Instalar',
     pwaInstalled:    'La aplicación ya está instalada',
     pwaIosHint:      'Para instalar: toca el botón Compartir en Safari y elige "Añadir a pantalla de inicio".',
+
+    // Update banner
+    updateAvailable: 'Hay una nueva versión disponible.',
+    updateBtn:       'Actualizar',
   }
 }
 

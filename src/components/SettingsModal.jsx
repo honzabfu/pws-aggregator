@@ -97,8 +97,8 @@ function SegmentedControl({ options, value, onChange, getLabel }) {
   )
 }
 
-const GITHUB_URL = 'https://github.com/honzabfu/jz-weatherfusion'
-const LIVE_URL   = 'https://honzabfu.github.io/jz-weatherfusion/'
+const README_URL = 'https://github.com/honzabfu/jz-weatherfusion#readme'
+const APPS_URL   = 'https://jan-zak.cz'
 
 function isIos() {
   return /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream
@@ -372,13 +372,13 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
             {t(lang, 'appName')} v{__APP_VERSION__}
           </span>
           <div style={{ display: 'flex', gap: 12 }}>
-            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer"
+            <a href={README_URL} target="_blank" rel="noopener noreferrer"
               style={{ fontSize: 11, color: 'var(--accent)', textDecoration: 'none' }}>
-              {t(lang, 'footerGitHub')}
+              {t(lang, 'footerHelp')}
             </a>
-            <a href={LIVE_URL} target="_blank" rel="noopener noreferrer"
+            <a href={APPS_URL} target="_blank" rel="noopener noreferrer"
               style={{ fontSize: 11, color: 'var(--accent)', textDecoration: 'none' }}>
-              {t(lang, 'footerLive')}
+              {t(lang, 'footerApps')}
             </a>
           </div>
         </div>

@@ -8,6 +8,7 @@ import { Compass }     from './components/Compass.jsx'
 import { StationsTable } from './components/StationsTable.jsx'
 import { SettingsModal } from './components/SettingsModal.jsx'
 import { LocationModal } from './components/LocationModal.jsx'
+import { UpdateBanner } from './components/UpdateBanner.jsx'
 import { windDirLabel, displayWind } from './lib/units.js'
 import { t, resolveLanguage } from './lib/i18n.js'
 import strings from './lib/i18n.js'
@@ -471,6 +472,8 @@ export default function App() {
           onClose={() => setEditLoc(null)}
         />
       )}
+
+      <UpdateBanner lang={lang} />
     </div>
   )
 }
