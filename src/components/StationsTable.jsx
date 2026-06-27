@@ -7,7 +7,7 @@ export function StationsTable({ readings, prefs, langStrings }) {
 
   if (!readings || readings.length === 0) {
     return (
-      <div style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '32px 0', fontSize: 13 }}>
+      <div style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '32px 0', fontSize: '0.8125rem' }}>
         No station data
       </div>
     )
@@ -22,7 +22,7 @@ export function StationsTable({ readings, prefs, langStrings }) {
 
   return (
     <div style={{ overflowX: 'auto', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.75rem' }}>
         <thead>
           <tr style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-elevated)' }}>
             {['', t(lang, 'stationSource'), t(lang, 'stationName'),
@@ -33,7 +33,7 @@ export function StationsTable({ readings, prefs, langStrings }) {
                 textAlign: i === 2 ? 'left' : 'center',
                 whiteSpace: 'nowrap',
                 fontWeight: 600,
-                fontSize: 11,
+                fontSize: '0.6875rem',
                 letterSpacing: '0.05em',
               }}>{h}</th>
             ))}
@@ -59,26 +59,26 @@ export function StationsTable({ readings, prefs, langStrings }) {
                 {/* Status indicator */}
                 <td style={{ padding: '7px 6px 7px 10px', width: 16 }}>
                   {isApprox
-                    ? <span title={t(lang, 'stationApprox')} style={{ fontSize: 12, color: 'var(--warning)' }}>≈</span>
+                    ? <span title={t(lang, 'stationApprox')} style={{ fontSize: '0.75rem', color: 'var(--warning)' }}>≈</span>
                     : isOutlier
-                      ? <span title={t(lang, 'stationExcl')} style={{ fontSize: 12 }}>○</span>
+                      ? <span title={t(lang, 'stationExcl')} style={{ fontSize: '0.75rem' }}>○</span>
                       : isModelExcluded
-                        ? <span title={t(lang, 'stationModelExcl')} style={{ fontSize: 12, color: 'var(--text-muted)' }}>◇</span>
-                        : <span title={t(lang, 'stationActive')} style={{ fontSize: 12, color: 'var(--success)' }}>●</span>
+                        ? <span title={t(lang, 'stationModelExcl')} style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>◇</span>
+                        : <span title={t(lang, 'stationActive')} style={{ fontSize: '0.75rem', color: 'var(--success)' }}>●</span>
                   }
                 </td>
 
                 {/* Source badge */}
                 <td style={{ padding: '7px 10px', whiteSpace: 'nowrap' }}>
                   <span style={{
-                    fontSize: 10,
+                    fontSize: '0.625rem',
                     fontWeight: 700,
                     color: srcColor,
                     fontFamily: 'monospace',
                     letterSpacing: '0.04em',
                   }}>{r.source.toUpperCase()}</span>
                   {r.sourceType && (
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'monospace', marginTop: 1 }}>
+                    <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontFamily: 'monospace', marginTop: 1 }}>
                       {t(lang, r.sourceType === 'station' ? 'sourceTypeStation' : 'sourceTypeModel')}
                     </div>
                   )}

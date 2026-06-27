@@ -38,14 +38,14 @@ function LocationPicker({ locations, activeId, onSelect, onDelete, onEdit, onAdd
           borderRadius: 'var(--radius-sm)',
           color: 'var(--text-primary)',
           padding: '6px 10px',
-          fontSize: 13, fontWeight: 600,
+          fontSize: '0.8125rem', fontWeight: 600,
           cursor: 'pointer', maxWidth: 180,
         }}
       >
         <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>
           📍 {active?.label ?? '—'}
         </span>
-        <span style={{ fontSize: 10, color: 'var(--text-muted)', flexShrink: 0 }}>▾</span>
+        <span style={{ fontSize: '0.625rem', color: 'var(--text-muted)', flexShrink: 0 }}>▾</span>
       </button>
 
       {open && (
@@ -70,7 +70,7 @@ function LocationPicker({ locations, activeId, onSelect, onDelete, onEdit, onAdd
                   padding: '10px 12px',
                   background: l.id === activeId ? 'var(--bg-elevated)' : 'transparent',
                   border: 'none', color: 'var(--text-primary)',
-                  fontSize: 13, fontWeight: l.id === activeId ? 700 : 400,
+                  fontSize: '0.8125rem', fontWeight: l.id === activeId ? 700 : 400,
                   cursor: 'pointer',
                 }}
               >
@@ -82,7 +82,7 @@ function LocationPicker({ locations, activeId, onSelect, onDelete, onEdit, onAdd
                 style={{
                   padding: '10px 10px',
                   background: 'transparent', border: 'none',
-                  color: 'var(--text-muted)', fontSize: 14, lineHeight: 1,
+                  color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1,
                   cursor: 'pointer', flexShrink: 0,
                 }}
               >
@@ -94,7 +94,7 @@ function LocationPicker({ locations, activeId, onSelect, onDelete, onEdit, onAdd
                 style={{
                   padding: '10px 12px',
                   background: 'transparent', border: 'none',
-                  color: 'var(--error)', fontSize: 18, lineHeight: 1,
+                  color: 'var(--error)', fontSize: '1.125rem', lineHeight: 1,
                   cursor: 'pointer', flexShrink: 0,
                 }}
               >
@@ -108,7 +108,7 @@ function LocationPicker({ locations, activeId, onSelect, onDelete, onEdit, onAdd
               display: 'block', width: '100%', textAlign: 'left',
               padding: '10px 12px',
               background: 'transparent', border: 'none',
-              color: 'var(--accent)', fontSize: 13, fontWeight: 600,
+              color: 'var(--accent)', fontSize: '0.8125rem', fontWeight: 600,
               cursor: 'pointer',
             }}
           >
@@ -179,13 +179,17 @@ export default function App() {
         padding: '12px 16px',
         display: 'flex',
         alignItems: 'center',
-        gap: 12,
+        flexWrap: 'wrap',
+        gap: 10,
         position: 'sticky',
         top: 0,
         zIndex: 50,
       }}>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 15, fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--accent)' }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{
+            fontSize: '0.9375rem', fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--accent)',
+            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+          }}>
             {t(lang, 'appName')}
           </div>
         </div>
@@ -229,9 +233,9 @@ export default function App() {
         {config.locations.length === 0 && (
           <div style={{
             textAlign: 'center', padding: '48px 24px',
-            color: 'var(--text-muted)', fontSize: 14,
+            color: 'var(--text-muted)', fontSize: '0.875rem',
           }}>
-            <div style={{ fontSize: 40, marginBottom: 16 }}>📍</div>
+            <div style={{ fontSize: '2.5rem', marginBottom: 16 }}>📍</div>
             <div style={{ marginBottom: 16 }}>{t(lang, 'locationNoData')}</div>
             <button className="btn btn-primary" onClick={() => setShowAddLoc(true)}
               style={{ justifyContent: 'center' }}>
@@ -243,8 +247,8 @@ export default function App() {
         {/* Location info bar */}
         {activeLocation && (
           <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 20, fontWeight: 700 }}>{activeLocation.label}</div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'monospace' }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>{activeLocation.label}</div>
+            <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>
               {activeLocation.lat.toFixed(4)}° N, {activeLocation.lon.toFixed(4)}° E
               {' · '}{activeLocation.radiusKm} km
               {lastUpdated && (
@@ -270,15 +274,15 @@ export default function App() {
             alignItems: 'flex-start',
           }}>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 4, color: 'var(--text-primary)' }}>
+              <div style={{ fontSize: '0.8125rem', fontWeight: 600, marginBottom: 4, color: 'var(--text-primary)' }}>
                 {t(lang, 'noApiKeysBannerTitle')}
               </div>
-              <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
                 {t(lang, 'noApiKeysBannerDesc')}
               </div>
               <button
                 className="btn btn-primary"
-                style={{ marginTop: 10, padding: '5px 14px', fontSize: 12 }}
+                style={{ marginTop: 10, padding: '5px 14px', fontSize: '0.75rem' }}
                 onClick={() => setShowSettings(true)}
               >
                 {t(lang, 'noApiKeysBannerCta')}
@@ -288,7 +292,7 @@ export default function App() {
               onClick={() => setPreference('apiKeyBannerDismissed', true)}
               style={{
                 background: 'transparent', border: 'none',
-                color: 'var(--text-muted)', fontSize: 18,
+                color: 'var(--text-muted)', fontSize: '1.125rem',
                 cursor: 'pointer', padding: '0 4px', flexShrink: 0,
                 lineHeight: 1,
               }}
@@ -314,7 +318,7 @@ export default function App() {
                 background: tab === tb ? 'var(--bg-surface)' : 'transparent',
                 color: tab === tb ? 'var(--text-primary)' : 'var(--text-muted)',
                 fontWeight: tab === tb ? 700 : 400,
-                fontSize: 13,
+                fontSize: '0.8125rem',
                 boxShadow: tab === tb ? 'var(--shadow-sm)' : 'none',
                 transition: 'all 0.15s',
               }}>
@@ -326,7 +330,7 @@ export default function App() {
 
         {/* Loading indicator */}
         {loading && (
-          <div style={{ color: 'var(--text-muted)', fontSize: 13, marginBottom: 16 }}>
+          <div style={{ color: 'var(--text-muted)', fontSize: '0.8125rem', marginBottom: 16 }}>
             <span style={{ animation: 'pulse 1s infinite' }}>⟳</span> {t(lang, 'statusFetching')}
           </div>
         )}
@@ -335,7 +339,7 @@ export default function App() {
         {tab === 'aggregated' && result && (
           <>
             {result.stationCount > 0 && (
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 12, fontStyle: 'italic' }}>
+              <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', marginBottom: 12, fontStyle: 'italic' }}>
                 {t(lang, result.usingStations ? 'aggUsingStations' : 'aggUsingModels', result.stationCount)}
               </div>
             )}
@@ -377,14 +381,14 @@ export default function App() {
                 <Compass deg={result.windDirMean} lang={lang} size={88} />
                 <div>
                   <div className="label-xs" style={{ marginBottom: 6 }}>{t(lang, 'metricWindDir')}</div>
-                  <div style={{ fontSize: 28, fontWeight: 700 }}>
+                  <div style={{ fontSize: '1.75rem', fontWeight: 700 }}>
                     {windDirLabel(result.windDirMean, lang)}
-                    <span style={{ fontSize: 14, color: 'var(--text-muted)', marginLeft: 10, fontFamily: 'monospace' }}>
+                    <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginLeft: 10, fontFamily: 'monospace' }}>
                       {result.windDirMean}°
                     </span>
                   </div>
                   {windDisplay && windDisplay.combined && windDisplay.beaufort !== null && (
-                    <div style={{ fontSize: 12, color: 'var(--metric-wind)', marginTop: 4 }}>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--metric-wind)', marginTop: 4 }}>
                       Bft {windDisplay.beaufort} · {windDisplay.label}
                     </div>
                   )}
@@ -413,7 +417,7 @@ export default function App() {
                   ].map(f => (
                     <button key={f.key} onClick={() => setStationFilter(f.key)} style={{
                       padding: '5px 12px',
-                      fontSize: 12, fontWeight: stationFilter === f.key ? 700 : 400,
+                      fontSize: '0.75rem', fontWeight: stationFilter === f.key ? 700 : 400,
                       border: '1px solid var(--border)',
                       borderRadius: 'var(--radius-sm)',
                       background: stationFilter === f.key ? 'var(--accent)' : 'var(--bg-elevated)',
@@ -424,7 +428,7 @@ export default function App() {
                 </div>
               )}
               {raw.length === 0 && !loading && (
-                <div style={{ color: 'var(--text-muted)', fontSize: 13, padding: '12px 0' }}>
+                <div style={{ color: 'var(--text-muted)', fontSize: '0.8125rem', padding: '12px 0' }}>
                   {t(lang, 'errorNoSources')}
                 </div>
               )}
@@ -448,15 +452,15 @@ export default function App() {
               }}>
                 <span className={`dot dot-${status.status}`} />
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 600, fontSize: 13 }}>{key}</div>
-                  {status.error && <div style={{ fontSize: 11, color: 'var(--error)' }}>{status.error}</div>}
+                  <div style={{ fontWeight: 600, fontSize: '0.8125rem' }}>{key}</div>
+                  {status.error && <div style={{ fontSize: '0.6875rem', color: 'var(--error)' }}>{status.error}</div>}
                   {status.fetchedAt && (
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+                    <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
                       {new Date(status.fetchedAt).toLocaleTimeString()} · {status.count} readings
                     </div>
                   )}
                 </div>
-                <span style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'monospace' }}>
+                <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>
                   {status.status}
                 </span>
               </div>
@@ -465,7 +469,7 @@ export default function App() {
             {/* Debug log toggle */}
             <div style={{ marginTop: 8 }}>
               <button onClick={() => setShowLog(!showLog)}
-                style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', fontSize: 12, cursor: 'pointer', padding: 0 }}>
+                style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', fontSize: '0.75rem', cursor: 'pointer', padding: 0 }}>
                 {showLog ? '▾' : '▸'} Debug log ({log.length})
               </button>
               {showLog && (
@@ -479,7 +483,7 @@ export default function App() {
                 }}>
                   {log.map((l, i) => (
                     <div key={i} style={{
-                      fontSize: 11, fontFamily: 'monospace', lineHeight: 1.7,
+                      fontSize: '0.6875rem', fontFamily: 'monospace', lineHeight: 1.7,
                       color: l.includes('✗') ? 'var(--error)' : l.includes('✓') ? 'var(--success)' : 'var(--text-muted)',
                     }}>{l}</div>
                   ))}

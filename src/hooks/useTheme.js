@@ -20,6 +20,8 @@ export function useTheme(theme, fontSize = 'medium') {
 
   useEffect(() => {
     const scale = FONT_SCALES[fontSize] ?? 1
-    document.documentElement.style.zoom = scale === 1 ? '' : String(scale)
+    // Scale typography only (rem base), not the whole box model — using `zoom`
+    // here magnified widths/padding too and pushed the layout off narrow screens.
+    document.documentElement.style.fontSize = scale === 1 ? '' : `${16 * scale}px`
   }, [fontSize])
 }
