@@ -177,10 +177,10 @@ export function LocationModal({ onAdd, onClose, lang, initialValues }) {
 
         <div style={{ display: 'flex', gap: 10 }}>
           <div style={{ flex: 1 }}>
-            {field(t(lang, 'locationLat'), lat, setLat, 'number', '49.8298')}
+            {field(t(lang, 'locationLat'), lat, setLat, 'number', '50.7769')}
           </div>
           <div style={{ flex: 1 }}>
-            {field(t(lang, 'locationLon'), lon, setLon, 'number', '18.1721')}
+            {field(t(lang, 'locationLon'), lon, setLon, 'number', '15.5406')}
           </div>
         </div>
 
