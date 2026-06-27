@@ -22,13 +22,13 @@ No test runner or linter is configured.
   - `owm.js` — requires key, `/find` endpoint, filters stations by haversine-ish distance vs `radiusKm`.
   - `tomorrow.js` — requires key, Tomorrow.io realtime endpoint.
   - `windy.js` — requires key, Point Forecast POST (GFS model); converts K→°C, Pa→hPa, u/v→speed+dir; picks time-series step closest to now.
-- **Aggregation:** [src/lib/aggregate.js](src/lib/aggregate.js) — IQR outlier filter per metric (factor default 1.5), arithmetic mean; wind direction uses circular mean (no IQR). Readings tagged `isOutlier` based on temp.
+- **Aggregation:** [src/lib/aggregate.js](src/lib/aggregate.js) — Two-stage: (1) source-type preference: if any `sourceType === 'station'` readings exist, only those are aggregated; NWP model readings are tagged `excludedBySourceType: true` and shown in the table but excluded from the computed average. Falls back to all non-approximate if no stations available. (2) IQR outlier filter per metric (factor default 1.5), arithmetic mean; wind direction uses circular mean (no IQR). Result includes `usingStations: boolean`.
 - **Geocoding:** [src/lib/geocode.js](src/lib/geocode.js) — `searchPlaces(query, lang, count, signal)` against Open-Meteo's free geocoding API (no key). Used by [LocationModal](src/components/LocationModal.jsx) so users can search by place name instead of entering coordinates; manual lat/lon entry remains available.
 - **Units:** [src/lib/units.js](src/lib/units.js) — **internal values are always SI (°C, hPa, m/s, mm/h); convert only at display time.** Includes Beaufort scale and localized wind-direction labels.
 - **i18n:** [src/lib/i18n.js](src/lib/i18n.js) — `en` / `cs` / `es`, default export `strings`, named `t(lang, key)`.
 
 ## Data shape
-A `StationReading` is `{ stationId, stationName, source, fetchedAt, [lat, lon], metrics }` where `metrics` = `{ temp, humidity, pressure, windSpeed, windDeg, clouds, precip, uvIndex }` (SI, `null` if unavailable). Adding a source = produce this shape and wire it into `useWeather`.
+A `StationReading` is `{ stationId, stationName, source, sourceType, fetchedAt, [lat, lon], metrics }` where `metrics` = `{ temp, humidity, pressure, windSpeed, windDeg, clouds, precip, uvIndex }` (SI, `null` if unavailable). `sourceType` is `'station'` for physical sensor readings or `'model'` for NWP/forecast model outputs. Adding a source = produce this shape and wire it into `useWeather`.
 
 ## Conventions
 - React 18, function components + hooks. No TypeScript (JSDoc typedefs only).
@@ -39,16 +39,17 @@ A `StationReading` is `{ stationId, stationName, source, fetchedAt, [lat, lon], 
 Single source of truth: [.github/workflows/deploy.yml](.github/workflows/deploy.yml) — GitHub Actions builds with `npm run build` and publishes `dist/` to Pages on push to `main`.
 
 ## Implemented sources
-- `open-meteo` — 3 NWP models (best_match, ICON, ECMWF), UV index, sea-level pressure. No key.
-- `owm` — OpenWeatherMap physical stations in radius. Requires key.
-- `tomorrow` — Tomorrow.io realtime point forecast. Requires key.
-- `windy` — Windy Point Forecast API v2, GFS model. Requires key. Note: free-tier key triggers CORS on direct browser requests; app tags these readings as approximate (`isApprox`).
+- `open-meteo` — `sourceType: 'model'`. 3 NWP models (best_match, ICON, ECMWF), UV index, sea-level pressure. No key.
+- `owm` — `sourceType: 'station'`. OpenWeatherMap physical stations (PWS) in radius. Requires key.
+- `tomorrow` — `sourceType: 'model'`. Tomorrow.io realtime hybrid model (NWP + satellite + radar). Requires key. Pressure: prefers `pressureSeaLevel`, falls back to `pressureSurfaceLevel`.
+- `windy` — `sourceType: 'model'`. Windy Point Forecast API v2, GFS model. Requires key. Note: free-tier key triggers CORS on direct browser requests; app tags these readings as approximate (`isApprox`).
 
 ## Known gaps / caveats
 - `uvIndex` outside Open-Meteo: OWM `/find` cannot supply it; Windy's `uvindex` surface field is present but may be null outside daylight hours.
 - Open-Meteo returns one UV value shared across all 3 models (same source field).
 - Windy free-tier CORS: the API does not send CORS headers for free keys, so the fetch may fail in-browser depending on the browser's handling of cross-origin errors.
-- Windy GFS data (temp, wind) can differ significantly from physical station observations — expected for a coarse 0.25° NWP model. Data are marked approximate (≈) and excluded from aggregate.
+- Windy GFS data (temp, wind) can differ significantly from physical station observations — expected for a coarse 0.25° NWP model. Data are marked approximate (≈) and always excluded from aggregate.
+- NWP models (Open-Meteo, Windy, Tomorrow.io) vs. physical stations (OWM): humidity and temperature can differ 10–20 % due to grid resolution. Physical stations reflect actual local conditions; the aggregator now prefers them when available.
 
 ## TODO / next session
 - **Windy timestamp unit** — `windy.js` contains a temporary `console.log('[Windy] ...')` that prints `ts[0]` and `ts[idx]` interpreted as both milliseconds and seconds. Open DevTools Console, reload Windy data, read the log line and determine which `as-ms` / `as-s` value is the sensible date. Then: remove the log, and set `const now = Date.now()` (if ts is ms) or keep `/ 1000` (if ts is seconds). The fix landed in commit `8f05c6e` on branch `claude/data-consistency-check-ki9xwu`.

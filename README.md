@@ -18,7 +18,7 @@ Agregátor dat z více meteorologických zdrojů. Aplikace sbírá měření ze 
 
 | Záložka | Popis |
 |---------|-------|
-| **Average** | Průměrné hodnoty ze všech platných zdrojů po filtraci odlehlých měření |
+| **Average** | Průměrné hodnoty — preferuje fyzické stanice, při jejich absenci použije NWP modely; pod hodnotami je vidět, z kolika zdrojů průměr pochází |
 | **Stations** | Přehled jednotlivých stanic — co bylo použito, co bylo vyloučeno a proč |
 | **Sources** | Stav jednotlivých datových zdrojů, chybové hlášky, čas posledního načtení |
 
@@ -26,12 +26,17 @@ Agregátor dat z více meteorologických zdrojů. Aplikace sbírá měření ze 
 
 ## Datové zdroje
 
-| Zdroj | API klíč | Popis |
-|-------|----------|-------|
-| **Open-Meteo** | nevyžadován | 3 numerické modely (best\_match, ICON, ECMWF); poskytuje i UV index |
-| **OpenWeatherMap** | vyžadován (zdarma) | Stanice fyzických měřidel v okolí zadané polohy |
-| **Tomorrow.io** | vyžadován (zdarma) | Realtime data z modelu Tomorrow.io |
-| **Windy** | vyžadován (zdarma) | Point Forecast API v2, GFS model; data jsou označena jako přibližná (≈) a nevstupují do agregace |
+Zdroje jsou rozděleny do dvou kategorií podle toho, jak data získávají:
+
+- **Fyzické stanice** — měří přímo na místě senzorem; nejpřesnější pro lokální podmínky.
+- **NWP modely** — numerická předpověď počasí na mřížce; hodnoty reprezentují velkou plochu, nikoli konkrétní bod.
+
+| Zdroj | Typ | API klíč | Popis |
+|-------|-----|----------|-------|
+| **Open-Meteo** | NWP model | nevyžadován | 3 modely (best\_match, ICON, ECMWF); poskytuje i UV index |
+| **OpenWeatherMap** | Fyzické stanice | vyžadován (zdarma) | Občanské měřicí stanice (PWS) v okolí zadané polohy |
+| **Tomorrow.io** | NWP model | vyžadován (zdarma) | Hybridní model (NWP + satelit + radar) |
+| **Windy** | NWP model | vyžadován (zdarma) | GFS model 0,25°; data označena jako přibližná (≈) a z agregace vždy vyloučena |
 
 ### Kde získat API klíče
 
@@ -61,14 +66,31 @@ Nastavení otevřete ikonou ozubeného kola vpravo nahoře.
 
 ---
 
-## Jak funguje filtrování
+## Jak funguje filtrování a agregace
 
-1. Ze všech zdrojů se shromáždí hodnoty pro každou veličinu (teplota, vlhkost, tlak, …).
-2. Aplikuje se IQR filtr (mezikvartilové rozpětí) — stanice s výrazně odlišnou hodnotou jsou označeny jako odlehlé a z průměru vyloučeny.
-3. Ze zbývajících hodnot se spočítá aritmetický průměr (pro směr větru kruhový průměr).
-4. Odlehlé stanice jsou viditelné v záložce **Stations** s označením ○.
+Agregace probíhá ve dvou krocích:
 
-Faktor IQR lze upravit v nastavení — nižší hodnota je přísnější (vyloučí více stanic), vyšší hodnota je tolerantnější.
+**1. Výběr zdroje dat**
+
+Fyzické stanice (OpenWeatherMap) měří skutečné podmínky přímo na místě, zatímco NWP modely pracují s mřížkou o rozlišení 1–28 km a hodnoty interpolují. Vlhkost nebo teplota se mezi nimi mohou systematicky lišit o 10–20 %, přičemž fyzické stanice jsou pro lokální podmínky přesnější.
+
+- Pokud jsou k dispozici fyzické stanice, průměr se počítá **výhradně z nich**.
+- Nejsou-li fyzické stanice nakonfigurovány (žádný OWM klíč nebo žádná stanice v daném okruhu), použijí se NWP modely jako záloha.
+
+**2. IQR filtr odlehlých hodnot**
+
+V rámci vybraných zdrojů se aplikuje IQR filtr (mezikvartilové rozpětí) — stanice s výrazně odlišnou hodnotou jsou označeny jako odlehlé a z průměru vyloučeny. Ze zbývajících hodnot se spočítá aritmetický průměr (pro směr větru kruhový průměr).
+
+Faktor IQR lze upravit v nastavení — nižší hodnota je přísnější, vyšší tolerantnější.
+
+**Indikátory v záložce Stations**
+
+| Symbol | Význam |
+|--------|--------|
+| ● | Zahrnuto v průměru |
+| ○ | Vyloučeno jako odlehlá hodnota (IQR) |
+| ◇ | NWP model vyloučen — fyzické stanice mají přednost |
+| ≈ | Přibližné (Windy bezplatný tarif) — vždy vyloučeno |
 
 ---
 
