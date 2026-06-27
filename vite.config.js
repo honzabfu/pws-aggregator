@@ -49,6 +49,14 @@ export default defineConfig({
               cacheName: 'tomorrow-cache',
               expiration: { maxEntries: 20, maxAgeSeconds: 300 }
             }
+          },
+          {
+            urlPattern: /^https:\/\/api\.windy\.com\/.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'windy-cache',
+              expiration: { maxEntries: 20, maxAgeSeconds: 300 }
+            }
           }
         ]
       }
