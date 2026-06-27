@@ -3,11 +3,18 @@
 const METRICS = ['temp', 'humidity', 'pressure', 'windSpeed', 'clouds', 'precip', 'uvIndex']
 
 // ── IQR filter ────────────────────────────────────────────────────────────────
+function quartile(sorted, p) {
+  const pos = p * (sorted.length - 1)
+  const lo = Math.floor(pos)
+  const hi = Math.ceil(pos)
+  return lo === hi ? sorted[lo] : sorted[lo] + (pos - lo) * (sorted[hi] - sorted[lo])
+}
+
 function iqrFilter(values, factor = 1.5) {
   if (values.length < 3) return values
   const sorted = [...values].sort((a, b) => a - b)
-  const q1 = sorted[Math.floor(sorted.length * 0.25)]
-  const q3 = sorted[Math.floor(sorted.length * 0.75)]
+  const q1 = quartile(sorted, 0.25)
+  const q3 = quartile(sorted, 0.75)
   const iqr = q3 - q1
   // If IQR is 0 (all same value), skip filtering
   if (iqr === 0) return values

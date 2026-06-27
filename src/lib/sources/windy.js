@@ -7,10 +7,10 @@
 const BASE = 'https://api.windy.com/api/point-forecast/v2'
 
 const PARAMS = [
-  'temp', 'humidity', 'pressure',
+  'temp', 'dewpoint', 'pressure',
   'wind_u', 'wind_v',
-  'clouds_low', 'clouds_middle', 'clouds_high',
-  'rain', 'uvindex',
+  'lclouds', 'mclouds', 'hclouds',
+  'precip',
 ]
 
 /**
@@ -65,7 +65,18 @@ export async function fetchWindy(lat, lon, apiKey) {
   }
 
   // Temperature: K → °C
-  const tempK = get('temp')
+  const tempK     = get('temp')
+  const dewpointK = get('dewpoint')
+
+  // Humidity: derived from dewpoint via August-Roche-Magnus formula
+  let humidity = null
+  if (tempK != null && dewpointK != null) {
+    const tC  = tempK - 273.15
+    const tdC = dewpointK - 273.15
+    const a = 17.625, b = 243.04
+    const rh = 100 * Math.exp(a * tdC / (b + tdC)) / Math.exp(a * tC / (b + tC))
+    humidity = Math.round(Math.max(0, Math.min(100, rh)))
+  }
 
   // Pressure: Pa → hPa
   const pressurePa = get('pressure')
@@ -79,9 +90,9 @@ export async function fetchWindy(lat, lon, apiKey) {
     : null
 
   // Total cloud cover from three layers (probability-union formula)
-  const cl = get('clouds_low')
-  const cm = get('clouds_middle')
-  const ch = get('clouds_high')
+  const cl = get('lclouds')
+  const cm = get('mclouds')
+  const ch = get('hclouds')
   const clouds = (cl != null || cm != null || ch != null)
     ? Math.round(100 * (1 - (1 - (cl ?? 0) / 100) * (1 - (cm ?? 0) / 100) * (1 - (ch ?? 0) / 100)))
     : null
@@ -96,13 +107,13 @@ export async function fetchWindy(lat, lon, apiKey) {
       lon:         Number(lon),
       metrics: {
         temp:      tempK      != null ? tempK - 273.15 : null,
-        humidity:  get('humidity'),
+        humidity,
         pressure:  pressurePa != null ? pressurePa / 100 : null,
         windSpeed,
         windDeg,
         clouds,
-        precip:    get('rain'),
-        uvIndex:   get('uvindex'),
+        precip:    get('precip'),
+        uvIndex:   null,
       },
     }],
     errors: [],
