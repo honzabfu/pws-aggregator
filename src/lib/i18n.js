@@ -187,6 +187,11 @@ const strings = {
     pwaInstalled:    'App is already installed',
     pwaIosHint:      'To install: tap the Share button in Safari, then choose "Add to Home Screen".',
 
+    // No API keys onboarding banner
+    noApiKeysBannerTitle: 'Using forecast models only',
+    noApiKeysBannerDesc:  'Without API keys, data comes from NWP forecast models only. For more accurate readings from physical weather stations, add an API key in Settings.',
+    noApiKeysBannerCta:   'Add API keys',
+
     // Update banner
     updateAvailable: 'A new version is available.',
     updateBtn:       'Update',
@@ -338,6 +343,11 @@ const strings = {
     pwaInstalled:    'Aplikace je již nainstalovaná',
     pwaIosHint:      'Instalace: klepni na tlačítko Sdílet v Safari a zvol „Přidat na plochu".',
 
+    // No API keys onboarding banner
+    noApiKeysBannerTitle: 'Zobrazují se pouze data z modelů',
+    noApiKeysBannerDesc:  'Bez API klíčů jsou k dispozici jen data z numerických modelů počasí (NWP). Pro přesnější hodnoty z fyzických meteorologických stanic přidej API klíč v Nastavení.',
+    noApiKeysBannerCta:   'Přidat API klíče',
+
     // Update banner
     updateAvailable: 'Je dostupná nová verze.',
     updateBtn:       'Aktualizovat',
@@ -488,6 +498,11 @@ const strings = {
     pwaInstallBtn:   'Instalar',
     pwaInstalled:    'La aplicación ya está instalada',
     pwaIosHint:      'Para instalar: toca el botón Compartir en Safari y elige "Añadir a pantalla de inicio".',
+
+    // No API keys onboarding banner
+    noApiKeysBannerTitle: 'Usando solo modelos de pronóstico',
+    noApiKeysBannerDesc:  'Sin claves API, los datos provienen únicamente de modelos NWP. Para lecturas más precisas desde estaciones meteorológicas físicas, añade una clave API en Ajustes.',
+    noApiKeysBannerCta:   'Añadir claves API',
 
     // Update banner
     updateAvailable: 'Hay una nueva versión disponible.',

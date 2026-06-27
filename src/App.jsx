@@ -148,6 +148,12 @@ export default function App() {
   const [editLoc,      setEditLoc]      = useState(null)
   const [showLog,      setShowLog]      = useState(false)
   const [stationFilter, setStationFilter] = useState('all')
+  // Windy free key is excluded from the aggregate, so it doesn't improve accuracy
+  const hasUsefulKey = !!(
+    apiKeys.owm ||
+    apiKeys.tomorrow ||
+    (apiKeys.windy && !preferences.windyKeyFree)
+  )
 
   const METRIC_DEFS = [
     { key: 'temp',      labelKey: 'metricTemp'     },
@@ -247,6 +253,49 @@ export default function App() {
                 </span>
               )}
             </div>
+          </div>
+        )}
+
+        {/* No API keys onboarding banner */}
+        {activeLocation && !hasUsefulKey && !preferences.apiKeyBannerDismissed && (
+          <div style={{
+            background: 'var(--bg-surface)',
+            border: '1px solid var(--border)',
+            borderLeft: '3px solid var(--accent)',
+            borderRadius: 'var(--radius-md)',
+            padding: '12px 14px',
+            marginBottom: 16,
+            display: 'flex',
+            gap: 10,
+            alignItems: 'flex-start',
+          }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 4, color: 'var(--text-primary)' }}>
+                {t(lang, 'noApiKeysBannerTitle')}
+              </div>
+              <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                {t(lang, 'noApiKeysBannerDesc')}
+              </div>
+              <button
+                className="btn btn-primary"
+                style={{ marginTop: 10, padding: '5px 14px', fontSize: 12 }}
+                onClick={() => setShowSettings(true)}
+              >
+                {t(lang, 'noApiKeysBannerCta')}
+              </button>
+            </div>
+            <button
+              onClick={() => setPreference('apiKeyBannerDismissed', true)}
+              style={{
+                background: 'transparent', border: 'none',
+                color: 'var(--text-muted)', fontSize: 18,
+                cursor: 'pointer', padding: '0 4px', flexShrink: 0,
+                lineHeight: 1,
+              }}
+              aria-label={t(lang, 'actionCancel')}
+            >
+              ×
+            </button>
           </div>
         )}
 
