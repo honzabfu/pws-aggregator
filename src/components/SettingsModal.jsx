@@ -3,10 +3,11 @@ import { useRef } from 'react'
 import { t, LANGUAGES, detectBrowserLanguage } from '../lib/i18n.js'
 import { exportConfig, importConfig, clearConfig } from '../lib/config.js'
 
-const THEME_OPTIONS = ['system', 'light', 'dark']
-const UNITS_OPTIONS = ['metric', 'imperial']
-const WIND_OPTIONS  = ['combined', 'ms', 'kmh', 'mph', 'beaufort']
-const IQR_OPTIONS   = [1.0, 1.5, 2.0, 2.5, 3.0]
+const THEME_OPTIONS     = ['system', 'light', 'dark']
+const FONT_SIZE_OPTIONS = ['small', 'medium', 'large', 'xl']
+const UNITS_OPTIONS     = ['metric', 'imperial']
+const WIND_OPTIONS      = ['combined', 'ms', 'kmh', 'mph', 'beaufort']
+const IQR_OPTIONS       = [1.0, 1.5, 2.0, 2.5, 3.0]
 const REFRESH_OPTIONS = [
   { value: 0,  labelKey: 'refreshOff' },
   { value: 5,  labelKey: 'refresh5'   },
@@ -162,6 +163,16 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
             value={preferences.theme}
             onChange={(v) => onSetPreference('theme', v)}
             getLabel={(v) => t(lang, `theme${v.charAt(0).toUpperCase() + v.slice(1)}`)}
+          />
+        </Section>
+
+        {/* Font size */}
+        <Section title={t(lang, 'settingsFontSize')}>
+          <SegmentedControl
+            options={FONT_SIZE_OPTIONS}
+            value={preferences.fontSize ?? 'medium'}
+            onChange={(v) => onSetPreference('fontSize', v)}
+            getLabel={(v) => t(lang, `fontSize${v.charAt(0).toUpperCase() + v.slice(1)}`)}
           />
         </Section>
 
