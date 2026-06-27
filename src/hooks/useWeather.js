@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { fetchOpenMeteo } from '../lib/sources/openmeteo.js'
 import { fetchOWM } from '../lib/sources/owm.js'
+import { fetchTomorrow } from '../lib/sources/tomorrow.js'
 import { aggregate } from '../lib/aggregate.js'
 
 const STATUS = { idle: 'idle', loading: 'loading', ok: 'ok', error: 'error' }
@@ -30,6 +31,7 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin) {
     setStatus({
       'open-meteo': { status: STATUS.loading },
       'owm':        { status: apiKeys.owm ? STATUS.loading : 'no-key' },
+      'tomorrow':   { status: apiKeys.tomorrow ? STATUS.loading : 'no-key' },
     })
 
     addLog(`▶ Fetching for ${location.label} (${location.lat}, ${location.lon})`)
@@ -70,6 +72,24 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin) {
       }
     }
 
+    // ── Tomorrow.io (requires key) ─────────────────────────────────────────
+    if (apiKeys.tomorrow) {
+      try {
+        addLog('tomorrow: fetching…')
+        const { readings, errors } = await fetchTomorrow(location.lat, location.lon, apiKeys.tomorrow)
+        allReadings.push(...readings)
+        if (errors.length) errors.forEach(e => addLog(`  ✗ ${e}`))
+        addLog(`  ✓ tomorrow: ${readings.length} readings`)
+        setStatus(p => ({
+          ...p,
+          'tomorrow': { status: STATUS.ok, count: readings.length, fetchedAt: new Date().toISOString() }
+        }))
+      } catch (e) {
+        addLog(`  ✗ tomorrow: ${e.message}`)
+        setStatus(p => ({ ...p, 'tomorrow': { status: STATUS.error, error: e.message } }))
+      }
+    }
+
     // ── Aggregate ──────────────────────────────────────────────────────────
     if (allReadings.length > 0) {
       const agg = aggregate(allReadings, iqrFactor)
@@ -95,7 +115,7 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin) {
   // Fetch on location/key change
   useEffect(() => {
     if (location) fetch()
-  }, [location?.id, apiKeys.owm])  // eslint-disable-line
+  }, [location?.id, apiKeys.owm, apiKeys.tomorrow])  // eslint-disable-line
 
   return { result, sourceStatus, loading, lastUpdated, log, refetch: fetch }
 }
