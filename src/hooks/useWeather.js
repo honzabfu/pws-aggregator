@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { fetchOpenMeteo } from '../lib/sources/openmeteo.js'
 import { fetchOWM } from '../lib/sources/owm.js'
 import { fetchTomorrow } from '../lib/sources/tomorrow.js'
+import { fetchWindy } from '../lib/sources/windy.js'
 import { aggregate } from '../lib/aggregate.js'
 
 const STATUS = { idle: 'idle', loading: 'loading', ok: 'ok', error: 'error' }
@@ -30,8 +31,9 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin) {
     setLog([])
     setStatus({
       'open-meteo': { status: STATUS.loading },
-      'owm':        { status: apiKeys.owm ? STATUS.loading : 'no-key' },
+      'owm':        { status: apiKeys.owm     ? STATUS.loading : 'no-key' },
       'tomorrow':   { status: apiKeys.tomorrow ? STATUS.loading : 'no-key' },
+      'windy':      { status: apiKeys.windy   ? STATUS.loading : 'no-key' },
     })
 
     addLog(`▶ Fetching for ${location.label} (${location.lat}, ${location.lon})`)
@@ -90,6 +92,24 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin) {
       }
     }
 
+    // ── Windy (requires key) ──────────────────────────────────────────────
+    if (apiKeys.windy) {
+      try {
+        addLog('windy: fetching…')
+        const { readings, errors } = await fetchWindy(location.lat, location.lon, apiKeys.windy)
+        allReadings.push(...readings)
+        if (errors.length) errors.forEach(e => addLog(`  ✗ ${e}`))
+        addLog(`  ✓ windy: ${readings.length} readings`)
+        setStatus(p => ({
+          ...p,
+          'windy': { status: STATUS.ok, count: readings.length, fetchedAt: new Date().toISOString() }
+        }))
+      } catch (e) {
+        addLog(`  ✗ windy: ${e.message}`)
+        setStatus(p => ({ ...p, 'windy': { status: STATUS.error, error: e.message } }))
+      }
+    }
+
     // ── Aggregate ──────────────────────────────────────────────────────────
     if (allReadings.length > 0) {
       const agg = aggregate(allReadings, iqrFactor)
@@ -115,7 +135,7 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin) {
   // Fetch on location/key change
   useEffect(() => {
     if (location) fetch()
-  }, [location?.id, apiKeys.owm, apiKeys.tomorrow])  // eslint-disable-line
+  }, [location?.id, apiKeys.owm, apiKeys.tomorrow, apiKeys.windy])  // eslint-disable-line
 
   return { result, sourceStatus, loading, lastUpdated, log, refetch: fetch }
 }

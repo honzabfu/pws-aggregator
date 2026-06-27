@@ -139,6 +139,7 @@ const strings = {
     keyFreeHint:  'Free at',
     keyValid:     'Key looks valid',
     keyInvalid:   'Key format invalid',
+    keyWindyNote: 'Select the Point Forecast API key (not Webcams, Map Forecast, or Plugins)',
 
     // Stations table
     stationName:    'Station',
@@ -268,6 +269,7 @@ const strings = {
     keyFreeHint: 'Zdarma na',
     keyValid:    'Klíč vypadá správně',
     keyInvalid:  'Nesprávný formát klíče',
+    keyWindyNote: 'Zvol klíč pro Point Forecast API (ne Webcams, Map Forecast ani Plugins)',
 
     stationName:    'Stanice',
     stationSource:  'Zdroj',
@@ -393,6 +395,7 @@ const strings = {
     keyFreeHint: 'Gratis en',
     keyValid:    'Clave válida',
     keyInvalid:  'Formato de clave inválido',
+    keyWindyNote: 'Elige la clave de la API Point Forecast (no Webcams, Map Forecast ni Plugins)',
 
     stationName:    'Estación',
     stationSource:  'Fuente',
