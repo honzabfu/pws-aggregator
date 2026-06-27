@@ -149,6 +149,13 @@ const strings = {
     stationActive:  'Used in average',
     stationExcl:    'Excluded (outlier)',
     stationApprox:  'Approximate — excluded from average (free tier data)',
+    stationModelExcl: 'NWP model — excluded (physical stations preferred)',
+
+    sourceTypeModel:   'nwp model',
+    sourceTypeStation: 'station',
+
+    aggUsingStations: (n) => `Averaged from ${n} physical station${n !== 1 ? 's' : ''}`,
+    aggUsingModels:   (n) => `Averaged from ${n} NWP model reading${n !== 1 ? 's' : ''} — no physical stations configured`,
 
     windyKeyFreeLabel: 'Free API key — data has intentional inaccuracies, excluded from average',
 
@@ -281,6 +288,13 @@ const strings = {
     stationActive:  'Použito v průměru',
     stationExcl:    'Vyloučeno (outlier)',
     stationApprox:  'Přibližné — vyloučeno z průměru (bezplatný tarif)',
+    stationModelExcl: 'NWP model — vyloučeno (fyzické stanice mají přednost)',
+
+    sourceTypeModel:   'nwp model',
+    sourceTypeStation: 'stanice',
+
+    aggUsingStations: (n) => `Průměr z ${n} fyzick${n === 1 ? 'é stanice' : 'ých stanic'}`,
+    aggUsingModels:   (n) => `Průměr z ${n} NWP model${n === 1 ? 'u' : 'ů'} — žádné fyzické stanice nejsou nakonfigurovány`,
 
     windyKeyFreeLabel: 'Bezplatný klíč — data jsou záměrně zkreslena, vyloučena z průměru',
 
@@ -410,6 +424,13 @@ const strings = {
     stationActive:  'Usado en promedio',
     stationExcl:    'Excluido (atípico)',
     stationApprox:  'Aproximado — excluido del promedio (nivel gratuito)',
+    stationModelExcl: 'Modelo NWP — excluido (se prefieren estaciones físicas)',
+
+    sourceTypeModel:   'modelo nwp',
+    sourceTypeStation: 'estación',
+
+    aggUsingStations: (n) => `Promedio de ${n} estación${n !== 1 ? 'es' : ''} física${n !== 1 ? 's' : ''}`,
+    aggUsingModels:   (n) => `Promedio de ${n} lectura${n !== 1 ? 's' : ''} NWP — sin estaciones físicas configuradas`,
 
     windyKeyFreeLabel: 'Clave gratuita — los datos tienen imprecisiones intencionales, excluidos del promedio',
 

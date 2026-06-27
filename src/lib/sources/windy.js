@@ -97,6 +97,7 @@ export async function fetchWindy(lat, lon, apiKey) {
       stationId:   'windy-gfs',
       stationName: 'Windy (GFS)',
       source:      'windy',
+      sourceType:  'model',
       fetchedAt:   new Date().toISOString(),
       lat:         Number(lat),
       lon:         Number(lon),

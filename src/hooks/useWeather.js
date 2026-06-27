@@ -118,7 +118,7 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, win
       const agg = aggregate(allReadings, iqrFactor)
       setResult(agg)
       setLastUpdated(new Date())
-      addLog(`✓ Aggregated ${allReadings.length} readings → ${agg.stationCount} stations`)
+      addLog(`✓ Aggregated ${allReadings.length} readings → ${agg.stationCount} ${agg.usingStations ? 'physical stations' : 'model readings'}`)
     } else {
       addLog('✗ No readings from any source')
     }

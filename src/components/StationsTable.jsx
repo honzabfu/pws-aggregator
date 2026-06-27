@@ -45,22 +45,26 @@ export function StationsTable({ readings, prefs, langStrings }) {
             const windD   = displayWind(r.metrics.windSpeed, prefs.windDisplay, lang, langStrings)
             const pressD  = displayPressure(r.metrics.pressure, prefs.units)
             const srcColor = sourceColors[r.source] ?? 'var(--text-muted)'
-            const isOutlier   = r.isOutlier
-            const isApprox    = r.approximate
+            const isOutlier        = r.isOutlier
+            const isApprox         = r.approximate
+            const isModelExcluded  = r.excludedBySourceType
+            const isDimmed         = isOutlier || isApprox || isModelExcluded
 
             return (
               <tr key={r.stationId + i} style={{
                 borderBottom: '1px solid var(--border)',
-                opacity: isOutlier ? 0.45 : 1,
-                background: isOutlier ? 'var(--bg-base)' : undefined,
+                opacity: isDimmed ? 0.45 : 1,
+                background: isDimmed ? 'var(--bg-base)' : undefined,
               }}>
-                {/* Outlier / approximate indicator */}
+                {/* Status indicator */}
                 <td style={{ padding: '7px 6px 7px 10px', width: 16 }}>
                   {isApprox
                     ? <span title={t(lang, 'stationApprox')} style={{ fontSize: 12, color: 'var(--warning)' }}>≈</span>
                     : isOutlier
                       ? <span title={t(lang, 'stationExcl')} style={{ fontSize: 12 }}>○</span>
-                      : <span title={t(lang, 'stationActive')} style={{ fontSize: 12, color: 'var(--success)' }}>●</span>
+                      : isModelExcluded
+                        ? <span title={t(lang, 'stationModelExcl')} style={{ fontSize: 12, color: 'var(--text-muted)' }}>◇</span>
+                        : <span title={t(lang, 'stationActive')} style={{ fontSize: 12, color: 'var(--success)' }}>●</span>
                   }
                 </td>
 
@@ -73,6 +77,11 @@ export function StationsTable({ readings, prefs, langStrings }) {
                     fontFamily: 'monospace',
                     letterSpacing: '0.04em',
                   }}>{r.source.toUpperCase()}</span>
+                  {r.sourceType && (
+                    <div style={{ fontSize: 9, color: 'var(--text-muted)', fontFamily: 'monospace', marginTop: 1 }}>
+                      {t(lang, r.sourceType === 'station' ? 'sourceTypeStation' : 'sourceTypeModel')}
+                    </div>
+                  )}
                 </td>
 
                 {/* Station name */}

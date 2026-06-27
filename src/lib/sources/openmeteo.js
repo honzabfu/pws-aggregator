@@ -23,6 +23,7 @@ async function fetchModel(lat, lon, model) {
     stationId:   `open-meteo-${model.id}`,
     stationName: model.label,
     source:      'open-meteo',
+    sourceType:  'model',
     model:       model.id,
     fetchedAt:   new Date().toISOString(),
     metrics: {
