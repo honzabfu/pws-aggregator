@@ -1,5 +1,5 @@
 // src/components/SettingsModal.jsx
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { t, LANGUAGES, detectBrowserLanguage } from '../lib/i18n.js'
 import { exportConfig, importConfig, clearConfig } from '../lib/config.js'
 
@@ -97,10 +97,47 @@ function SegmentedControl({ options, value, onChange, getLabel }) {
   )
 }
 
+const GITHUB_URL = 'https://github.com/honzabfu/jz-weatherfusion'
+const LIVE_URL   = 'https://honzabfu.github.io/jz-weatherfusion/'
+
+function isIos() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream
+}
+
+function isStandalone() {
+  return window.matchMedia('(display-mode: standalone)').matches
+    || navigator.standalone === true
+}
+
 export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceConfig, onClose, lang }) {
   const { preferences, apiKeys } = config
 
   const fileRef = useRef()
+  const [installPrompt, setInstallPrompt] = useState(null)
+  const [installed, setInstalled]         = useState(isStandalone)
+
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault()
+      setInstallPrompt(e)
+    }
+    window.addEventListener('beforeinstallprompt', handler)
+    window.addEventListener('appinstalled', () => {
+      setInstallPrompt(null)
+      setInstalled(true)
+    })
+    return () => window.removeEventListener('beforeinstallprompt', handler)
+  }, [])
+
+  const handleInstall = async () => {
+    if (!installPrompt) return
+    installPrompt.prompt()
+    const { outcome } = await installPrompt.userChoice
+    if (outcome === 'accepted') {
+      setInstallPrompt(null)
+      setInstalled(true)
+    }
+  }
 
   const handleImport = async (e) => {
     const file = e.target.files?.[0]
@@ -302,6 +339,49 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
             <input ref={fileRef} type="file" accept=".json" style={{ display: 'none' }} onChange={handleImport} />
           </div>
         </Section>
+
+        {/* PWA install */}
+        <Section title={t(lang, 'settingsPWA')}>
+          {installed ? (
+            <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: 0 }}>
+              ✓ {t(lang, 'pwaInstalled')}
+            </p>
+          ) : installPrompt ? (
+            <button className="btn btn-ghost" onClick={handleInstall}>
+              ↓ {t(lang, 'pwaInstallBtn')}
+            </button>
+          ) : isIos() ? (
+            <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: 0, lineHeight: 1.6 }}>
+              {t(lang, 'pwaIosHint')}
+            </p>
+          ) : null}
+        </Section>
+
+        {/* About */}
+        <div style={{
+          borderTop: '1px solid var(--border)',
+          paddingTop: 16,
+          marginTop: 8,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 8,
+        }}>
+          <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+            {t(lang, 'appName')} v{__APP_VERSION__}
+          </span>
+          <div style={{ display: 'flex', gap: 12 }}>
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer"
+              style={{ fontSize: 11, color: 'var(--accent)', textDecoration: 'none' }}>
+              {t(lang, 'footerGitHub')}
+            </a>
+            <a href={LIVE_URL} target="_blank" rel="noopener noreferrer"
+              style={{ fontSize: 11, color: 'var(--accent)', textDecoration: 'none' }}>
+              {t(lang, 'footerLive')}
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   )
