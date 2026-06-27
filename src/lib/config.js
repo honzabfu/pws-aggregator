@@ -20,6 +20,7 @@ export const DEFAULT_CONFIG = {
     refreshIntervalMin: 0,
     fontSize:          'medium',
     windyKeyFree:      true,
+    apiKeyBannerDismissed: false,
   },
 }
 
