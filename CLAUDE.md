@@ -36,7 +36,7 @@ A `StationReading` is `{ stationId, stationName, source, fetchedAt, [lat, lon], 
 Single source of truth: [.github/workflows/deploy.yml](.github/workflows/deploy.yml) — GitHub Actions builds with `npm run build` and publishes `dist/` to Pages on push to `main`. (The old `static.yml`, which deployed the un-built repo root, was removed.)
 
 ## Planned / not yet implemented
-- **Windy + Tomorrow.io sources** — `windy`/`tomorrow` apiKeys slots exist in [src/lib/config.js](src/lib/config.js) and the README advertises them, but only `open-meteo` and `owm` are wired up. To add: create `src/lib/sources/<name>.js` exporting `fetch<Name>()` → `{ readings, errors }` + `*_META`, then branch in [src/hooks/useWeather.js](src/hooks/useWeather.js) like the existing `owm` block.
+- **Windy + Tomorrow.io sources** — `windy`/`tomorrow` apiKeys slots, Settings UI, and i18n labels already exist; only the source modules + `useWeather` wiring are missing. Full step-by-step (contract, wiring, CORS caveat, per-provider endpoints/units): [docs/adding-a-data-source.md](docs/adding-a-data-source.md).
 
 ## Known gaps / caveats
 - `uvIndex` is populated only by Open-Meteo (`uv_index` in the current endpoint); OWM `/find` cannot supply it. Open-Meteo returns one UV value per model, so all 3 models report the same figure.
