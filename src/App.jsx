@@ -119,7 +119,7 @@ export default function App() {
   const lang = resolveLanguage(preferences.language)
   const langStrings = strings[lang] ?? strings.en
 
-  useTheme(preferences.theme)
+  useTheme(preferences.theme, preferences.fontSize)
 
   const { result, sourceStatus, loading, lastUpdated, log, refetch } = useWeather(
     activeLocation,

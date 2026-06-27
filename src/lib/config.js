@@ -18,6 +18,7 @@ export const DEFAULT_CONFIG = {
     windDisplay:       'combined',
     iqrFactor:         1.5,
     refreshIntervalMin: 0,
+    fontSize:          'medium',
   },
 }
 

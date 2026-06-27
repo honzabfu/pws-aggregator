@@ -64,12 +64,21 @@ const strings = {
     settingsTitle:    'Settings',
     settingsLanguage: 'Language',
     settingsTheme:    'Theme',
+    settingsFontSize: 'Font size',
     settingsUnits:    'Units',
     settingsWind:     'Wind display',
     settingsIQR:      'IQR factor',
     settingsRefresh:  'Auto-refresh',
     settingsApiKeys:  'API Keys',
     settingsData:     'Data',
+
+    fontSizeSmall:  'Small',
+    fontSizeMedium: 'Default',
+    fontSizeLarge:  'Large',
+    fontSizeXl:     'Extra large',
+
+    hintIQR:  'Outlier sensitivity — stations far outside the group are excluded from the average. Lower = stricter filtering. 1.5 is a good default.',
+    hintWind: 'Combined shows speed and Beaufort scale together. Beaufort is a 0–12 descriptive wind scale.',
 
     // Theme
     themeSystem: 'System',
@@ -191,12 +200,21 @@ const strings = {
     settingsTitle:    'Nastavení',
     settingsLanguage: 'Jazyk',
     settingsTheme:    'Motiv',
+    settingsFontSize: 'Velikost písma',
     settingsUnits:    'Jednotky',
     settingsWind:     'Zobrazení větru',
     settingsIQR:      'IQR faktor',
     settingsRefresh:  'Automatické obnovení',
     settingsApiKeys:  'API klíče',
     settingsData:     'Data',
+
+    fontSizeSmall:  'Malé',
+    fontSizeMedium: 'Výchozí',
+    fontSizeLarge:  'Velké',
+    fontSizeXl:     'Velmi velké',
+
+    hintIQR:  'Citlivost detekce odlehlých hodnot — stanice příliš vzdálené od skupiny jsou vyloučeny z průměru. Nižší = přísnější filtr. Výchozí hodnota 1,5 je vhodná pro většinu případů.',
+    hintWind: 'Kombinovaně zobrazuje rychlost i Beaufortovu stupnici najednou. Beaufort je popisná škála síly větru 0–12.',
 
     themeSystem: 'Systém',
     themeLight:  'Světlý',
@@ -307,12 +325,21 @@ const strings = {
     settingsTitle:    'Ajustes',
     settingsLanguage: 'Idioma',
     settingsTheme:    'Tema',
+    settingsFontSize: 'Tamaño de fuente',
     settingsUnits:    'Unidades',
     settingsWind:     'Mostrar viento',
     settingsIQR:      'Factor IQR',
     settingsRefresh:  'Actualización automática',
     settingsApiKeys:  'Claves API',
     settingsData:     'Datos',
+
+    fontSizeSmall:  'Pequeño',
+    fontSizeMedium: 'Predeterminado',
+    fontSizeLarge:  'Grande',
+    fontSizeXl:     'Extra grande',
+
+    hintIQR:  'Sensibilidad a valores atípicos — las estaciones muy alejadas del grupo se excluyen del promedio. Menor = filtrado más estricto. 1,5 es un buen valor por defecto.',
+    hintWind: 'Combinado muestra la velocidad y la escala Beaufort juntas. Beaufort es una escala descriptiva de viento del 0 al 12.',
 
     themeSystem: 'Sistema',
     themeLight:  'Claro',
