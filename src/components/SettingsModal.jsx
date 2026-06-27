@@ -26,9 +26,10 @@ const API_KEY_META = [
   {
     service: 'windy',
     labelKey: 'keyWindy',
-    hint: 'api.windy.com',
-    url: 'https://api.windy.com',
+    hint: 'api.windy.com/point-forecast',
+    url: 'https://api.windy.com/point-forecast',
     pattern: /^[A-Za-z0-9]{32,}$/,
+    noteKey: 'keyWindyNote',
   },
   {
     service: 'tomorrow',
@@ -226,7 +227,7 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
 
         {/* API keys */}
         <Section title={t(lang, 'settingsApiKeys')}>
-          {API_KEY_META.map(({ service, labelKey, hint, url, pattern }) => {
+          {API_KEY_META.map(({ service, labelKey, hint, url, pattern, noteKey }) => {
             const val     = apiKeys[service] ?? ''
             const isValid = val.length > 0 && pattern.test(val)
             const isSet   = val.length > 0
@@ -255,6 +256,11 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
                     {t(lang, 'keyFreeHint')}{' '}
                     <a href={url} target="_blank" rel="noopener noreferrer"
                       style={{ color: 'var(--accent)' }}>{hint}</a>
+                    {noteKey && (
+                      <span style={{ display: 'block', marginTop: 2 }}>
+                        → {t(lang, noteKey)}
+                      </span>
+                    )}
                   </div>
                 )}
               </div>
