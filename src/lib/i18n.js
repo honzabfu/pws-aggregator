@@ -26,8 +26,8 @@ export function resolveLanguage(pref) {
 const strings = {
   en: {
     // App
-    appName: 'PWS Aggregator',
-    appTagline: 'Personal Weather Station data from multiple sources',
+    appName: 'JZ WeatherFusion',
+    appTagline: 'Weather data from multiple sources, fused into one view',
 
     // Nav / tabs
     tabAggregated: 'Aggregated',
@@ -171,8 +171,8 @@ const strings = {
   },
 
   cs: {
-    appName: 'PWS Agregátor',
-    appTagline: 'Data z osobních meteostanic z více zdrojů',
+    appName: 'JZ WeatherFusion',
+    appTagline: 'Data o počasí z více zdrojů sloučená do jednoho přehledu',
 
     tabAggregated: 'Průměr',
     tabStations:   'Stanice',
@@ -300,8 +300,8 @@ const strings = {
   },
 
   es: {
-    appName: 'Agregador PWS',
-    appTagline: 'Datos de estaciones meteorológicas personales de múltiples fuentes',
+    appName: 'JZ WeatherFusion',
+    appTagline: 'Datos meteorológicos de múltiples fuentes, fusionados en una vista',
 
     tabAggregated: 'Promedio',
     tabStations:   'Estaciones',

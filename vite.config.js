@@ -3,16 +3,16 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
-  base: '/pws-aggregator/',
+  base: '/jz-weatherfusion/',
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
-        name: 'PWS Aggregator',
-        short_name: 'PWSAgg',
-        description: 'Personal Weather Station data aggregator from multiple sources',
+        name: 'JZ WeatherFusion',
+        short_name: 'JZ Weather',
+        description: 'Weather data from multiple sources, fused into a single view',
         theme_color: '#0ea5e9',
         background_color: '#020817',
         display: 'standalone',
