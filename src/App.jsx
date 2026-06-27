@@ -165,10 +165,7 @@ export default function App() {
       }}>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 15, fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--accent)' }}>
-            JZ Weather
-          </div>
-          <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: -2 }}>
-            Fusion
+            JZ WeatherFusion
           </div>
         </div>
 
