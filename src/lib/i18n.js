@@ -97,6 +97,11 @@ const strings = {
     locationEdit:     'Edit location',
     locationDelete:   'Delete location',
     locationNoData:   'No location configured. Add one to get started.',
+    locationSearch:    'Search location',
+    locationSearchHint:'Type a city or place name',
+    locationSearching: 'Searching…',
+    locationSearchEmpty:'No places found',
+    locationOrManual:  'or enter coordinates manually',
 
     // API keys
     keyOWM:       'OpenWeatherMap API key',
@@ -210,6 +215,11 @@ const strings = {
     locationEdit:    'Upravit lokalitu',
     locationDelete:  'Smazat lokalitu',
     locationNoData:  'Žádná lokalita. Přidej první a začni.',
+    locationSearch:    'Vyhledat lokalitu',
+    locationSearchHint:'Zadej město nebo název místa',
+    locationSearching: 'Hledám…',
+    locationSearchEmpty:'Nic nenalezeno',
+    locationOrManual:  'nebo zadej souřadnice ručně',
 
     keyOWM:      'API klíč OpenWeatherMap',
     keyWindy:    'API klíč Windy',
@@ -318,6 +328,11 @@ const strings = {
     locationEdit:    'Editar lugar',
     locationDelete:  'Eliminar lugar',
     locationNoData:  'Sin lugar configurado. Añade uno para empezar.',
+    locationSearch:    'Buscar lugar',
+    locationSearchHint:'Escribe una ciudad o lugar',
+    locationSearching: 'Buscando…',
+    locationSearchEmpty:'No se encontró ningún lugar',
+    locationOrManual:  'o introduce coordenadas manualmente',
 
     keyOWM:      'Clave API OpenWeatherMap',
     keyWindy:    'Clave API Windy',

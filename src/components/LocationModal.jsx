@@ -1,6 +1,7 @@
 // src/components/LocationModal.jsx
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { t } from '../lib/i18n.js'
+import { searchPlaces } from '../lib/geocode.js'
 
 export function LocationModal({ onAdd, onClose, lang }) {
   const [label,    setLabel]    = useState('')
@@ -9,6 +10,39 @@ export function LocationModal({ onAdd, onClose, lang }) {
   const [radius,   setRadius]   = useState('10')
   const [locating, setLocating] = useState(false)
   const [error,    setError]    = useState('')
+
+  const [query,     setQuery]     = useState('')
+  const [results,   setResults]   = useState([])
+  const [searching, setSearching] = useState(false)
+
+  // Debounced geocoding search
+  useEffect(() => {
+    const q = query.trim()
+    if (q.length < 2) { setResults([]); setSearching(false); return }
+
+    const ctrl = new AbortController()
+    const id = setTimeout(async () => {
+      setSearching(true)
+      try {
+        setResults(await searchPlaces(q, lang, 8, ctrl.signal))
+      } catch (e) {
+        if (e.name !== 'AbortError') { setResults([]); setError(t(lang, 'errorNetwork')) }
+      } finally {
+        setSearching(false)
+      }
+    }, 300)
+
+    return () => { clearTimeout(id); ctrl.abort() }
+  }, [query, lang])
+
+  const selectPlace = (p) => {
+    setLabel(p.label)
+    setLat(p.lat.toFixed(5))
+    setLon(p.lon.toFixed(5))
+    setQuery('')
+    setResults([])
+    setError('')
+  }
 
   const useGeoLocation = () => {
     if (!navigator.geolocation) { setError('Geolocation not supported'); return }
@@ -65,6 +99,66 @@ export function LocationModal({ onAdd, onClose, lang }) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
           <h2 style={{ fontSize: 16, fontWeight: 700 }}>{t(lang, 'locationAdd')}</h2>
           <button onClick={onClose} className="btn-icon" style={{ fontSize: 18 }}>×</button>
+        </div>
+
+        {/* ── Search ──────────────────────────────────────────────────────── */}
+        <div style={{ marginBottom: 14, position: 'relative' }}>
+          <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 5 }}>
+            {t(lang, 'locationSearch')}
+          </label>
+          <input className="input" type="text" value={query} autoFocus
+            onChange={e => setQuery(e.target.value)}
+            placeholder={t(lang, 'locationSearchHint')} />
+
+          {(searching || results.length > 0 || (query.trim().length >= 2 && !searching)) && (
+            <div style={{
+              marginTop: 6,
+              border: '1px solid var(--border)',
+              borderRadius: 'var(--radius-md)',
+              background: 'var(--bg-elevated)',
+              maxHeight: 220,
+              overflowY: 'auto',
+            }}>
+              {searching && (
+                <div style={{ padding: '10px 12px', fontSize: 12, color: 'var(--text-muted)' }}>
+                  ⟳ {t(lang, 'locationSearching')}
+                </div>
+              )}
+              {!searching && results.length === 0 && (
+                <div style={{ padding: '10px 12px', fontSize: 12, color: 'var(--text-muted)' }}>
+                  {t(lang, 'locationSearchEmpty')}
+                </div>
+              )}
+              {!searching && results.map(p => (
+                <button key={p.id} onClick={() => selectPlace(p)} style={{
+                  display: 'flex', alignItems: 'center', gap: 10, width: '100%',
+                  padding: '9px 12px', border: 'none', background: 'transparent',
+                  color: 'var(--text-primary)', cursor: 'pointer', textAlign: 'left',
+                  borderBottom: '1px solid var(--border)',
+                }}>
+                  <span style={{ fontSize: 18 }}>{p.flag}</span>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ display: 'block', fontSize: 13, fontWeight: 600 }}>{p.name}</span>
+                    {p.detail && (
+                      <span style={{ display: 'block', fontSize: 11, color: 'var(--text-muted)' }}>{p.detail}</span>
+                    )}
+                  </span>
+                  <span style={{ fontSize: 10, color: 'var(--text-muted)', fontFamily: 'monospace' }}>
+                    {p.lat.toFixed(2)}, {p.lon.toFixed(2)}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 8,
+          margin: '4px 0 14px', fontSize: 11, color: 'var(--text-muted)',
+        }}>
+          <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+          {t(lang, 'locationOrManual')}
+          <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
         </div>
 
         {field(t(lang, 'locationLabel'), label, setLabel, 'text', 'Ostrava-Poruba')}

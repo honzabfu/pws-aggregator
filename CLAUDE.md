@@ -20,6 +20,7 @@ No test runner or linter is configured.
   - `openmeteo.js` — no key, fetches 3 NWP models (best_match, ICON, ECMWF) in parallel.
   - `owm.js` — requires key, `/find` endpoint, filters stations by haversine-ish distance vs `radiusKm`.
 - **Aggregation:** [src/lib/aggregate.js](src/lib/aggregate.js) — IQR outlier filter per metric (factor default 1.5), arithmetic mean; wind direction uses circular mean (no IQR). Readings tagged `isOutlier` based on temp.
+- **Geocoding:** [src/lib/geocode.js](src/lib/geocode.js) — `searchPlaces(query, lang, count, signal)` against Open-Meteo's free geocoding API (no key). Used by [LocationModal](src/components/LocationModal.jsx) so users can search by place name instead of entering coordinates; manual lat/lon entry remains available.
 - **Units:** [src/lib/units.js](src/lib/units.js) — **internal values are always SI (°C, hPa, m/s, mm/h); convert only at display time.** Includes Beaufort scale and localized wind-direction labels.
 - **i18n:** [src/lib/i18n.js](src/lib/i18n.js) — `en` / `cs` / `es`, default export `strings`, named `t(lang, key)`.
 
