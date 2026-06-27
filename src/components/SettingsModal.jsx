@@ -45,7 +45,7 @@ function Section({ title, hint, children }) {
   return (
     <div style={{ marginBottom: 24 }}>
       <div style={{
-        fontSize: 11,
+        fontSize: '0.6875rem',
         fontWeight: 700,
         letterSpacing: '0.1em',
         textTransform: 'uppercase',
@@ -56,7 +56,7 @@ function Section({ title, hint, children }) {
       }}>{title}</div>
       {children}
       {hint && (
-        <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 7, lineHeight: 1.5 }}>
+        <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', marginTop: 7, lineHeight: 1.5 }}>
           {hint}
         </div>
       )}
@@ -83,7 +83,7 @@ function SegmentedControl({ options, value, onChange, getLabel }) {
             padding: '5px 10px',
             borderRadius: 4,
             border: 'none',
-            fontSize: 12,
+            fontSize: '0.75rem',
             fontWeight: 600,
             background: value === opt ? 'var(--bg-surface)' : 'transparent',
             color: value === opt ? 'var(--text-primary)' : 'var(--text-muted)',
@@ -121,12 +121,16 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
       e.preventDefault()
       setInstallPrompt(e)
     }
-    window.addEventListener('beforeinstallprompt', handler)
-    window.addEventListener('appinstalled', () => {
+    const installedHandler = () => {
       setInstallPrompt(null)
       setInstalled(true)
-    })
-    return () => window.removeEventListener('beforeinstallprompt', handler)
+    }
+    window.addEventListener('beforeinstallprompt', handler)
+    window.addEventListener('appinstalled', installedHandler)
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler)
+      window.removeEventListener('appinstalled', installedHandler)
+    }
   }, [])
 
   const handleInstall = async () => {
@@ -182,8 +186,8 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
 
         {/* Title */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-          <h2 style={{ fontSize: 18, fontWeight: 700 }}>{t(lang, 'settingsTitle')}</h2>
-          <button onClick={onClose} className="btn-icon" style={{ fontSize: 18, lineHeight: 1 }}>×</button>
+          <h2 style={{ fontSize: '1.125rem', fontWeight: 700 }}>{t(lang, 'settingsTitle')}</h2>
+          <button onClick={onClose} className="btn-icon" style={{ fontSize: '1.125rem', lineHeight: 1 }}>×</button>
         </div>
 
         {/* Language */}
@@ -275,11 +279,11 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
             return (
               <div key={service} style={{ marginBottom: 14 }}>
                 <label style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
-                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)' }}>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
                     {t(lang, labelKey)}
                   </span>
                   {isSet && (
-                    <span style={{ fontSize: 11, color: isValid ? 'var(--success)' : 'var(--warning)' }}>
+                    <span style={{ fontSize: '0.6875rem', color: isValid ? 'var(--success)' : 'var(--warning)' }}>
                       {isValid ? '✓ ' + t(lang, 'keyValid') : '⚠ ' + t(lang, 'keyInvalid')}
                     </span>
                   )}
@@ -290,7 +294,7 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
                   value={val}
                   onChange={(e) => onSetApiKey(service, e.target.value)}
                   placeholder={`${t(lang, 'keyFreeHint')} ${hint}`}
-                  style={{ fontFamily: 'monospace', fontSize: 12 }}
+                  style={{ fontFamily: 'monospace', fontSize: '0.75rem' }}
                 />
                 {freePref && (
                   <label style={{
@@ -303,13 +307,13 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
                       onChange={e => onSetPreference(freePref, e.target.checked)}
                       style={{ width: 14, height: 14, cursor: 'pointer', accentColor: 'var(--accent)' }}
                     />
-                    <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
                       {t(lang, freePref + 'Label')}
                     </span>
                   </label>
                 )}
                 {!isSet && (
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 4 }}>
+                  <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', marginTop: 4 }}>
                     {t(lang, 'keyFreeHint')}{' '}
                     <a href={url} target="_blank" rel="noopener noreferrer"
                       style={{ color: 'var(--accent)' }}>{hint}</a>
@@ -345,7 +349,7 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
         {/* PWA install */}
         <Section title={t(lang, 'settingsPWA')}>
           {installed ? (
-            <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: 0 }}>
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: 0 }}>
               ✓ {t(lang, 'pwaInstalled')}
             </p>
           ) : installPrompt ? (
@@ -353,7 +357,7 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
               ↓ {t(lang, 'pwaInstallBtn')}
             </button>
           ) : isIos() ? (
-            <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: 0, lineHeight: 1.6 }}>
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: 0, lineHeight: 1.6 }}>
               {t(lang, 'pwaIosHint')}
             </p>
           ) : null}
@@ -370,16 +374,16 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
           flexWrap: 'wrap',
           gap: 8,
         }}>
-          <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+          <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
             {t(lang, 'appName')} v{__APP_VERSION__}
           </span>
           <div style={{ display: 'flex', gap: 12 }}>
             <a href={README_URL} target="_blank" rel="noopener noreferrer"
-              style={{ fontSize: 11, color: 'var(--accent)', textDecoration: 'none' }}>
+              style={{ fontSize: '0.6875rem', color: 'var(--accent)', textDecoration: 'none' }}>
               {t(lang, 'footerHelp')}
             </a>
             <a href={APPS_URL} target="_blank" rel="noopener noreferrer"
-              style={{ fontSize: 11, color: 'var(--accent)', textDecoration: 'none' }}>
+              style={{ fontSize: '0.6875rem', color: 'var(--accent)', textDecoration: 'none' }}>
               {t(lang, 'footerApps')}
             </a>
           </div>

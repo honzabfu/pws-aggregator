@@ -55,13 +55,13 @@ export function MetricCard({ metric, label, data, prefs, langStrings, style }) {
     }}>
       {/* Label row */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-        <span style={{ fontSize: 14 }}>{icon}</span>
+        <span style={{ fontSize: '0.875rem' }}>{icon}</span>
         <span className="label-xs">{label}</span>
       </div>
 
       {/* Value */}
       <div style={{
-        fontSize: 32,
+        fontSize: '2rem',
         fontWeight: 700,
         color: hasData ? 'var(--text-primary)' : 'var(--text-muted)',
         fontVariantNumeric: 'tabular-nums',
@@ -69,19 +69,19 @@ export function MetricCard({ metric, label, data, prefs, langStrings, style }) {
         marginTop: 4,
       }}>
         {hasData ? display.value : '—'}
-        {hasData && <span style={{ fontSize: 14, color: 'var(--text-muted)', marginLeft: 4 }}>{display.unit}</span>}
+        {hasData && <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginLeft: 4 }}>{display.unit}</span>}
       </div>
 
       {/* Beaufort combined label */}
       {display.combined && display.beaufort !== null && display.label && (
-        <div style={{ fontSize: 11, color: color, fontWeight: 600 }}>
+        <div style={{ fontSize: '0.6875rem', color: color, fontWeight: 600 }}>
           Bft {display.beaufort} · {display.label}
         </div>
       )}
 
       {/* Stats row */}
       {data && (
-        <div style={{ fontSize: 10, color: 'var(--text-muted)', fontFamily: 'monospace', marginTop: 2 }}>
+        <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)', fontFamily: 'monospace', marginTop: 2 }}>
           {data.contributors}/{data.total}
           {data.removed > 0 && (
             <span style={{ color: 'var(--warning)', marginLeft: 6 }}>−{data.removed} outlier{data.removed !== 1 ? 's' : ''}</span>

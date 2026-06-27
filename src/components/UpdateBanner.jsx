@@ -19,7 +19,7 @@ export function UpdateBanner({ lang }) {
       justifyContent: 'space-between',
       padding: '12px 16px',
       gap: 12,
-      fontSize: 13,
+      fontSize: '0.8125rem',
       fontWeight: 500,
     }}>
       <span>{t(lang, 'updateAvailable')}</span>
@@ -31,7 +31,7 @@ export function UpdateBanner({ lang }) {
           border: 'none',
           borderRadius: 'var(--radius-sm)',
           padding: '6px 14px',
-          fontSize: 13,
+          fontSize: '0.8125rem',
           fontWeight: 700,
           cursor: 'pointer',
           flexShrink: 0,

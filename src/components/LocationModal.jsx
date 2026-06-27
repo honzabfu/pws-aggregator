@@ -82,7 +82,7 @@ export function LocationModal({ onAdd, onClose, lang, initialValues }) {
 
   const field = (label, value, setter, type = 'text', placeholder = '') => (
     <div style={{ marginBottom: 14 }}>
-      <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 5 }}>
+      <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 5 }}>
         {label}
       </label>
       <input className="input" type={type} value={value}
@@ -109,13 +109,13 @@ export function LocationModal({ onAdd, onClose, lang, initialValues }) {
         boxSizing: 'border-box',
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-          <h2 style={{ fontSize: 16, fontWeight: 700 }}>{t(lang, initialValues ? 'locationEdit' : 'locationAdd')}</h2>
-          <button onClick={onClose} className="btn-icon" style={{ fontSize: 18 }}>×</button>
+          <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>{t(lang, initialValues ? 'locationEdit' : 'locationAdd')}</h2>
+          <button onClick={onClose} className="btn-icon" style={{ fontSize: '1.125rem' }}>×</button>
         </div>
 
         {/* ── Search ──────────────────────────────────────────────────────── */}
         <div style={{ marginBottom: 14, position: 'relative' }}>
-          <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 5 }}>
+          <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 5 }}>
             {t(lang, 'locationSearch')}
           </label>
           <input className="input" type="text" value={query} autoFocus
@@ -132,12 +132,12 @@ export function LocationModal({ onAdd, onClose, lang, initialValues }) {
               overflowY: 'auto',
             }}>
               {searching && (
-                <div style={{ padding: '10px 12px', fontSize: 12, color: 'var(--text-muted)' }}>
+                <div style={{ padding: '10px 12px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                   ⟳ {t(lang, 'locationSearching')}
                 </div>
               )}
               {!searching && results.length === 0 && (
-                <div style={{ padding: '10px 12px', fontSize: 12, color: 'var(--text-muted)' }}>
+                <div style={{ padding: '10px 12px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                   {t(lang, 'locationSearchEmpty')}
                 </div>
               )}
@@ -148,14 +148,14 @@ export function LocationModal({ onAdd, onClose, lang, initialValues }) {
                   color: 'var(--text-primary)', cursor: 'pointer', textAlign: 'left',
                   borderBottom: '1px solid var(--border)',
                 }}>
-                  <span style={{ fontSize: 18 }}>{p.flag}</span>
+                  <span style={{ fontSize: '1.125rem' }}>{p.flag}</span>
                   <span style={{ flex: 1, minWidth: 0 }}>
-                    <span style={{ display: 'block', fontSize: 13, fontWeight: 600 }}>{p.name}</span>
+                    <span style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600 }}>{p.name}</span>
                     {p.detail && (
-                      <span style={{ display: 'block', fontSize: 11, color: 'var(--text-muted)' }}>{p.detail}</span>
+                      <span style={{ display: 'block', fontSize: '0.6875rem', color: 'var(--text-muted)' }}>{p.detail}</span>
                     )}
                   </span>
-                  <span style={{ fontSize: 10, color: 'var(--text-muted)', fontFamily: 'monospace' }}>
+                  <span style={{ fontSize: '0.625rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>
                     {p.lat.toFixed(2)}, {p.lon.toFixed(2)}
                   </span>
                 </button>
@@ -166,7 +166,7 @@ export function LocationModal({ onAdd, onClose, lang, initialValues }) {
 
         <div style={{
           display: 'flex', alignItems: 'center', gap: 8,
-          margin: '4px 0 14px', fontSize: 11, color: 'var(--text-muted)',
+          margin: '4px 0 14px', fontSize: '0.6875rem', color: 'var(--text-muted)',
         }}>
           <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
           {t(lang, 'locationOrManual')}
@@ -192,7 +192,7 @@ export function LocationModal({ onAdd, onClose, lang, initialValues }) {
         {field(t(lang, 'locationRadius'), radius, setRadius, 'number', '10')}
 
         {error && (
-          <div style={{ color: 'var(--error)', fontSize: 12, marginBottom: 12 }}>{error}</div>
+          <div style={{ color: 'var(--error)', fontSize: '0.75rem', marginBottom: 12 }}>{error}</div>
         )}
 
         <div style={{ display: 'flex', gap: 8 }}>
