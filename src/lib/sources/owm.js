@@ -29,7 +29,8 @@ export async function fetchOWM(lat, lon, apiKey, radiusKm = 10) {
   const filtered = list.filter(s => {
     const dlat = s.coord.lat - lat
     const dlon = s.coord.lon - lon
-    const dist = Math.sqrt(dlat * dlat + dlon * dlon) * 111
+    const cosLat = Math.cos(lat * Math.PI / 180)
+    const dist = Math.sqrt(dlat * dlat + (dlon * cosLat) ** 2) * 111
     return dist <= radiusKm
   })
 
