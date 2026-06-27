@@ -171,9 +171,11 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
         borderRadius: 'var(--radius-xl) var(--radius-xl) 0 0',
         width: '100%',
         maxWidth: 520,
-        maxHeight: '90vh',
+        maxHeight: '90dvh',
         overflowY: 'auto',
+        overflowX: 'hidden',
         padding: '24px 20px 32px',
+        boxSizing: 'border-box',
       }}>
         {/* Handle */}
         <div style={{ width: 36, height: 4, background: 'var(--border)', borderRadius: 2, margin: '0 auto 20px' }} />
