@@ -15,11 +15,11 @@ const METRIC_COLORS = {
 const METRIC_ICONS = {
   temp:      '🌡',
   humidity:  '💧',
-  pressure:  '◾',
-  windSpeed: '💨',
+  pressure:  '⬇️',
+  windSpeed: '🪁',
   clouds:    '☁',
-  precip:    '🌧',
-  uvIndex:   '☀',
+  precip:    '☔',
+  uvIndex:   '🔆',
 }
 
 function getDisplay(metric, data, prefs, langStrings, lang) {

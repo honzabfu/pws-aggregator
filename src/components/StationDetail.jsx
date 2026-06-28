@@ -44,10 +44,10 @@ export function StationDetail({ reading, prefs, langStrings, onBack, origin }) {
   const metricRows = [
     { label: t(lang, 'metricTemp'),     value: tempD.value  !== null ? `${tempD.value} ${tempD.unit}`   : null, color: 'var(--metric-temp)',   icon: '🌡' },
     { label: t(lang, 'metricHumidity'), value: metrics.humidity !== null ? `${metrics.humidity} %`       : null, color: 'var(--metric-humid)',  icon: '💧' },
-    { label: t(lang, 'metricPressure'), value: pressD.value !== null ? `${pressD.value} ${pressD.unit}` : null, color: 'var(--metric-press)',  icon: '◾' },
+    { label: t(lang, 'metricPressure'), value: pressD.value !== null ? `${pressD.value} ${pressD.unit}` : null, color: 'var(--metric-press)',  icon: '⬇️' },
     { label: t(lang, 'metricClouds'),   value: metrics.clouds  !== null ? `${metrics.clouds} %`          : null, color: 'var(--metric-cloud)',  icon: '☁' },
-    { label: t(lang, 'metricPrecip'),   value: precipD.value !== null ? `${precipD.value} ${precipD.unit}` : null, color: 'var(--metric-precip)', icon: '🌧' },
-    { label: t(lang, 'metricUV'),       value: metrics.uvIndex !== null ? `${metrics.uvIndex}`            : null, color: 'var(--metric-uv)',    icon: '☀' },
+    { label: t(lang, 'metricPrecip'),   value: precipD.value !== null ? `${precipD.value} ${precipD.unit}` : null, color: 'var(--metric-precip)', icon: '☔' },
+    { label: t(lang, 'metricUV'),       value: metrics.uvIndex !== null ? `${metrics.uvIndex}`            : null, color: 'var(--metric-uv)',    icon: '🔆' },
   ]
 
   const hasWind = metrics.windSpeed !== null || metrics.windDeg !== null
@@ -151,7 +151,7 @@ export function StationDetail({ reading, prefs, langStrings, onBack, origin }) {
           )}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-              <span style={{ fontSize: '1.25rem', lineHeight: 1 }}>💨</span>
+              <span style={{ fontSize: '1.25rem', lineHeight: 1 }}>🪁</span>
               <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>{t(lang, 'metricWind')}</span>
             </div>
             {windD.value !== null && (
