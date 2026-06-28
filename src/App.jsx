@@ -10,6 +10,7 @@ import { StationDetail } from './components/StationDetail.jsx'
 import { SettingsModal } from './components/SettingsModal.jsx'
 import { LocationModal } from './components/LocationModal.jsx'
 import { UpdateBanner }  from './components/UpdateBanner.jsx'
+import { SOURCES } from './lib/sources/registry.js'
 import { windDirLabel, displayWind } from './lib/units.js'
 import { t, resolveLanguage } from './lib/i18n.js'
 import strings from './lib/i18n.js'
@@ -506,12 +507,9 @@ export default function App() {
               ? raw.filter(r => r.isOutlier || r.approximate || r.excludedBySourceType)
               : raw
 
-          const SOURCE_LABELS = {
-            'open-meteo': t(lang, 'sourceOpenMeteo'),
-            'owm':        t(lang, 'sourceOWM'),
-            'tomorrow':   t(lang, 'sourceTomorrow'),
-            'windy':      t(lang, 'sourceWindy'),
-          }
+          const SOURCE_LABELS = Object.fromEntries(
+            SOURCES.map(s => [s.key, t(lang, s.labelKey)])
+          )
           const noKeySources = Object.entries(sourceStatus).filter(([, s]) => s.status === 'no-key')
           const errorSources = Object.entries(sourceStatus).filter(([, s]) => s.status === 'error')
 
