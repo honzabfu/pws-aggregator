@@ -3,12 +3,13 @@ import { useState, useRef, useEffect } from 'react'
 import { useConfig }   from './hooks/useConfig.js'
 import { useWeather }  from './hooks/useWeather.js'
 import { useTheme }    from './hooks/useTheme.js'
-import { MetricCard }  from './components/MetricCard.jsx'
-import { Compass }     from './components/Compass.jsx'
+import { MetricCard }    from './components/MetricCard.jsx'
+import { Compass }       from './components/Compass.jsx'
 import { StationsTable } from './components/StationsTable.jsx'
+import { StationDetail } from './components/StationDetail.jsx'
 import { SettingsModal } from './components/SettingsModal.jsx'
 import { LocationModal } from './components/LocationModal.jsx'
-import { UpdateBanner } from './components/UpdateBanner.jsx'
+import { UpdateBanner }  from './components/UpdateBanner.jsx'
 import { windDirLabel, displayWind } from './lib/units.js'
 import { t, resolveLanguage } from './lib/i18n.js'
 import strings from './lib/i18n.js'
@@ -142,12 +143,13 @@ export default function App() {
     preferences.windyKeyFree,
   )
 
-  const [tab,          setTab]          = useState('aggregated')
-  const [showSettings, setShowSettings] = useState(false)
-  const [showAddLoc,   setShowAddLoc]   = useState(false)
-  const [editLoc,      setEditLoc]      = useState(null)
-  const [showLog,      setShowLog]      = useState(false)
-  const [stationFilter, setStationFilter] = useState('all')
+  const [tab,             setTab]             = useState('aggregated')
+  const [showSettings,    setShowSettings]    = useState(false)
+  const [showAddLoc,      setShowAddLoc]      = useState(false)
+  const [editLoc,         setEditLoc]         = useState(null)
+  const [showLog,         setShowLog]         = useState(false)
+  const [stationFilter,   setStationFilter]   = useState('all')
+  const [selectedStation, setSelectedStation] = useState(null)
   // Windy free key is excluded from the aggregate, so it doesn't improve accuracy
   const hasUsefulKey = !!(
     apiKeys.owm ||
@@ -311,7 +313,7 @@ export default function App() {
             marginBottom: 20,
           }}>
             {TABS.map(tb => (
-              <button key={tb} onClick={() => setTab(tb)} style={{
+              <button key={tb} onClick={() => { setTab(tb); setSelectedStation(null) }} style={{
                 flex: 1, padding: '8px', border: 'none',
                 borderRadius: 'var(--radius-sm)',
                 background: tab === tb ? 'var(--bg-surface)' : 'transparent',
@@ -435,6 +437,17 @@ export default function App() {
 
         {/* ── Tab: Stations ───────────────────────────────────────────────── */}
         {tab === 'stations' && (() => {
+          if (selectedStation) {
+            return (
+              <StationDetail
+                reading={selectedStation}
+                prefs={preferences}
+                langStrings={langStrings}
+                onBack={() => setSelectedStation(null)}
+              />
+            )
+          }
+
           const raw = result?.rawReadings ?? []
           const filtered = stationFilter === 'active'
             ? raw.filter(r => !r.isOutlier && !r.approximate && !r.excludedBySourceType)
@@ -467,7 +480,12 @@ export default function App() {
                   {t(lang, 'errorNoSources')}
                 </div>
               )}
-              <StationsTable readings={filtered} prefs={preferences} langStrings={langStrings} />
+              <StationsTable
+                readings={filtered}
+                prefs={preferences}
+                langStrings={langStrings}
+                onSelect={setSelectedStation}
+              />
             </>
           )
         })()}
