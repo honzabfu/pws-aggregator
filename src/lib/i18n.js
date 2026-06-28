@@ -171,6 +171,10 @@ const strings = {
       'Gale', 'Strong gale', 'Storm', 'Violent storm', 'Hurricane'
     ],
 
+    // Stations table — misc
+    noStationData:  'No station data',
+    readings:       'readings',
+
     // Status
     statusFetching: 'Fetching data…',
     statusUpdated:  'Updated',
@@ -328,6 +332,10 @@ const strings = {
       'Bouřlivý vítr', 'Silná bouře', 'Bouře', 'Silná bouře', 'Orkán'
     ],
 
+    // Stations table — misc
+    noStationData:  'Žádná data stanic',
+    readings:       'záznamy',
+
     statusFetching: 'Načítám data…',
     statusUpdated:  'Aktualizováno',
     statusManual:   'Manuální obnovení',
@@ -483,6 +491,10 @@ const strings = {
       'Brisa moderada', 'Brisa fresca', 'Brisa fuerte', 'Viento fuerte',
       'Temporal', 'Temporal fuerte', 'Temporal duro', 'Borrasca', 'Huracán'
     ],
+
+    // Stations table — misc
+    noStationData:  'Sin datos de estaciones',
+    readings:       'lecturas',
 
     statusFetching: 'Obteniendo datos…',
     statusUpdated:  'Actualizado',

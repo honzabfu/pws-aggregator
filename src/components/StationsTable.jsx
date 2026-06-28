@@ -1,14 +1,14 @@
 // src/components/StationsTable.jsx
 import { displayTemp, displayPressure, displayWind, windDirLabel } from '../lib/units.js'
-import { t } from '../lib/i18n.js'
+import { t, resolveLanguage } from '../lib/i18n.js'
 
 export function StationsTable({ readings, prefs, langStrings }) {
-  const lang = prefs.language
+  const lang = resolveLanguage(prefs.language)
 
   if (!readings || readings.length === 0) {
     return (
       <div style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '32px 0', fontSize: '0.8125rem' }}>
-        No station data
+        {t(lang, 'noStationData')}
       </div>
     )
   }

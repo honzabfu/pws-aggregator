@@ -491,7 +491,7 @@ export default function App() {
                   {status.error && <div style={{ fontSize: '0.6875rem', color: 'var(--error)' }}>{status.error}</div>}
                   {status.fetchedAt && (
                     <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
-                      {new Date(status.fetchedAt).toLocaleTimeString()} · {status.count} readings
+                      {new Date(status.fetchedAt).toLocaleTimeString()} · {status.count} {t(lang, 'readings')}
                     </div>
                   )}
                 </div>
