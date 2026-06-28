@@ -92,7 +92,7 @@ export function MetricCard({ metric, label, data, prefs, langStrings, style, her
           {data.usedFallback && (
             <span
               title={t(lang, 'fallbackHint')}
-              style={{ color: 'var(--metric-uv)', marginLeft: 6 }}
+              style={{ color: 'var(--metric-uv)', display: 'block', marginTop: 2 }}
             >🛰 {t(lang, 'sourceTypeModel')}</span>
           )}
         </div>
