@@ -45,7 +45,7 @@ export function LocationModal({ onAdd, onClose, lang, initialValues }) {
   }
 
   const useGeoLocation = () => {
-    if (!navigator.geolocation) { setError('Geolocation not supported'); return }
+    if (!navigator.geolocation) { setError(t(lang, 'errorGeoNotSupported')); return }
     setLocating(true)
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
@@ -62,7 +62,7 @@ export function LocationModal({ onAdd, onClose, lang, initialValues }) {
         setLocating(false)
       },
       () => {
-        setError('Geolocation failed')
+        setError(t(lang, 'errorGeoFailed'))
         setLocating(false)
       }
     )
@@ -72,10 +72,10 @@ export function LocationModal({ onAdd, onClose, lang, initialValues }) {
     const la = parseFloat(lat)
     const lo = parseFloat(lon)
     const r  = parseFloat(radius)
-    if (!label.trim())          { setError('Name required'); return }
-    if (isNaN(la) || la < -90 || la > 90)  { setError('Invalid latitude');  return }
-    if (isNaN(lo) || lo < -180 || lo > 180) { setError('Invalid longitude'); return }
-    if (isNaN(r) || r < 1 || r > 100)       { setError('Radius 1–100 km');   return }
+    if (!label.trim())                       { setError(t(lang, 'errorNameRequired')); return }
+    if (isNaN(la) || la < -90 || la > 90)   { setError(t(lang, 'errorInvalidLat'));   return }
+    if (isNaN(lo) || lo < -180 || lo > 180) { setError(t(lang, 'errorInvalidLon'));   return }
+    if (isNaN(r) || r < 1 || r > 100)       { setError(t(lang, 'errorInvalidRadius')); return }
     onAdd(label.trim(), la, lo, r)
     onClose()
   }

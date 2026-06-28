@@ -163,6 +163,14 @@ const strings = {
     errorFetch:     'Fetch failed',
     errorNoSources: 'No data sources available. Add an API key in Settings.',
     errorNetwork:   'Network error',
+    errorGeoNotSupported: 'Geolocation not supported',
+    errorGeoFailed:       'Geolocation failed',
+    errorNameRequired:    'Name required',
+    errorInvalidLat:      'Invalid latitude',
+    errorInvalidLon:      'Invalid longitude',
+    errorInvalidRadius:   'Radius 1–100 km',
+    importFailed:         'Import failed',
+    confirmClearAll:      'Clear all data including API keys and locations?',
 
     // Beaufort scale
     beaufort: [
@@ -170,6 +178,10 @@ const strings = {
       'Moderate breeze', 'Fresh breeze', 'Strong breeze', 'Near gale',
       'Gale', 'Strong gale', 'Storm', 'Violent storm', 'Hurricane'
     ],
+
+    // Stations table — misc
+    noStationData:  'No station data',
+    readings:       'readings',
 
     // Status
     statusFetching: 'Fetching data…',
@@ -321,12 +333,24 @@ const strings = {
     errorFetch:     'Chyba načítání',
     errorNoSources: 'Žádné zdroje dat. Přidej API klíč v Nastavení.',
     errorNetwork:   'Síťová chyba',
+    errorGeoNotSupported: 'Geolokace není podporována',
+    errorGeoFailed:       'Geolokace selhala',
+    errorNameRequired:    'Název je povinný',
+    errorInvalidLat:      'Neplatná zeměpisná šířka',
+    errorInvalidLon:      'Neplatná zeměpisná délka',
+    errorInvalidRadius:   'Okruh 1–100 km',
+    importFailed:         'Import se nezdařil',
+    confirmClearAll:      'Smazat veškerá data včetně API klíčů a lokalit?',
 
     beaufort: [
       'Bezvětří', 'Vánek', 'Lehký vítr', 'Slabý vítr',
       'Mírný vítr', 'Čerstvý vítr', 'Silný vítr', 'Prudký vítr',
       'Bouřlivý vítr', 'Silná bouře', 'Bouře', 'Silná bouře', 'Orkán'
     ],
+
+    // Stations table — misc
+    noStationData:  'Žádná data stanic',
+    readings:       'záznamy',
 
     statusFetching: 'Načítám data…',
     statusUpdated:  'Aktualizováno',
@@ -477,12 +501,24 @@ const strings = {
     errorFetch:     'Error al obtener datos',
     errorNoSources: 'Sin fuentes de datos. Añade una clave API en Ajustes.',
     errorNetwork:   'Error de red',
+    errorGeoNotSupported: 'Geolocalización no admitida',
+    errorGeoFailed:       'Error de geolocalización',
+    errorNameRequired:    'Nombre requerido',
+    errorInvalidLat:      'Latitud inválida',
+    errorInvalidLon:      'Longitud inválida',
+    errorInvalidRadius:   'Radio 1–100 km',
+    importFailed:         'Error al importar',
+    confirmClearAll:      '¿Borrar todos los datos incluyendo claves API y lugares?',
 
     beaufort: [
       'Calma', 'Ventolina', 'Brisa leve', 'Brisa débil',
       'Brisa moderada', 'Brisa fresca', 'Brisa fuerte', 'Viento fuerte',
       'Temporal', 'Temporal fuerte', 'Temporal duro', 'Borrasca', 'Huracán'
     ],
+
+    // Stations table — misc
+    noStationData:  'Sin datos de estaciones',
+    readings:       'lecturas',
 
     statusFetching: 'Obteniendo datos…',
     statusUpdated:  'Actualizado',

@@ -150,12 +150,12 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
       const imported = await importConfig(file)
       onReplaceConfig(imported)
     } catch (err) {
-      alert('Import failed: ' + err.message)
+      alert(t(lang, 'importFailed') + ': ' + err.message)
     }
   }
 
   const handleClear = () => {
-    if (confirm('Clear all data including API keys and locations?')) {
+    if (confirm(t(lang, 'confirmClearAll'))) {
       clearConfig()
       window.location.reload()
     }
