@@ -70,6 +70,7 @@ const strings = {
     settingsTheme:    'Theme',
     settingsFontSize: 'Font size',
     settingsUnits:    'Units',
+    settingsIconSet:  'Icon set',
     settingsWind:     'Wind display',
     settingsIQR:      'IQR factor',
     settingsRefresh:  'Auto-refresh',
@@ -81,8 +82,13 @@ const strings = {
     fontSizeLarge:  'Large',
     fontSizeXl:     'Extra large',
 
+    iconSetStandard: 'Standard',
+    iconSetModern:   'Modern',
+    iconSetPlayful:  'Playful',
+
     hintIQR:  'Outlier sensitivity — stations far outside the group are excluded from the average. Lower = stricter filtering. 1.5 is a good default.',
     hintWind: 'Combined shows speed and Beaufort scale together. Beaufort is a 0–12 descriptive wind scale.',
+    hintIconSet: 'Changes every metric icon at once — from neutral standard glyphs to a playful set. Some icons may not render on older devices.',
 
     // Theme
     themeSystem: 'System',
@@ -260,6 +266,7 @@ const strings = {
     settingsTheme:    'Motiv',
     settingsFontSize: 'Velikost písma',
     settingsUnits:    'Jednotky',
+    settingsIconSet:  'Sada ikon',
     settingsWind:     'Zobrazení větru',
     settingsIQR:      'IQR faktor',
     settingsRefresh:  'Automatické obnovení',
@@ -271,8 +278,13 @@ const strings = {
     fontSizeLarge:  'Velké',
     fontSizeXl:     'Velmi velké',
 
+    iconSetStandard: 'Standardní',
+    iconSetModern:   'Moderní',
+    iconSetPlayful:  'Hravá',
+
     hintIQR:  'Citlivost detekce odlehlých hodnot — stanice příliš vzdálené od skupiny jsou vyloučeny z průměru. Nižší = přísnější filtr. Výchozí hodnota 1,5 je vhodná pro většinu případů.',
     hintWind: 'Kombinovaně zobrazuje rychlost i Beaufortovu stupnici najednou. Beaufort je popisná škála síly větru 0–12.',
+    hintIconSet: 'Změní všechny ikony metrik najednou — od neutrálních standardních po hravou sadu. Některé ikony se na starších zařízeních nemusí zobrazit.',
 
     themeSystem: 'Systém',
     themeLight:  'Světlý',
@@ -439,6 +451,7 @@ const strings = {
     settingsTheme:    'Tema',
     settingsFontSize: 'Tamaño de fuente',
     settingsUnits:    'Unidades',
+    settingsIconSet:  'Conjunto de iconos',
     settingsWind:     'Mostrar viento',
     settingsIQR:      'Factor IQR',
     settingsRefresh:  'Actualización automática',
@@ -450,8 +463,13 @@ const strings = {
     fontSizeLarge:  'Grande',
     fontSizeXl:     'Extra grande',
 
+    iconSetStandard: 'Estándar',
+    iconSetModern:   'Moderno',
+    iconSetPlayful:  'Divertido',
+
     hintIQR:  'Sensibilidad a valores atípicos — las estaciones muy alejadas del grupo se excluyen del promedio. Menor = filtrado más estricto. 1,5 es un buen valor por defecto.',
     hintWind: 'Combinado muestra la velocidad y la escala Beaufort juntas. Beaufort es una escala descriptiva de viento del 0 al 12.',
+    hintIconSet: 'Cambia todos los iconos de métricas a la vez — de glifos estándar neutros a un conjunto divertido. Algunos iconos pueden no mostrarse en dispositivos antiguos.',
 
     themeSystem: 'Sistema',
     themeLight:  'Claro',

@@ -15,6 +15,7 @@ export const DEFAULT_CONFIG = {
     language:          'auto',
     theme:             'system',
     units:             'metric',
+    iconSet:           'modern',
     windDisplay:       'combined',
     iqrFactor:         1.5,
     refreshIntervalMin: 0,

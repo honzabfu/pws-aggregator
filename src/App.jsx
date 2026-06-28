@@ -12,6 +12,7 @@ import { LocationModal } from './components/LocationModal.jsx'
 import { UpdateBanner }  from './components/UpdateBanner.jsx'
 import { SOURCES } from './lib/sources/registry.js'
 import { windDirLabel, displayWind } from './lib/units.js'
+import { metricIcon } from './lib/icons.js'
 import { t, resolveLanguage } from './lib/i18n.js'
 import strings from './lib/i18n.js'
 
@@ -439,7 +440,7 @@ export default function App() {
                 )}
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                    <span style={{ fontSize: '1.5rem', lineHeight: 1 }}>🪁</span>
+                    <span style={{ fontSize: '1.5rem', lineHeight: 1 }}>{metricIcon(preferences.iconSet, 'windSpeed')}</span>
                     <span className="label-xs">{t(lang, 'metricWind')}</span>
                   </div>
                   {windDisplay?.value !== null && (

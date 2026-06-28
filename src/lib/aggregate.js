@@ -62,11 +62,26 @@ export function aggregate(readings, iqrFactor = 1.5) {
 
   const perMetric = {}
 
+  const valuesFor = (pool, metric) => pool
+    .map(r => r.metrics[metric])
+    .filter(v => v !== null && v !== undefined && !isNaN(Number(v)))
+    .map(Number)
+
   for (const metric of METRICS) {
-    const raw = measured
-      .map(r => r.metrics[metric])
-      .filter(v => v !== null && v !== undefined && !isNaN(Number(v)))
-      .map(Number)
+    // Per-metric fallback: physical stations rarely report some metrics
+    // (e.g. OWM /find has no precipitation or UV index). When the preferred
+    // pool has no data for this metric, fall back to all non-approximate
+    // readings — i.e. let model sources fill that single metric — instead of
+    // dropping it from the overview entirely.
+    let raw = valuesFor(measured, metric)
+    let usedFallback = false
+    if (raw.length === 0 && usingStations) {
+      const fallback = valuesFor(nonApprox, metric)
+      if (fallback.length > 0) {
+        raw = fallback
+        usedFallback = true
+      }
+    }
 
     const filtered = iqrFilter(raw, iqrFactor)
     const value = avg(filtered)
@@ -78,6 +93,7 @@ export function aggregate(readings, iqrFactor = 1.5) {
       removed:      raw.length - filtered.length,
       min:          raw.length ? round(Math.min(...raw)) : null,
       max:          raw.length ? round(Math.max(...raw)) : null,
+      usedFallback,
     }
   }
 
