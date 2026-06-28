@@ -27,7 +27,7 @@ Personal weather station aggregator. Collects readings from physical stations an
 
 | Tab | Description |
 |-----|-------------|
-| **Average** | Fused values — physical stations are preferred; NWP models are used as fallback when no stations are available. Shows how many sources contributed to the average. |
+| **Aggregated** | Fused values — physical stations are preferred; NWP models are used as fallback when no stations are available. Shows how many sources contributed to the average. |
 | **Stations** | Individual station breakdown — what was used, what was excluded and why. |
 | **Sources** | Status of each data source, error messages, and last fetch time. |
 
@@ -109,24 +109,24 @@ Agregátor dat z více meteorologických zdrojů. Aplikace sbírá měření ze 
 
 ### Screenshoty
 
-| Aggregated | Stations | Sources |
+| Průměr | Stanice | Zdroje |
 |:---:|:---:|:---:|
-| ![Aggregated — světlý](docs/screenshots/light-aggregated.png) | ![Stations — světlý](docs/screenshots/light-stations.png) | ![Sources — světlý](docs/screenshots/light-sources.png) |
-| ![Aggregated — tmavý](docs/screenshots/dark-aggregated.png) | ![Stations — tmavý](docs/screenshots/dark-stations.png) | |
+| ![Průměr — světlý](docs/screenshots/light-aggregated.png) | ![Stanice — světlý](docs/screenshots/light-stations.png) | ![Zdroje — světlý](docs/screenshots/light-sources.png) |
+| ![Průměr — tmavý](docs/screenshots/dark-aggregated.png) | ![Stanice — tmavý](docs/screenshots/dark-stations.png) | ![Zdroje — tmavý](docs/screenshots/dark-sources.png) |
 
 ### Rychlý start
 
 1. Otevřete aplikaci na adrese výše.
-2. Klikněte na **Add location** (nebo ikonu +) a vyhledejte místo jménem, nebo zadejte zeměpisné souřadnice.
+2. Klikněte na **Přidat lokalitu** (nebo ikonu +) a vyhledejte místo jménem, nebo zadejte zeměpisné souřadnice.
 3. Aplikace okamžitě načte data ze všech nakonfigurovaných zdrojů.
 
 ### Záložky
 
 | Záložka | Popis |
 |---------|-------|
-| **Average** | Průměrné hodnoty — preferuje fyzické stanice; při jejich absenci použije NWP modely jako zálohu. Zobrazuje, z kolika zdrojů průměr pochází. |
-| **Stations** | Přehled jednotlivých stanic — co bylo použito, co bylo vyloučeno a proč. |
-| **Sources** | Stav jednotlivých datových zdrojů, chybové hlášky, čas posledního načtení. |
+| **Průměr** | Průměrné hodnoty — preferuje fyzické stanice; při jejich absenci použije NWP modely jako zálohu. Zobrazuje, z kolika zdrojů průměr pochází. |
+| **Stanice** | Přehled jednotlivých stanic — co bylo použito, co bylo vyloučeno a proč. |
+| **Zdroje** | Stav jednotlivých datových zdrojů, chybové hlášky, čas posledního načtení. |
 
 ### Datové zdroje
 
@@ -148,7 +148,7 @@ Zdroje jsou rozděleny do dvou kategorií:
 - **Tomorrow.io** — https://www.tomorrow.io (volný plán k dispozici — aktuální limity viz tomorrow.io)
 - **Windy** — https://api.windy.com/point-forecast (volný tarif: pouze pro testování, data záměrně pozměněna — 500 dotazů/den)
 
-Klíče se zadávají v **Nastavení → API Keys** a ukládají se výhradně do `localStorage` vašeho prohlížeče — nikam se neodesílají.
+Klíče se zadávají v **Nastavení → API klíče** a ukládají se výhradně do `localStorage` vašeho prohlížeče — nikam se neodesílají.
 
 ### Nastavení
 
@@ -156,15 +156,15 @@ Nastavení otevřete ikonou ozubeného kola vpravo nahoře.
 
 | Možnost | Popis |
 |---------|-------|
-| **Language** | Angličtina / Čeština / Španělština |
-| **Theme** | Světlý / Tmavý / Systémový |
-| **Font size** | Malé / Střední / Velké |
-| **Units** | Metrické (°C, hPa, m/s, mm) nebo imperiální (°F, inHg, mph, in) |
-| **Wind display** | m/s, km/h, mph, Beaufortova stupnice nebo kombinace |
-| **IQR factor** | Přísnost filtrace odlehlých hodnot (1,0 = přísné, 3,0 = volné) |
-| **Auto-refresh** | Automatické obnovení každých 5 / 15 / 30 min nebo vypnuto |
-| **API Keys** | Klíče pro OpenWeatherMap, Tomorrow.io a Windy |
-| **Export / Import** | Záloha a obnova celé konfigurace jako JSON |
+| **Jazyk** | Angličtina / Čeština / Španělština |
+| **Motiv** | Světlý / Tmavý / Systémový |
+| **Velikost písma** | Malé / Výchozí / Velké |
+| **Jednotky** | Metrické (°C, hPa, m/s, mm) nebo imperiální (°F, inHg, mph, in) |
+| **Zobrazení větru** | m/s, km/h, mph, Beaufortova stupnice nebo kombinovaně |
+| **IQR faktor** | Přísnost filtrace odlehlých hodnot (1,0 = přísné, 3,0 = volné) |
+| **Automatické obnovení** | Obnovení každých 5 / 15 / 30 min nebo manuálně |
+| **API klíče** | Klíče pro OpenWeatherMap, Tomorrow.io a Windy |
+| **Exportovat / Importovat** | Záloha a obnova celé konfigurace jako JSON |
 
 ### Jak funguje filtrování a agregace
 
@@ -183,7 +183,7 @@ V rámci vybraných zdrojů se aplikuje IQR filtr (mezikvartilové rozpětí) �
 
 Faktor IQR lze upravit v nastavení — nižší hodnota je přísnější, vyšší tolerantnější.
 
-**Indikátory v záložce Stations**
+**Indikátory v záložce Stanice**
 
 | Symbol | Význam |
 |--------|--------|
