@@ -48,7 +48,7 @@ export async function fetchTomorrow(lat, lon, apiKey) {
       pressure:  v.pressureSeaLevel ?? v.pressureSurfaceLevel ?? null,
       windSpeed: v.windSpeed            ?? null,
       windDeg:   v.windDirection        ?? null,
-      clouds:    v.cloudCover           ?? null,
+      clouds:    v.cloudCover != null ? Math.round(v.cloudCover) : null,
       precip,
       uvIndex:   v.uvIndex              ?? null,
     },
