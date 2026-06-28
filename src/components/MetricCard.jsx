@@ -1,5 +1,6 @@
 // src/components/MetricCard.jsx
 import { displayTemp, displayPressure, displayWind, displayPrecip } from '../lib/units.js'
+import { t, resolveLanguage } from '../lib/i18n.js'
 
 const METRIC_COLORS = {
   temp:      'var(--metric-temp)',
@@ -21,13 +22,13 @@ const METRIC_ICONS = {
   uvIndex:   '☀',
 }
 
-function getDisplay(metric, data, prefs, langStrings) {
+function getDisplay(metric, data, prefs, langStrings, lang) {
   const val = data?.value ?? null
   switch (metric) {
     case 'temp':      return displayTemp(val, prefs.units)
     case 'humidity':  return { value: val, unit: '%' }
     case 'pressure':  return displayPressure(val, prefs.units)
-    case 'windSpeed': return displayWind(val, prefs.windDisplay, prefs.language, langStrings)
+    case 'windSpeed': return displayWind(val, prefs.windDisplay, lang, langStrings)
     case 'clouds':    return { value: val, unit: '%' }
     case 'precip':    return displayPrecip(val, prefs.units)
     case 'uvIndex':   return { value: val, unit: '' }
@@ -36,7 +37,8 @@ function getDisplay(metric, data, prefs, langStrings) {
 }
 
 export function MetricCard({ metric, label, data, prefs, langStrings, style, hero = false }) {
-  const display = getDisplay(metric, data, prefs, langStrings)
+  const lang    = resolveLanguage(prefs.language)
+  const display = getDisplay(metric, data, prefs, langStrings, lang)
   const color   = METRIC_COLORS[metric]
   const icon    = METRIC_ICONS[metric]
   const hasData = display.value !== null
@@ -84,7 +86,7 @@ export function MetricCard({ metric, label, data, prefs, langStrings, style, her
         <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)', fontFamily: 'monospace', marginTop: 2 }}>
           {data.contributors}/{data.total}
           {data.removed > 0 && (
-            <span style={{ color: 'var(--warning)', marginLeft: 6 }}>−{data.removed} outlier{data.removed !== 1 ? 's' : ''}</span>
+            <span style={{ color: 'var(--warning)', marginLeft: 6 }}>−{t(lang, 'outliersRemoved', data.removed)}</span>
           )}
           {data.min !== null && data.max !== null && (
             <span style={{ marginLeft: 6 }}>({data.min}–{data.max})</span>

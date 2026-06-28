@@ -419,7 +419,7 @@ export default function App() {
                       <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)', fontFamily: 'monospace', marginTop: 4 }}>
                         {ws.contributors}/{ws.total}
                         {ws.removed > 0 && (
-                          <span style={{ color: 'var(--warning)', marginLeft: 6 }}>−{ws.removed} outlier{ws.removed !== 1 ? 's' : ''}</span>
+                          <span style={{ color: 'var(--warning)', marginLeft: 6 }}>−{t(lang, 'outliersRemoved', ws.removed)}</span>
                         )}
                         {ws.min !== null && ws.max !== null && (
                           <span style={{ marginLeft: 6 }}>({ws.min}–{ws.max})</span>
