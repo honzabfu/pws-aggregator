@@ -48,8 +48,8 @@ Sources fall into two categories:
 #### Where to get API keys
 
 - **OpenWeatherMap** — https://openweathermap.org/api (free tier: 60 req/min)
-- **Tomorrow.io** — https://www.tomorrow.io (free tier: 500 req/day)
-- **Windy** — https://api.windy.com/point-forecast (free tier: Point Forecast API)
+- **Tomorrow.io** — https://www.tomorrow.io (free plan available — see tomorrow.io for current limits)
+- **Windy** — https://api.windy.com/point-forecast (free tier: testing only, data deliberately shuffled/modified — 500 req/day)
 
 Keys are entered in **Settings → API Keys** and stored exclusively in your browser's `localStorage` — they are never sent anywhere else.
 
@@ -156,8 +156,8 @@ Zdroje jsou rozděleny do dvou kategorií:
 #### Kde získat API klíče
 
 - **OpenWeatherMap** — https://openweathermap.org/api (volný tarif: 60 dotazů/min)
-- **Tomorrow.io** — https://www.tomorrow.io (volný tarif: 500 dotazů/den)
-- **Windy** — https://api.windy.com/point-forecast (volný tarif: Point Forecast API)
+- **Tomorrow.io** — https://www.tomorrow.io (volný plán k dispozici — aktuální limity viz tomorrow.io)
+- **Windy** — https://api.windy.com/point-forecast (volný tarif: pouze pro testování, data záměrně pozměněna — 500 dotazů/den)
 
 Klíče se zadávají v **Nastavení → API Keys** a ukládají se výhradně do `localStorage` vašeho prohlížeče — nikam se neodesílají.
 
