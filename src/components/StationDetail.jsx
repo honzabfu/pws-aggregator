@@ -14,7 +14,9 @@ export function StationDetail({ reading, prefs, langStrings, onBack, origin }) {
   const lang   = resolveLanguage(prefs.language)
   const { metrics } = reading
 
-  const distKm = origin && reading.lat != null && reading.lon != null
+  // Distance is only meaningful for physical stations; model sources carry the
+  // query point (→ 0 km) or no coords at all.
+  const distKm = origin && reading.sourceType === 'station' && reading.lat != null && reading.lon != null
     ? haversineKm(origin.lat, origin.lon, reading.lat, reading.lon)
     : null
   const distD  = displayDistance(distKm, prefs.units)
