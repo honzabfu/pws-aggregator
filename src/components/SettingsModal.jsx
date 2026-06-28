@@ -22,6 +22,7 @@ const API_KEY_META = [
     hint: 'openweathermap.org/api',
     url: 'https://openweathermap.org/api',
     pattern: /^[a-f0-9]{32}$/i,
+    noteKey: 'keyOWMNote',
   },
   {
     service: 'windy',

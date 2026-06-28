@@ -143,6 +143,7 @@ const strings = {
     keyFreeHint:  'Free at',
     keyValid:     'Key looks valid',
     keyInvalid:   'Key format invalid',
+    keyOWMNote:   'The only source of physical station readings — most accurate for local conditions',
     keyWindyNote: 'Select the Point Forecast API key (not Webcams, Map Forecast, or Plugins)',
 
     // Stations table
@@ -207,6 +208,11 @@ const strings = {
     noApiKeysBannerTitle: 'Using forecast models only',
     noApiKeysBannerDesc:  'Without API keys, data comes from NWP forecast models only. For more accurate readings from physical weather stations, add an API key in Settings.',
     noApiKeysBannerCta:   'Add API keys',
+
+    // No OWM key banner (shown when user has other keys but not OWM)
+    noOWMBannerTitle: 'No physical stations configured',
+    noOWMBannerDesc:  'OpenWeatherMap is the only source that reads actual on-site sensor data from citizen weather stations. Without it, values come from NWP forecast models, which cover a large grid area and may differ significantly from local conditions.',
+    noOWMBannerCta:   'Add OpenWeatherMap key',
 
     // Update banner
     updateAvailable: 'A new version is available.',
@@ -319,6 +325,7 @@ const strings = {
     keyFreeHint: 'Zdarma na',
     keyValid:    'Klíč vypadá správně',
     keyInvalid:  'Nesprávný formát klíče',
+    keyOWMNote:  'Jediný zdroj dat z fyzických stanic — nejpřesnější hodnoty pro lokální podmínky',
     keyWindyNote: 'Zvol klíč pro Point Forecast API (ne Webcams, Map Forecast ani Plugins)',
 
     stationName:    'Stanice',
@@ -379,6 +386,11 @@ const strings = {
     noApiKeysBannerTitle: 'Zobrazují se pouze data z modelů',
     noApiKeysBannerDesc:  'Bez API klíčů jsou k dispozici jen data z numerických modelů počasí (NWP). Pro přesnější hodnoty z fyzických meteorologických stanic přidej API klíč v Nastavení.',
     noApiKeysBannerCta:   'Přidat API klíče',
+
+    // No OWM key banner (shown when user has other keys but not OWM)
+    noOWMBannerTitle: 'Fyzické stanice nejsou nakonfigurovány',
+    noOWMBannerDesc:  'OpenWeatherMap je jediný zdroj, který čte skutečná senzorová data z občanských meteorologických stanic. Bez něj pochází hodnoty pouze z NWP modelů, které pokrývají velkou plochu a mohou se od lokálních podmínek výrazně lišit.',
+    noOWMBannerCta:   'Přidat klíč OpenWeatherMap',
 
     // Update banner
     updateAvailable: 'Je dostupná nová verze.',
@@ -491,6 +503,7 @@ const strings = {
     keyFreeHint: 'Gratis en',
     keyValid:    'Clave válida',
     keyInvalid:  'Formato de clave inválido',
+    keyOWMNote:  'La única fuente de lecturas de estaciones físicas — datos más precisos para condiciones locales',
     keyWindyNote: 'Elige la clave de la API Point Forecast (no Webcams, Map Forecast ni Plugins)',
 
     stationName:    'Estación',
@@ -551,6 +564,11 @@ const strings = {
     noApiKeysBannerTitle: 'Usando solo modelos de pronóstico',
     noApiKeysBannerDesc:  'Sin claves API, los datos provienen únicamente de modelos NWP. Para lecturas más precisas desde estaciones meteorológicas físicas, añade una clave API en Ajustes.',
     noApiKeysBannerCta:   'Añadir claves API',
+
+    // No OWM key banner (shown when user has other keys but not OWM)
+    noOWMBannerTitle: 'Sin estaciones físicas configuradas',
+    noOWMBannerDesc:  'OpenWeatherMap es la única fuente que lee datos reales de sensores de estaciones meteorológicas ciudadanas. Sin él, los valores provienen solo de modelos NWP, que cubren una gran área y pueden diferir significativamente de las condiciones locales.',
+    noOWMBannerCta:   'Añadir clave OpenWeatherMap',
 
     // Update banner
     updateAvailable: 'Hay una nueva versión disponible.',

@@ -21,7 +21,8 @@ Personal weather station aggregator. Collects readings from physical stations an
 
 1. Open the app at the link above.
 2. Click **Add location** (or the + icon) and search by place name, or enter coordinates manually.
-3. The app immediately fetches data from all configured sources.
+3. The app immediately fetches data from Open-Meteo (no key needed) and shows model-based readings.
+4. For readings from real physical weather stations, add an **OpenWeatherMap** API key in **Settings → API Keys**. This is the most important step — without it, all values come from NWP forecast models, not actual sensors.
 
 ### Tabs
 
@@ -40,10 +41,12 @@ Sources fall into two categories:
 
 | Source | Type | API key | Description |
 |--------|------|---------|-------------|
-| **Open-Meteo** | NWP model | not required | 3 models (best\_match, ICON, ECMWF); includes UV index |
-| **OpenWeatherMap** | Physical stations | required (free) | Citizen weather stations (PWS) within a configurable radius |
+| **OpenWeatherMap** ⭐ | Physical stations | required (free) | **Recommended.** The only source of real on-site sensor readings from citizen weather stations (PWS) within a configurable radius. Without this key, all values come from forecast models only. |
+| **Open-Meteo** | NWP model | not required | 3 models (best\_match, ICON, ECMWF); includes UV index. Active by default — no setup needed. |
 | **Tomorrow.io** | NWP model | required (free) | Hybrid model (NWP + satellite + radar) |
 | **Windy** | NWP model | required (free) | GFS 0.25° model; data tagged as approximate (≈) and always excluded from the average |
+
+> **Why OpenWeatherMap matters:** It is the only source that reads actual sensor data from physical weather stations near you. NWP models (Open-Meteo, Tomorrow.io, Windy) interpolate values over a large grid area (1–28 km), which can differ from real local conditions by 10–20 % in temperature and humidity. Physical stations measure the air right where they stand.
 
 #### Where to get API keys
 
@@ -118,7 +121,8 @@ Agregátor dat z více meteorologických zdrojů. Aplikace sbírá měření ze 
 
 1. Otevřete aplikaci na adrese výše.
 2. Klikněte na **Přidat lokalitu** (nebo ikonu +) a vyhledejte místo jménem, nebo zadejte zeměpisné souřadnice.
-3. Aplikace okamžitě načte data ze všech nakonfigurovaných zdrojů.
+3. Aplikace okamžitě načte data z Open-Meteo (bez klíče) a zobrazí hodnoty z modelů.
+4. Pro data ze skutečných fyzických stanic přidejte klíč **OpenWeatherMap** v **Nastavení → API klíče**. Jde o nejdůležitější krok — bez něj pocházejí všechny hodnoty jen z NWP modelů, nikoli ze skutečných senzorů.
 
 ### Záložky
 
@@ -137,10 +141,12 @@ Zdroje jsou rozděleny do dvou kategorií:
 
 | Zdroj | Typ | API klíč | Popis |
 |-------|-----|----------|-------|
-| **Open-Meteo** | NWP model | nevyžadován | 3 modely (best\_match, ICON, ECMWF); poskytuje i UV index |
-| **OpenWeatherMap** | Fyzické stanice | vyžadován (zdarma) | Občanské měřicí stanice (PWS) v okolí zadané polohy |
+| **OpenWeatherMap** ⭐ | Fyzické stanice | vyžadován (zdarma) | **Doporučeno.** Jediný zdroj skutečných senzorových dat z občanských meteorologických stanic (PWS) v okolí zadané polohy. Bez tohoto klíče pocházejí všechny hodnoty pouze z modelů. |
+| **Open-Meteo** | NWP model | nevyžadován | 3 modely (best\_match, ICON, ECMWF); poskytuje i UV index. Aktivní výchozí, bez nastavení. |
 | **Tomorrow.io** | NWP model | vyžadován (zdarma) | Hybridní model (NWP + satelit + radar) |
 | **Windy** | NWP model | vyžadován (zdarma) | GFS model 0,25°; data označena jako přibližná (≈) a z agregace vždy vyloučena |
+
+> **Proč je OpenWeatherMap klíčový:** Je jediným zdrojem, který čte skutečná senzorová data z fyzických stanic v okolí. NWP modely (Open-Meteo, Tomorrow.io, Windy) interpolují hodnoty na mřížce o rozlišení 1–28 km, což se může od skutečných lokálních podmínek lišit o 10–20 % v teplotě a vlhkosti. Fyzické stanice měří vzduch přímo na místě.
 
 #### Kde získat API klíče
 
