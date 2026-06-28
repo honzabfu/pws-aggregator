@@ -17,10 +17,14 @@ export async function fetchOWM(lat, lon, apiKey, radiusKm = 10) {
   let data
   try {
     const res = await fetch(url)
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    if (!res.ok) {
+      if (res.status === 401 || res.status === 403) throw new Error(`Invalid API key (HTTP ${res.status})`)
+      if (res.status === 429) throw new Error(`Rate limit exceeded (HTTP 429)`)
+      throw new Error(`HTTP ${res.status}`)
+    }
     data = await res.json()
   } catch (e) {
-    return { readings: [], errors: [`OWM fetch: ${e.message}`] }
+    return { readings: [], errors: [`OWM: ${e.message}`] }
   }
 
   const list = data.list ?? []

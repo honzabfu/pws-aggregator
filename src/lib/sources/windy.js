@@ -37,6 +37,8 @@ export async function fetchWindy(lat, lon, apiKey) {
       }),
     })
     if (!res.ok) {
+      if (res.status === 401 || res.status === 403) throw new Error(`Invalid API key (HTTP ${res.status})`)
+      if (res.status === 429) throw new Error(`Rate limit exceeded (HTTP 429)`)
       const text = await res.text().catch(() => '')
       throw new Error(`HTTP ${res.status}${text ? ': ' + text : ''}`)
     }
