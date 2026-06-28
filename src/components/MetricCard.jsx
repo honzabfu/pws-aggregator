@@ -89,6 +89,12 @@ export function MetricCard({ metric, label, data, prefs, langStrings, style, her
           {data.min !== null && data.max !== null && (
             <span style={{ marginLeft: 6 }}>({data.min}–{data.max})</span>
           )}
+          {data.usedFallback && (
+            <span
+              title={t(lang, 'fallbackHint')}
+              style={{ color: 'var(--metric-uv)', marginLeft: 6 }}
+            >🛰 {t(lang, 'sourceTypeModel')}</span>
+          )}
         </div>
       )}
     </div>
