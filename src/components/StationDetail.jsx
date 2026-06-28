@@ -1,5 +1,5 @@
 // src/components/StationDetail.jsx
-import { displayTemp, displayPressure, displayWind, displayPrecip, windDirLabel } from '../lib/units.js'
+import { displayTemp, displayPressure, displayWind, displayPrecip, windDirLabel, haversineKm, displayDistance } from '../lib/units.js'
 import { Compass } from './Compass.jsx'
 import { t, resolveLanguage } from '../lib/i18n.js'
 
@@ -10,9 +10,14 @@ const SOURCE_COLORS = {
   'tomorrow':   'var(--metric-uv)',
 }
 
-export function StationDetail({ reading, prefs, langStrings, onBack }) {
+export function StationDetail({ reading, prefs, langStrings, onBack, origin }) {
   const lang   = resolveLanguage(prefs.language)
   const { metrics } = reading
+
+  const distKm = origin && reading.lat != null && reading.lon != null
+    ? haversineKm(origin.lat, origin.lon, reading.lat, reading.lon)
+    : null
+  const distD  = displayDistance(distKm, prefs.units)
 
   const tempD  = displayTemp(metrics.temp, prefs.units)
   const pressD = displayPressure(metrics.pressure, prefs.units)
@@ -95,6 +100,9 @@ export function StationDetail({ reading, prefs, langStrings, onBack }) {
           }}>
             {reading.lat != null && (
               <div>{reading.lat.toFixed(4)}° N, {reading.lon.toFixed(4)}° E</div>
+            )}
+            {distD.value !== null && (
+              <div>{t(lang, 'stationDistance')}: {distD.value} {distD.unit}</div>
             )}
             {reading.fetchedAt && (
               <div>{t(lang, 'stationFetchedAt')}: {new Date(reading.fetchedAt).toLocaleTimeString()}</div>

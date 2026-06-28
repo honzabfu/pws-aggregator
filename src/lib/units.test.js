@@ -7,6 +7,8 @@ import {
   displayWind,
   displayPrecip,
   windDirLabel,
+  haversineKm,
+  displayDistance,
 } from './units.js'
 
 describe('msToBeaufort', () => {
@@ -89,5 +91,34 @@ describe('windDirLabel', () => {
   })
   it('returns a dash for missing input', () => {
     expect(windDirLabel(null)).toBe('—')
+  })
+})
+
+describe('haversineKm', () => {
+  it('is zero for identical coordinates', () => {
+    expect(haversineKm(50, 14, 50, 14)).toBe(0)
+  })
+  it('computes a known distance (Prague → Brno ≈ 185 km)', () => {
+    const d = haversineKm(50.0755, 14.4378, 49.1951, 16.6068)
+    expect(d).toBeGreaterThan(180)
+    expect(d).toBeLessThan(190)
+  })
+  it('returns null when any coordinate is missing', () => {
+    expect(haversineKm(50, 14, null, 14)).toBe(null)
+    expect(haversineKm(50, undefined, 49, 16)).toBe(null)
+  })
+})
+
+describe('displayDistance', () => {
+  it('shows one decimal under 10 km, integer above', () => {
+    expect(displayDistance(3.456, 'metric')).toEqual({ value: 3.5, unit: 'km' })
+    expect(displayDistance(42.7, 'metric')).toEqual({ value: 43, unit: 'km' })
+  })
+  it('converts to miles for imperial units', () => {
+    expect(displayDistance(10, 'imperial')).toEqual({ value: 6.2, unit: 'mi' })
+    expect(displayDistance(50, 'imperial')).toEqual({ value: 31, unit: 'mi' })
+  })
+  it('returns null value for missing input', () => {
+    expect(displayDistance(null, 'metric')).toEqual({ value: null, unit: 'km' })
   })
 })

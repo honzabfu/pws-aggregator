@@ -1,8 +1,8 @@
 // src/components/StationsTable.jsx
-import { displayTemp, displayPressure, displayWind, windDirLabel } from '../lib/units.js'
+import { displayTemp, displayPressure, displayWind, windDirLabel, haversineKm, displayDistance } from '../lib/units.js'
 import { t, resolveLanguage } from '../lib/i18n.js'
 
-export function StationsTable({ readings, prefs, langStrings, onSelect }) {
+export function StationsTable({ readings, prefs, langStrings, onSelect, origin }) {
   const lang = resolveLanguage(prefs.language)
 
   if (!readings || readings.length === 0) {
@@ -25,9 +25,15 @@ export function StationsTable({ readings, prefs, langStrings, onSelect }) {
       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.75rem' }}>
         <thead>
           <tr style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-elevated)' }}>
-            {['', t(lang, 'stationSource'), t(lang, 'stationName'),
-              'T', 'RH%', 'P hPa', 'WS', 'Dir', '☁%'].map((h, i) => (
-              <th key={i} style={{
+            {[
+              { label: '' },
+              { label: t(lang, 'stationSource') },
+              { label: t(lang, 'stationName') },
+              { label: 'Dist', title: t(lang, 'stationDistance') },
+              { label: 'T' }, { label: 'RH%' }, { label: 'P hPa' },
+              { label: 'WS' }, { label: 'Dir' }, { label: '☁%' },
+            ].map((h, i) => (
+              <th key={i} title={h.title} style={{
                 padding: '8px 10px',
                 color: 'var(--text-muted)',
                 textAlign: i === 2 ? 'left' : 'center',
@@ -35,12 +41,16 @@ export function StationsTable({ readings, prefs, langStrings, onSelect }) {
                 fontWeight: 600,
                 fontSize: '0.6875rem',
                 letterSpacing: '0.05em',
-              }}>{h}</th>
+              }}>{h.label}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {readings.map((r, i) => {
+            const distKm  = origin && r.lat != null && r.lon != null
+              ? haversineKm(origin.lat, origin.lon, r.lat, r.lon)
+              : null
+            const distD   = displayDistance(distKm, prefs.units)
             const tempD   = displayTemp(r.metrics.temp, prefs.units)
             const windD   = displayWind(r.metrics.windSpeed, prefs.windDisplay, lang, langStrings)
             const pressD  = displayPressure(r.metrics.pressure, prefs.units)
@@ -101,6 +111,11 @@ export function StationsTable({ readings, prefs, langStrings, onSelect }) {
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                 }}>{r.stationName}</td>
+
+                {/* Distance from active location */}
+                <td style={{ padding: '7px 10px', textAlign: 'center', fontFamily: 'monospace', color: 'var(--text-secondary)' }}>
+                  {distD.value !== null ? `${distD.value} ${distD.unit}` : '—'}
+                </td>
 
                 {/* Metrics */}
                 <td style={{ padding: '7px 10px', textAlign: 'center', fontFamily: 'monospace', fontWeight: 600 }}>

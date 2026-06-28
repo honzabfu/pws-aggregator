@@ -75,6 +75,28 @@ export function windDirLabel(deg, lang = 'en') {
   return dirs[Math.round(deg / 22.5) % 16]
 }
 
+// ── Distance ──────────────────────────────────────────────────────────────────
+// Great-circle distance between two coordinates, in kilometres (SI internal).
+export function haversineKm(lat1, lon1, lat2, lon2) {
+  if ([lat1, lon1, lat2, lon2].some(v => v === null || v === undefined || isNaN(v))) return null
+  const R = 6371
+  const toRad = d => d * Math.PI / 180
+  const dLat = toRad(lat2 - lat1)
+  const dLon = toRad(lon2 - lon1)
+  const a = Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+}
+
+export function displayDistance(km, units) {
+  if (km === null || km === undefined) return { value: null, unit: units === 'imperial' ? 'mi' : 'km' }
+  if (units === 'imperial') {
+    const mi = km * 0.621371
+    return { value: round(mi, mi < 10 ? 1 : 0), unit: 'mi' }
+  }
+  return { value: round(km, km < 10 ? 1 : 0), unit: 'km' }
+}
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function round(v, d) {
   if (v === null || v === undefined || isNaN(v)) return null

@@ -149,6 +149,7 @@ const strings = {
     // Stations table
     stationName:    'Station',
     stationSource:  'Source',
+    stationDistance: 'Distance from active location',
     stationOutlier: 'Outlier',
     stationAll:     'All stations',
     stationActive:  'Used in average',
@@ -330,6 +331,7 @@ const strings = {
 
     stationName:    'Stanice',
     stationSource:  'Zdroj',
+    stationDistance: 'Vzdálenost od aktivní polohy',
     stationOutlier: 'Outlier',
     stationAll:     'Všechny stanice',
     stationActive:  'Použito v průměru',
@@ -508,6 +510,7 @@ const strings = {
 
     stationName:    'Estación',
     stationSource:  'Fuente',
+    stationDistance: 'Distancia desde la ubicación activa',
     stationOutlier: 'Atípico',
     stationAll:     'Todas las estaciones',
     stationActive:  'Usado en promedio',

@@ -496,6 +496,7 @@ export default function App() {
                 prefs={preferences}
                 langStrings={langStrings}
                 onBack={() => setSelectedStation(null)}
+                origin={activeLocation}
               />
             )
           }
@@ -544,6 +545,7 @@ export default function App() {
                 prefs={preferences}
                 langStrings={langStrings}
                 onSelect={setSelectedStation}
+                origin={activeLocation}
               />
               {(errorSources.length > 0 || noKeySources.length > 0) && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: raw.length > 0 ? 12 : 0 }}>
