@@ -21,13 +21,14 @@ Personal weather station aggregator. Collects readings from physical stations an
 
 1. Open the app at the link above.
 2. Click **Add location** (or the + icon) and search by place name, or enter coordinates manually.
-3. The app immediately fetches data from all configured sources.
+3. The app immediately fetches data from Open-Meteo (no key needed) and shows model-based readings.
+4. For readings from real physical weather stations, add an **OpenWeatherMap** API key in **Settings → API Keys**. This is the most important step — without it, all values come from NWP forecast models, not actual sensors.
 
 ### Tabs
 
 | Tab | Description |
 |-----|-------------|
-| **Average** | Fused values — physical stations are preferred; NWP models are used as fallback when no stations are available. Shows how many sources contributed to the average. |
+| **Aggregated** | Fused values — physical stations are preferred; NWP models are used as fallback when no stations are available. Shows how many sources contributed to the average. |
 | **Stations** | Individual station breakdown — what was used, what was excluded and why. |
 | **Sources** | Status of each data source, error messages, and last fetch time. |
 
@@ -40,10 +41,12 @@ Sources fall into two categories:
 
 | Source | Type | API key | Description |
 |--------|------|---------|-------------|
-| **Open-Meteo** | NWP model | not required | 3 models (best\_match, ICON, ECMWF); includes UV index |
-| **OpenWeatherMap** | Physical stations | required (free) | Citizen weather stations (PWS) within a configurable radius |
+| **OpenWeatherMap** ⭐ | Physical stations | required (free) | **Recommended.** The only source of real on-site sensor readings from citizen weather stations (PWS) within a configurable radius. Without this key, all values come from forecast models only. |
+| **Open-Meteo** | NWP model | not required | 3 models (best\_match, ICON, ECMWF); includes UV index. Active by default — no setup needed. |
 | **Tomorrow.io** | NWP model | required (free) | Hybrid model (NWP + satellite + radar) |
 | **Windy** | NWP model | required (free) | GFS 0.25° model; data tagged as approximate (≈) and always excluded from the average |
+
+> **Why OpenWeatherMap matters:** It is the only source that reads actual sensor data from physical weather stations near you. NWP models (Open-Meteo, Tomorrow.io, Windy) interpolate values over a large grid area (1–28 km), which can differ from real local conditions by 10–20 % in temperature and humidity. Physical stations measure the air right where they stand.
 
 #### Where to get API keys
 
@@ -109,24 +112,25 @@ Agregátor dat z více meteorologických zdrojů. Aplikace sbírá měření ze 
 
 ### Screenshoty
 
-| Aggregated | Stations | Sources |
+| Průměr | Stanice | Zdroje |
 |:---:|:---:|:---:|
-| ![Aggregated — světlý](docs/screenshots/light-aggregated.png) | ![Stations — světlý](docs/screenshots/light-stations.png) | ![Sources — světlý](docs/screenshots/light-sources.png) |
-| ![Aggregated — tmavý](docs/screenshots/dark-aggregated.png) | ![Stations — tmavý](docs/screenshots/dark-stations.png) | |
+| ![Průměr — světlý](docs/screenshots/light-aggregated.png) | ![Stanice — světlý](docs/screenshots/light-stations.png) | ![Zdroje — světlý](docs/screenshots/light-sources.png) |
+| ![Průměr — tmavý](docs/screenshots/dark-aggregated.png) | ![Stanice — tmavý](docs/screenshots/dark-stations.png) | ![Zdroje — tmavý](docs/screenshots/dark-sources.png) |
 
 ### Rychlý start
 
 1. Otevřete aplikaci na adrese výše.
-2. Klikněte na **Add location** (nebo ikonu +) a vyhledejte místo jménem, nebo zadejte zeměpisné souřadnice.
-3. Aplikace okamžitě načte data ze všech nakonfigurovaných zdrojů.
+2. Klikněte na **Přidat lokalitu** (nebo ikonu +) a vyhledejte místo jménem, nebo zadejte zeměpisné souřadnice.
+3. Aplikace okamžitě načte data z Open-Meteo (bez klíče) a zobrazí hodnoty z modelů.
+4. Pro data ze skutečných fyzických stanic přidejte klíč **OpenWeatherMap** v **Nastavení → API klíče**. Jde o nejdůležitější krok — bez něj pocházejí všechny hodnoty jen z NWP modelů, nikoli ze skutečných senzorů.
 
 ### Záložky
 
 | Záložka | Popis |
 |---------|-------|
-| **Average** | Průměrné hodnoty — preferuje fyzické stanice; při jejich absenci použije NWP modely jako zálohu. Zobrazuje, z kolika zdrojů průměr pochází. |
-| **Stations** | Přehled jednotlivých stanic — co bylo použito, co bylo vyloučeno a proč. |
-| **Sources** | Stav jednotlivých datových zdrojů, chybové hlášky, čas posledního načtení. |
+| **Průměr** | Průměrné hodnoty — preferuje fyzické stanice; při jejich absenci použije NWP modely jako zálohu. Zobrazuje, z kolika zdrojů průměr pochází. |
+| **Stanice** | Přehled jednotlivých stanic — co bylo použito, co bylo vyloučeno a proč. |
+| **Zdroje** | Stav jednotlivých datových zdrojů, chybové hlášky, čas posledního načtení. |
 
 ### Datové zdroje
 
@@ -137,10 +141,12 @@ Zdroje jsou rozděleny do dvou kategorií:
 
 | Zdroj | Typ | API klíč | Popis |
 |-------|-----|----------|-------|
-| **Open-Meteo** | NWP model | nevyžadován | 3 modely (best\_match, ICON, ECMWF); poskytuje i UV index |
-| **OpenWeatherMap** | Fyzické stanice | vyžadován (zdarma) | Občanské měřicí stanice (PWS) v okolí zadané polohy |
+| **OpenWeatherMap** ⭐ | Fyzické stanice | vyžadován (zdarma) | **Doporučeno.** Jediný zdroj skutečných senzorových dat z občanských meteorologických stanic (PWS) v okolí zadané polohy. Bez tohoto klíče pocházejí všechny hodnoty pouze z modelů. |
+| **Open-Meteo** | NWP model | nevyžadován | 3 modely (best\_match, ICON, ECMWF); poskytuje i UV index. Aktivní výchozí, bez nastavení. |
 | **Tomorrow.io** | NWP model | vyžadován (zdarma) | Hybridní model (NWP + satelit + radar) |
 | **Windy** | NWP model | vyžadován (zdarma) | GFS model 0,25°; data označena jako přibližná (≈) a z agregace vždy vyloučena |
+
+> **Proč je OpenWeatherMap klíčový:** Je jediným zdrojem, který čte skutečná senzorová data z fyzických stanic v okolí. NWP modely (Open-Meteo, Tomorrow.io, Windy) interpolují hodnoty na mřížce o rozlišení 1–28 km, což se může od skutečných lokálních podmínek lišit o 10–20 % v teplotě a vlhkosti. Fyzické stanice měří vzduch přímo na místě.
 
 #### Kde získat API klíče
 
@@ -148,7 +154,7 @@ Zdroje jsou rozděleny do dvou kategorií:
 - **Tomorrow.io** — https://www.tomorrow.io (volný plán k dispozici — aktuální limity viz tomorrow.io)
 - **Windy** — https://api.windy.com/point-forecast (volný tarif: pouze pro testování, data záměrně pozměněna — 500 dotazů/den)
 
-Klíče se zadávají v **Nastavení → API Keys** a ukládají se výhradně do `localStorage` vašeho prohlížeče — nikam se neodesílají.
+Klíče se zadávají v **Nastavení → API klíče** a ukládají se výhradně do `localStorage` vašeho prohlížeče — nikam se neodesílají.
 
 ### Nastavení
 
@@ -156,15 +162,15 @@ Nastavení otevřete ikonou ozubeného kola vpravo nahoře.
 
 | Možnost | Popis |
 |---------|-------|
-| **Language** | Angličtina / Čeština / Španělština |
-| **Theme** | Světlý / Tmavý / Systémový |
-| **Font size** | Malé / Střední / Velké |
-| **Units** | Metrické (°C, hPa, m/s, mm) nebo imperiální (°F, inHg, mph, in) |
-| **Wind display** | m/s, km/h, mph, Beaufortova stupnice nebo kombinace |
-| **IQR factor** | Přísnost filtrace odlehlých hodnot (1,0 = přísné, 3,0 = volné) |
-| **Auto-refresh** | Automatické obnovení každých 5 / 15 / 30 min nebo vypnuto |
-| **API Keys** | Klíče pro OpenWeatherMap, Tomorrow.io a Windy |
-| **Export / Import** | Záloha a obnova celé konfigurace jako JSON |
+| **Jazyk** | Angličtina / Čeština / Španělština |
+| **Motiv** | Světlý / Tmavý / Systémový |
+| **Velikost písma** | Malé / Výchozí / Velké |
+| **Jednotky** | Metrické (°C, hPa, m/s, mm) nebo imperiální (°F, inHg, mph, in) |
+| **Zobrazení větru** | m/s, km/h, mph, Beaufortova stupnice nebo kombinovaně |
+| **IQR faktor** | Přísnost filtrace odlehlých hodnot (1,0 = přísné, 3,0 = volné) |
+| **Automatické obnovení** | Obnovení každých 5 / 15 / 30 min nebo manuálně |
+| **API klíče** | Klíče pro OpenWeatherMap, Tomorrow.io a Windy |
+| **Exportovat / Importovat** | Záloha a obnova celé konfigurace jako JSON |
 
 ### Jak funguje filtrování a agregace
 
@@ -183,7 +189,7 @@ V rámci vybraných zdrojů se aplikuje IQR filtr (mezikvartilové rozpětí) �
 
 Faktor IQR lze upravit v nastavení — nižší hodnota je přísnější, vyšší tolerantnější.
 
-**Indikátory v záložce Stations**
+**Indikátory v záložce Stanice**
 
 | Symbol | Význam |
 |--------|--------|

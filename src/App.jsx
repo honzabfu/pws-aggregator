@@ -304,6 +304,49 @@ export default function App() {
           </div>
         )}
 
+        {/* No OWM key banner — shown when user has other keys but physical stations are missing */}
+        {activeLocation && hasUsefulKey && !apiKeys.owm && !preferences.owmBannerDismissed && (
+          <div style={{
+            background: 'var(--bg-surface)',
+            border: '1px solid var(--border)',
+            borderLeft: '3px solid var(--warning)',
+            borderRadius: 'var(--radius-md)',
+            padding: '12px 14px',
+            marginBottom: 16,
+            display: 'flex',
+            gap: 10,
+            alignItems: 'flex-start',
+          }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '0.8125rem', fontWeight: 600, marginBottom: 4, color: 'var(--text-primary)' }}>
+                {t(lang, 'noOWMBannerTitle')}
+              </div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                {t(lang, 'noOWMBannerDesc')}
+              </div>
+              <button
+                className="btn btn-primary"
+                style={{ marginTop: 10, padding: '5px 14px', fontSize: '0.75rem' }}
+                onClick={() => setShowSettings(true)}
+              >
+                {t(lang, 'noOWMBannerCta')}
+              </button>
+            </div>
+            <button
+              onClick={() => setPreference('owmBannerDismissed', true)}
+              style={{
+                background: 'transparent', border: 'none',
+                color: 'var(--text-muted)', fontSize: '1.125rem',
+                cursor: 'pointer', padding: '0 4px', flexShrink: 0,
+                lineHeight: 1,
+              }}
+              aria-label={t(lang, 'actionCancel')}
+            >
+              ×
+            </button>
+          </div>
+        )}
+
         {/* Tab bar */}
         {activeLocation && (
           <div style={{
