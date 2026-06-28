@@ -99,17 +99,6 @@ The IQR factor can be adjusted in settings — lower is stricter, higher is more
 
 The app is fully functional as a Progressive Web App. Click **Install app** (Chrome/Edge) or **Add to Home Screen** (Safari/iOS) and JZ WeatherFusion will run as a standalone app, including offline (shows last fetched data).
 
-### Local development
-
-```bash
-npm install
-npm run dev        # dev server at http://localhost:5173/jz-weatherfusion/
-npm run build      # output to dist/
-npm run preview    # preview production build
-```
-
-Deployment is automated via GitHub Actions — every push to `main` builds and publishes `dist/` to GitHub Pages.
-
 ---
 
 ## Česky
@@ -206,14 +195,3 @@ Faktor IQR lze upravit v nastavení — nižší hodnota je přísnější, vyš
 ### PWA — instalace
 
 Aplikace je plně funkční jako Progressive Web App. Klikněte na **Instalovat aplikaci** (Chrome/Edge) nebo **Přidat na plochu** (Safari/iOS) a JZ WeatherFusion bude fungovat jako samostatná aplikace i bez připojení (zobrazí naposledy načtená data).
-
-### Lokální vývoj
-
-```bash
-npm install
-npm run dev        # dev server na http://localhost:5173/jz-weatherfusion/
-npm run build      # výstup do dist/
-npm run preview    # náhled produkčního buildu
-```
-
-Nasazení probíhá automaticky přes GitHub Actions při každém pushnutí do větve `main` — build se publikuje na GitHub Pages.

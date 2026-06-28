@@ -22,7 +22,7 @@ No test runner or linter is configured.
   - `owm.js` — requires key, `/find` endpoint, filters stations by haversine-ish distance vs `radiusKm`.
   - `tomorrow.js` — requires key, Tomorrow.io realtime endpoint.
   - `windy.js` — requires key, Point Forecast POST (GFS model); converts K→°C, Pa→hPa, u/v→speed+dir; picks time-series step closest to now.
-- **Aggregation:** [src/lib/aggregate.js](src/lib/aggregate.js) — Two-stage: (1) source-type preference: if any `sourceType === 'station'` readings exist, only those are aggregated; NWP model readings are tagged `excludedBySourceType: true` and shown in the table but excluded from the computed average. Falls back to all non-approximate if no stations available. (2) IQR outlier filter per metric (factor default 1.5), arithmetic mean; wind direction uses circular mean (no IQR). Result includes `usingStations: boolean`.
+- **Aggregation:** [src/lib/aggregate.js](src/lib/aggregate.js) — Three exclusion tiers before the mean is computed: **(1) Approximate readings** (`r.approximate`, e.g. Windy free tier) are always removed first — shown in the Stations table but never enter the pool. **(2) Source-type preference** — if any `sourceType === 'station'` readings remain, NWP model readings are tagged `excludedBySourceType: true` and dropped from the pool; falls back to all non-approximate when no stations are available. **(3) IQR outlier filter** per metric (factor default 1.5), arithmetic mean of the survivors; wind direction uses circular mean (no IQR, directional data). Result includes `usingStations: boolean`.
 - **Geocoding:** [src/lib/geocode.js](src/lib/geocode.js) — `searchPlaces(query, lang, count, signal)` against Open-Meteo's free geocoding API (no key). Used by [LocationModal](src/components/LocationModal.jsx) so users can search by place name instead of entering coordinates; manual lat/lon entry remains available.
 - **Units:** [src/lib/units.js](src/lib/units.js) — **internal values are always SI (°C, hPa, m/s, mm/h); convert only at display time.** Includes Beaufort scale and localized wind-direction labels.
 - **i18n:** [src/lib/i18n.js](src/lib/i18n.js) — `en` / `cs` / `es`, default export `strings`, named `t(lang, key)`.
@@ -41,7 +41,7 @@ Single source of truth: [.github/workflows/deploy.yml](.github/workflows/deploy.
 ## Implemented sources
 - `open-meteo` — `sourceType: 'model'`. 3 NWP models (best_match, ICON, ECMWF), UV index, sea-level pressure. No key.
 - `owm` — `sourceType: 'station'`. OpenWeatherMap physical stations (PWS) in radius. Requires key.
-- `tomorrow` — `sourceType: 'model'`. Tomorrow.io realtime hybrid model (NWP + satellite + radar). Requires key. Pressure: prefers `pressureSeaLevel`, falls back to `pressureSurfaceLevel`.
+- `tomorrow` — `sourceType: 'model'`. Tomorrow.io realtime hybrid model (NWP + satellite + radar). Requires key. Pressure: prefers `pressureSeaLevel`, falls back to `pressureSurfaceLevel`. `cloudCover` rounded to integer (API returns fractional %).
 - `windy` — `sourceType: 'model'`. Windy Point Forecast API v2, GFS model. Requires key. Note: free-tier key triggers CORS on direct browser requests; app tags these readings as approximate (`isApprox`).
 
 ## Known gaps / caveats
