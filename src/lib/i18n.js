@@ -45,6 +45,10 @@ const strings = {
     actionExport:   'Export config',
     actionImport:   'Import config',
     actionClearAll: 'Clear all data',
+    actionBack:     'Back',
+
+    stationDetail:    'Station detail',
+    stationFetchedAt: 'Fetched at',
 
     // Metrics
     metricTemp:     'Temperature',
@@ -227,6 +231,10 @@ const strings = {
     actionExport:   'Exportovat konfiguraci',
     actionImport:   'Importovat konfiguraci',
     actionClearAll: 'Smazat vše',
+    actionBack:     'Zpět',
+
+    stationDetail:    'Detail stanice',
+    stationFetchedAt: 'Načteno',
 
     metricTemp:     'Teplota',
     metricHumidity: 'Vlhkost',
@@ -395,6 +403,10 @@ const strings = {
     actionExport:   'Exportar configuración',
     actionImport:   'Importar configuración',
     actionClearAll: 'Borrar todo',
+    actionBack:     'Volver',
+
+    stationDetail:    'Detalle de estación',
+    stationFetchedAt: 'Obtenido el',
 
     metricTemp:     'Temperatura',
     metricHumidity: 'Humedad',

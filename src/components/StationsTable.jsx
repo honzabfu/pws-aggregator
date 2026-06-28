@@ -2,7 +2,7 @@
 import { displayTemp, displayPressure, displayWind, windDirLabel } from '../lib/units.js'
 import { t, resolveLanguage } from '../lib/i18n.js'
 
-export function StationsTable({ readings, prefs, langStrings }) {
+export function StationsTable({ readings, prefs, langStrings, onSelect }) {
   const lang = resolveLanguage(prefs.language)
 
   if (!readings || readings.length === 0) {
@@ -51,11 +51,19 @@ export function StationsTable({ readings, prefs, langStrings }) {
             const isDimmed         = isOutlier || isApprox || isModelExcluded
 
             return (
-              <tr key={r.stationId + i} style={{
-                borderBottom: '1px solid var(--border)',
-                opacity: isDimmed ? 0.45 : 1,
-                background: isDimmed ? 'var(--bg-base)' : undefined,
-              }}>
+              <tr
+                key={r.stationId + i}
+                onClick={() => onSelect?.(r)}
+                style={{
+                  borderBottom: '1px solid var(--border)',
+                  opacity: isDimmed ? 0.45 : 1,
+                  background: isDimmed ? 'var(--bg-base)' : undefined,
+                  cursor: onSelect ? 'pointer' : undefined,
+                  transition: 'background 0.1s',
+                }}
+                onMouseEnter={e => { if (onSelect) e.currentTarget.style.background = 'var(--bg-elevated)' }}
+                onMouseLeave={e => { if (onSelect) e.currentTarget.style.background = isDimmed ? 'var(--bg-base)' : '' }}
+              >
                 {/* Status indicator */}
                 <td style={{ padding: '7px 6px 7px 10px', width: 16 }}>
                   {isApprox
