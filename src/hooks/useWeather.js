@@ -46,11 +46,15 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, win
       const { readings, errors } = await fetchOpenMeteo(location.lat, location.lon)
       allReadings.push(...readings)
       if (errors.length) errors.forEach(e => addLog(`  ✗ ${e}`))
-      addLog(`  ✓ open-meteo: ${readings.length} readings`)
-      setStatus(p => ({
-        ...p,
-        'open-meteo': { status: STATUS.ok, count: readings.length, fetchedAt: new Date().toISOString() }
-      }))
+      if (errors.length && readings.length === 0) {
+        setStatus(p => ({ ...p, 'open-meteo': { status: STATUS.error, error: errors[0] } }))
+      } else {
+        addLog(`  ✓ open-meteo: ${readings.length} readings`)
+        setStatus(p => ({
+          ...p,
+          'open-meteo': { status: STATUS.ok, count: readings.length, fetchedAt: new Date().toISOString() }
+        }))
+      }
     } catch (e) {
       addLog(`  ✗ open-meteo: ${e.message}`)
       setStatus(p => ({ ...p, 'open-meteo': { status: STATUS.error, error: e.message } }))
@@ -63,11 +67,15 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, win
         const { readings, errors } = await fetchOWM(location.lat, location.lon, apiKeys.owm, location.radiusKm)
         allReadings.push(...readings)
         if (errors.length) errors.forEach(e => addLog(`  ✗ ${e}`))
-        addLog(`  ✓ owm: ${readings.length} readings`)
-        setStatus(p => ({
-          ...p,
-          'owm': { status: STATUS.ok, count: readings.length, fetchedAt: new Date().toISOString() }
-        }))
+        if (errors.length && readings.length === 0) {
+          setStatus(p => ({ ...p, 'owm': { status: STATUS.error, error: errors[0] } }))
+        } else {
+          addLog(`  ✓ owm: ${readings.length} readings`)
+          setStatus(p => ({
+            ...p,
+            'owm': { status: STATUS.ok, count: readings.length, fetchedAt: new Date().toISOString() }
+          }))
+        }
       } catch (e) {
         addLog(`  ✗ owm: ${e.message}`)
         setStatus(p => ({ ...p, 'owm': { status: STATUS.error, error: e.message } }))
@@ -81,11 +89,15 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, win
         const { readings, errors } = await fetchTomorrow(location.lat, location.lon, apiKeys.tomorrow)
         allReadings.push(...readings)
         if (errors.length) errors.forEach(e => addLog(`  ✗ ${e}`))
-        addLog(`  ✓ tomorrow: ${readings.length} readings`)
-        setStatus(p => ({
-          ...p,
-          'tomorrow': { status: STATUS.ok, count: readings.length, fetchedAt: new Date().toISOString() }
-        }))
+        if (errors.length && readings.length === 0) {
+          setStatus(p => ({ ...p, 'tomorrow': { status: STATUS.error, error: errors[0] } }))
+        } else {
+          addLog(`  ✓ tomorrow: ${readings.length} readings`)
+          setStatus(p => ({
+            ...p,
+            'tomorrow': { status: STATUS.ok, count: readings.length, fetchedAt: new Date().toISOString() }
+          }))
+        }
       } catch (e) {
         addLog(`  ✗ tomorrow: ${e.message}`)
         setStatus(p => ({ ...p, 'tomorrow': { status: STATUS.error, error: e.message } }))
@@ -102,11 +114,15 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, win
           : readings
         allReadings.push(...taggedWindy)
         if (errors.length) errors.forEach(e => addLog(`  ✗ ${e}`))
-        addLog(`  ✓ windy: ${readings.length} readings`)
-        setStatus(p => ({
-          ...p,
-          'windy': { status: STATUS.ok, count: readings.length, fetchedAt: new Date().toISOString() }
-        }))
+        if (errors.length && readings.length === 0) {
+          setStatus(p => ({ ...p, 'windy': { status: STATUS.error, error: errors[0] } }))
+        } else {
+          addLog(`  ✓ windy: ${readings.length} readings`)
+          setStatus(p => ({
+            ...p,
+            'windy': { status: STATUS.ok, count: readings.length, fetchedAt: new Date().toISOString() }
+          }))
+        }
       } catch (e) {
         addLog(`  ✗ windy: ${e.message}`)
         setStatus(p => ({ ...p, 'windy': { status: STATUS.error, error: e.message } }))
