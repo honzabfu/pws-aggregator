@@ -47,7 +47,9 @@ export function StationsTable({ readings, prefs, langStrings, onSelect, origin }
         </thead>
         <tbody>
           {readings.map((r, i) => {
-            const distKm  = origin && r.lat != null && r.lon != null
+            // Distance is only meaningful for physical stations; model sources
+            // carry the query point (→ 0 km) or no coords at all (→ —).
+            const distKm  = origin && r.sourceType === 'station' && r.lat != null && r.lon != null
               ? haversineKm(origin.lat, origin.lon, r.lat, r.lon)
               : null
             const distD   = displayDistance(distKm, prefs.units)
