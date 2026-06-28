@@ -151,7 +151,7 @@ export function StationDetail({ reading, prefs, langStrings, onBack, origin }) {
           )}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-              <span style={{ fontSize: '1.25rem', lineHeight: 1 }}>💨</span>
+              <span style={{ fontSize: '1.25rem', lineHeight: 1 }}>🌬️</span>
               <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>{t(lang, 'metricWind')}</span>
             </div>
             {windD.value !== null && (

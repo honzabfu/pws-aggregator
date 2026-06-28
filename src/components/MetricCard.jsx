@@ -16,7 +16,7 @@ const METRIC_ICONS = {
   temp:      '🌡',
   humidity:  '💧',
   pressure:  '◾',
-  windSpeed: '💨',
+  windSpeed: '🌬️',
   clouds:    '☁',
   precip:    '🌧',
   uvIndex:   '☀',

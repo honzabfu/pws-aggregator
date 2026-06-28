@@ -439,7 +439,7 @@ export default function App() {
                 )}
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                    <span style={{ fontSize: '1.5rem', lineHeight: 1 }}>💨</span>
+                    <span style={{ fontSize: '1.5rem', lineHeight: 1 }}>🌬️</span>
                     <span className="label-xs">{t(lang, 'metricWind')}</span>
                   </div>
                   {windDisplay?.value !== null && (
