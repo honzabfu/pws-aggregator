@@ -8,8 +8,9 @@ Personal Weather Station aggregator. Client-only React + Vite PWA, deployed to G
 - `npm run dev` — dev server at http://localhost:5173/jz-weatherfusion/
 - `npm run build` — output to `dist/`
 - `npm run preview` — preview built output
+- `npm test` — Vitest watch mode; `npm run test:run` for a single CI-style run
 
-No test runner or linter is configured.
+Tests cover the pure logic in `src/lib/` (`aggregate.test.js`, `units.test.js`). No linter is configured.
 
 ## Architecture
 - **Entry:** [src/main.jsx](src/main.jsx) → [src/App.jsx](src/App.jsx). App is a single component with 3 tabs (aggregated / stations / sources).

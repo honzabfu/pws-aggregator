@@ -1,12 +1,9 @@
 // src/hooks/useWeather.js
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { fetchOpenMeteo } from '../lib/sources/openmeteo.js'
-import { fetchOWM } from '../lib/sources/owm.js'
-import { fetchTomorrow } from '../lib/sources/tomorrow.js'
-import { fetchWindy } from '../lib/sources/windy.js'
+import { SOURCES, isSourceActive } from '../lib/sources/registry.js'
 import { aggregate } from '../lib/aggregate.js'
 
-const STATUS = { idle: 'idle', loading: 'loading', ok: 'ok', error: 'error' }
+const STATUS = { idle: 'idle', loading: 'loading', ok: 'ok', error: 'error', noKey: 'no-key' }
 
 export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, windyKeyFree = true) {
   const [result, setResult]       = useState(null)   // AggregatedResult
@@ -29,105 +26,46 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, win
 
     setLoading(true)
     setLog([])
-    setStatus({
-      'open-meteo': { status: STATUS.loading },
-      'owm':        { status: apiKeys.owm     ? STATUS.loading : 'no-key' },
-      'tomorrow':   { status: apiKeys.tomorrow ? STATUS.loading : 'no-key' },
-      'windy':      { status: apiKeys.windy   ? STATUS.loading : 'no-key' },
-    })
+
+    // Initialize per-source status from the registry: a source whose required
+    // key is missing starts as 'no-key', everything else as 'loading'.
+    const status = {}
+    for (const s of SOURCES) {
+      status[s.key] = { status: isSourceActive(s, apiKeys) ? STATUS.loading : STATUS.noKey }
+    }
+    setStatus(status)
 
     addLog(`▶ Fetching for ${location.label} (${location.lat}, ${location.lon})`)
 
+    // Run every active source in parallel.
+    const active = SOURCES.filter(s => isSourceActive(s, apiKeys))
+    active.forEach(s => addLog(`${s.key}: fetching…`))
+
+    const settled = await Promise.allSettled(
+      active.map(s => s.fetch(location, apiKeys))
+    )
+
     const allReadings = []
-
-    // ── Open-Meteo (no key, always runs) ──────────────────────────────────
-    try {
-      addLog('open-meteo: fetching 3 models…')
-      const { readings, errors } = await fetchOpenMeteo(location.lat, location.lon)
-      allReadings.push(...readings)
-      if (errors.length) errors.forEach(e => addLog(`  ✗ ${e}`))
-      if (errors.length && readings.length === 0) {
-        setStatus(p => ({ ...p, 'open-meteo': { status: STATUS.error, error: errors[0] } }))
+    settled.forEach((res, i) => {
+      const s = active[i]
+      if (res.status === 'fulfilled') {
+        let { readings, errors } = res.value
+        if (s.tagReadings) readings = s.tagReadings(readings, { windyKeyFree })
+        allReadings.push(...readings)
+        if (errors.length) errors.forEach(e => addLog(`  ✗ ${e}`))
+        if (errors.length && readings.length === 0) {
+          status[s.key] = { status: STATUS.error, error: errors[0] }
+        } else {
+          addLog(`  ✓ ${s.key}: ${readings.length} readings`)
+          status[s.key] = { status: STATUS.ok, count: readings.length, fetchedAt: new Date().toISOString() }
+        }
       } else {
-        addLog(`  ✓ open-meteo: ${readings.length} readings`)
-        setStatus(p => ({
-          ...p,
-          'open-meteo': { status: STATUS.ok, count: readings.length, fetchedAt: new Date().toISOString() }
-        }))
+        const msg = res.reason?.message ?? 'unknown error'
+        addLog(`  ✗ ${s.key}: ${msg}`)
+        status[s.key] = { status: STATUS.error, error: msg }
       }
-    } catch (e) {
-      addLog(`  ✗ open-meteo: ${e.message}`)
-      setStatus(p => ({ ...p, 'open-meteo': { status: STATUS.error, error: e.message } }))
-    }
-
-    // ── OpenWeatherMap (requires key) ──────────────────────────────────────
-    if (apiKeys.owm) {
-      try {
-        addLog('owm: fetching…')
-        const { readings, errors } = await fetchOWM(location.lat, location.lon, apiKeys.owm, location.radiusKm)
-        allReadings.push(...readings)
-        if (errors.length) errors.forEach(e => addLog(`  ✗ ${e}`))
-        if (errors.length && readings.length === 0) {
-          setStatus(p => ({ ...p, 'owm': { status: STATUS.error, error: errors[0] } }))
-        } else {
-          addLog(`  ✓ owm: ${readings.length} readings`)
-          setStatus(p => ({
-            ...p,
-            'owm': { status: STATUS.ok, count: readings.length, fetchedAt: new Date().toISOString() }
-          }))
-        }
-      } catch (e) {
-        addLog(`  ✗ owm: ${e.message}`)
-        setStatus(p => ({ ...p, 'owm': { status: STATUS.error, error: e.message } }))
-      }
-    }
-
-    // ── Tomorrow.io (requires key) ─────────────────────────────────────────
-    if (apiKeys.tomorrow) {
-      try {
-        addLog('tomorrow: fetching…')
-        const { readings, errors } = await fetchTomorrow(location.lat, location.lon, apiKeys.tomorrow)
-        allReadings.push(...readings)
-        if (errors.length) errors.forEach(e => addLog(`  ✗ ${e}`))
-        if (errors.length && readings.length === 0) {
-          setStatus(p => ({ ...p, 'tomorrow': { status: STATUS.error, error: errors[0] } }))
-        } else {
-          addLog(`  ✓ tomorrow: ${readings.length} readings`)
-          setStatus(p => ({
-            ...p,
-            'tomorrow': { status: STATUS.ok, count: readings.length, fetchedAt: new Date().toISOString() }
-          }))
-        }
-      } catch (e) {
-        addLog(`  ✗ tomorrow: ${e.message}`)
-        setStatus(p => ({ ...p, 'tomorrow': { status: STATUS.error, error: e.message } }))
-      }
-    }
-
-    // ── Windy (requires key) ──────────────────────────────────────────────
-    if (apiKeys.windy) {
-      try {
-        addLog('windy: fetching…')
-        const { readings, errors } = await fetchWindy(location.lat, location.lon, apiKeys.windy)
-        const taggedWindy = windyKeyFree
-          ? readings.map(r => ({ ...r, approximate: true }))
-          : readings
-        allReadings.push(...taggedWindy)
-        if (errors.length) errors.forEach(e => addLog(`  ✗ ${e}`))
-        if (errors.length && readings.length === 0) {
-          setStatus(p => ({ ...p, 'windy': { status: STATUS.error, error: errors[0] } }))
-        } else {
-          addLog(`  ✓ windy: ${readings.length} readings`)
-          setStatus(p => ({
-            ...p,
-            'windy': { status: STATUS.ok, count: readings.length, fetchedAt: new Date().toISOString() }
-          }))
-        }
-      } catch (e) {
-        addLog(`  ✗ windy: ${e.message}`)
-        setStatus(p => ({ ...p, 'windy': { status: STATUS.error, error: e.message } }))
-      }
-    }
+    })
+    setStatus({ ...status })
 
     // ── Aggregate ──────────────────────────────────────────────────────────
     if (allReadings.length > 0) {
@@ -140,7 +78,7 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, win
     }
 
     setLoading(false)
-  }, [location, apiKeys, iqrFactor, addLog])
+  }, [location, apiKeys, iqrFactor, windyKeyFree, addLog])
 
   // Auto-refresh
   useEffect(() => {

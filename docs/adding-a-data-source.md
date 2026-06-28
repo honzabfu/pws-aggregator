@@ -52,21 +52,30 @@ Model it on [owm.js](../src/lib/sources/owm.js) (single endpoint) or
 - Map provider fields → SI metrics with `?? null`.
 - Export `<NAME>_META = { key, label, requiresKey, keyUrl, keyHint, keyPattern }`.
 
-### 2. Wire into [src/hooks/useWeather.js](../src/hooks/useWeather.js)
-Three edits, all mirroring the existing `owm` block:
-1. Initial status — add to the `setStatus({...})` object near the top of `fetch`:
-   ```js
-   '<name>': { status: apiKeys.<name> ? STATUS.loading : 'no-key' },
-   ```
-2. Fetch block — copy the `if (apiKeys.owm) { … }` block, swap in your
-   `fetch<Name>` call, `addLog` messages, and the `setStatus` key.
-3. Refetch trigger — add `apiKeys.<name>` to the dependency-effect deps
-   (the `[location?.id, apiKeys.owm]` array, ~line 98) so toggling the key
-   refetches.
+### 2. Register it in [src/lib/sources/registry.js](../src/lib/sources/registry.js)
+Append one entry to the `SOURCES` array:
+```js
+{
+  key: '<name>',                 // status / config / i18n id
+  labelKey: 'source<Name>',      // i18n key for the display name
+  apiKeyName: '<name>' | null,   // key in config.apiKeys, or null if keyless
+  fetch: (loc, apiKeys) => fetch<Name>(loc.lat, loc.lon, apiKeys.<name>),
+  // Optional: post-process readings, e.g. tag as approximate so they show
+  // in Stations but stay out of the aggregate.
+  // tagReadings: (readings, opts) => readings,
+},
+```
+`useWeather` iterates this list, runs every active source in parallel via
+`Promise.allSettled`, initializes status (`'no-key'` when `apiKeyName` is set
+but the key is empty, otherwise `'loading'`), and feeds the readings into
+`aggregate`. No edits to `useWeather.js` itself.
+
+If your source needs a key, also add `apiKeys.<name>` to the refetch-trigger
+dependency array at the bottom of `useWeather.js` so toggling the key refetches.
 
 No change needed in [aggregate.js](../src/lib/aggregate.js) or
-[App.jsx](../src/App.jsx) — readings flow through automatically and show up in
-the Aggregated / Stations / Sources tabs.
+[App.jsx](../src/App.jsx) — readings flow through automatically and the source
+label resolves from `labelKey` across the Aggregated / Stations / Sources tabs.
 
 ### 3. Verify
 - **CORS first.** This is a client-only app; the provider's API *must* send
