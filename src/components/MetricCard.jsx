@@ -1,6 +1,7 @@
 // src/components/MetricCard.jsx
 import { displayTemp, displayPressure, displayWind, displayPrecip } from '../lib/units.js'
 import { t, resolveLanguage } from '../lib/i18n.js'
+import { getIcons } from '../lib/icons.js'
 
 const METRIC_COLORS = {
   temp:      'var(--metric-temp)',
@@ -10,16 +11,6 @@ const METRIC_COLORS = {
   clouds:    'var(--metric-cloud)',
   precip:    'var(--metric-precip)',
   uvIndex:   'var(--metric-uv)',
-}
-
-const METRIC_ICONS = {
-  temp:      '🌡',
-  humidity:  '💧',
-  pressure:  '⬇️',
-  windSpeed: '🪁',
-  clouds:    '☁',
-  precip:    '☔',
-  uvIndex:   '🔆',
 }
 
 function getDisplay(metric, data, prefs, langStrings, lang) {
@@ -40,7 +31,7 @@ export function MetricCard({ metric, label, data, prefs, langStrings, style, her
   const lang    = resolveLanguage(prefs.language)
   const display = getDisplay(metric, data, prefs, langStrings, lang)
   const color   = METRIC_COLORS[metric]
-  const icon    = METRIC_ICONS[metric]
+  const icon    = getIcons(prefs.iconSet)[metric]
   const hasData = display.value !== null
 
   return (

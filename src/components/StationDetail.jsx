@@ -2,6 +2,7 @@
 import { displayTemp, displayPressure, displayWind, displayPrecip, windDirLabel, haversineKm, displayDistance } from '../lib/units.js'
 import { Compass } from './Compass.jsx'
 import { t, resolveLanguage } from '../lib/i18n.js'
+import { getIcons } from '../lib/icons.js'
 
 const SOURCE_COLORS = {
   'open-meteo': 'var(--accent)',
@@ -12,6 +13,7 @@ const SOURCE_COLORS = {
 
 export function StationDetail({ reading, prefs, langStrings, onBack, origin }) {
   const lang   = resolveLanguage(prefs.language)
+  const icons  = getIcons(prefs.iconSet)
   const { metrics } = reading
 
   // Distance is only meaningful for physical stations; model sources carry the
@@ -42,12 +44,12 @@ export function StationDetail({ reading, prefs, langStrings, onBack, origin }) {
         : t(lang, 'stationActive')
 
   const metricRows = [
-    { label: t(lang, 'metricTemp'),     value: tempD.value  !== null ? `${tempD.value} ${tempD.unit}`   : null, color: 'var(--metric-temp)',   icon: '🌡' },
-    { label: t(lang, 'metricHumidity'), value: metrics.humidity !== null ? `${metrics.humidity} %`       : null, color: 'var(--metric-humid)',  icon: '💧' },
-    { label: t(lang, 'metricPressure'), value: pressD.value !== null ? `${pressD.value} ${pressD.unit}` : null, color: 'var(--metric-press)',  icon: '⬇️' },
-    { label: t(lang, 'metricClouds'),   value: metrics.clouds  !== null ? `${metrics.clouds} %`          : null, color: 'var(--metric-cloud)',  icon: '☁' },
-    { label: t(lang, 'metricPrecip'),   value: precipD.value !== null ? `${precipD.value} ${precipD.unit}` : null, color: 'var(--metric-precip)', icon: '☔' },
-    { label: t(lang, 'metricUV'),       value: metrics.uvIndex !== null ? `${metrics.uvIndex}`            : null, color: 'var(--metric-uv)',    icon: '🔆' },
+    { label: t(lang, 'metricTemp'),     value: tempD.value  !== null ? `${tempD.value} ${tempD.unit}`   : null, color: 'var(--metric-temp)',   icon: icons.temp },
+    { label: t(lang, 'metricHumidity'), value: metrics.humidity !== null ? `${metrics.humidity} %`       : null, color: 'var(--metric-humid)',  icon: icons.humidity },
+    { label: t(lang, 'metricPressure'), value: pressD.value !== null ? `${pressD.value} ${pressD.unit}` : null, color: 'var(--metric-press)',  icon: icons.pressure },
+    { label: t(lang, 'metricClouds'),   value: metrics.clouds  !== null ? `${metrics.clouds} %`          : null, color: 'var(--metric-cloud)',  icon: icons.clouds },
+    { label: t(lang, 'metricPrecip'),   value: precipD.value !== null ? `${precipD.value} ${precipD.unit}` : null, color: 'var(--metric-precip)', icon: icons.precip },
+    { label: t(lang, 'metricUV'),       value: metrics.uvIndex !== null ? `${metrics.uvIndex}`            : null, color: 'var(--metric-uv)',    icon: icons.uvIndex },
   ]
 
   const hasWind = metrics.windSpeed !== null || metrics.windDeg !== null
@@ -151,7 +153,7 @@ export function StationDetail({ reading, prefs, langStrings, onBack, origin }) {
           )}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-              <span style={{ fontSize: '1.25rem', lineHeight: 1 }}>🪁</span>
+              <span style={{ fontSize: '1.25rem', lineHeight: 1 }}>{icons.windSpeed}</span>
               <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>{t(lang, 'metricWind')}</span>
             </div>
             {windD.value !== null && (

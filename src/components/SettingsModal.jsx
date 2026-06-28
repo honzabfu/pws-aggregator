@@ -2,6 +2,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { t, LANGUAGES, detectBrowserLanguage } from '../lib/i18n.js'
 import { exportConfig, importConfig, clearConfig } from '../lib/config.js'
+import { ICON_SET_KEYS, getIcons } from '../lib/icons.js'
 
 const THEME_OPTIONS     = ['system', 'light', 'dark']
 const FONT_SIZE_OPTIONS = ['small', 'medium', 'large', 'xl']
@@ -236,6 +237,24 @@ export function SettingsModal({ config, onSetPreference, onSetApiKey, onReplaceC
             onChange={(v) => onSetPreference('units', v)}
             getLabel={(v) => t(lang, `units${v.charAt(0).toUpperCase() + v.slice(1)}`)}
           />
+        </Section>
+
+        {/* Icon set */}
+        <Section title={t(lang, 'settingsIconSet')} hint={t(lang, 'hintIconSet')}>
+          <SegmentedControl
+            options={ICON_SET_KEYS}
+            value={preferences.iconSet ?? 'modern'}
+            onChange={(v) => onSetPreference('iconSet', v)}
+            getLabel={(v) => t(lang, `iconSet${v.charAt(0).toUpperCase() + v.slice(1)}`)}
+          />
+          <div style={{
+            display: 'flex', gap: 10, flexWrap: 'wrap',
+            marginTop: 10, fontSize: '1.375rem', lineHeight: 1,
+          }}>
+            {Object.values(getIcons(preferences.iconSet ?? 'modern')).map((glyph, i) => (
+              <span key={i}>{glyph}</span>
+            ))}
+          </div>
         </Section>
 
         {/* Wind display */}
