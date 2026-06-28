@@ -513,6 +513,7 @@ export default function App() {
             'windy':      t(lang, 'sourceWindy'),
           }
           const noKeySources = Object.entries(sourceStatus).filter(([, s]) => s.status === 'no-key')
+          const errorSources = Object.entries(sourceStatus).filter(([, s]) => s.status === 'error')
 
           return (
             <>
@@ -535,7 +536,7 @@ export default function App() {
                   ))}
                 </div>
               )}
-              {raw.length === 0 && noKeySources.length === 0 && !loading && (
+              {raw.length === 0 && noKeySources.length === 0 && errorSources.length === 0 && !loading && (
                 <div style={{ color: 'var(--text-muted)', fontSize: '0.8125rem', padding: '12px 0' }}>
                   {t(lang, 'errorNoSources')}
                 </div>
@@ -546,8 +547,30 @@ export default function App() {
                 langStrings={langStrings}
                 onSelect={setSelectedStation}
               />
-              {noKeySources.length > 0 && (
+              {(errorSources.length > 0 || noKeySources.length > 0) && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: raw.length > 0 ? 12 : 0 }}>
+                  {errorSources.map(([key, s]) => (
+                    <div key={key} style={{
+                      background: 'var(--bg-surface)',
+                      border: '1px solid var(--border)',
+                      borderLeft: '3px solid var(--error)',
+                      borderRadius: 'var(--radius-md)',
+                      padding: '12px 14px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 12,
+                    }}>
+                      <span className="dot dot-error" />
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontWeight: 600, fontSize: '0.8125rem' }}>
+                          {SOURCE_LABELS[key] ?? key}
+                        </div>
+                        <div style={{ fontSize: '0.6875rem', color: 'var(--error)' }}>
+                          {s.error}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                   {noKeySources.map(([key]) => (
                     <div key={key} style={{
                       background: 'var(--bg-surface)',
