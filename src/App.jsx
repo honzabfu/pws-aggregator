@@ -364,6 +364,7 @@ export default function App() {
                     langStrings={langStrings}
                     hero={isHero}
                     style={isHero ? { gridColumn: 'span 2' } : undefined}
+                    onClick={() => setTab('stations')}
                   />
                 )
               })}
@@ -371,17 +372,24 @@ export default function App() {
 
             {/* Merged wind card — speed + direction + compass */}
             {(result.windDirMean !== null || (result.perMetric?.windSpeed?.total ?? 0) > 0) && (
-              <div style={{
-                background: 'var(--bg-surface)',
-                border: '1px solid var(--border)',
-                borderRadius: 'var(--radius-lg)',
-                padding: '16px 20px',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 20,
-                marginBottom: 16,
-                borderTop: '3px solid var(--metric-wind)',
-              }}>
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={() => setTab('stations')}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setTab('stations') }}
+                style={{
+                  background: 'var(--bg-surface)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 'var(--radius-lg)',
+                  padding: '16px 20px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 20,
+                  marginBottom: 16,
+                  borderTop: '3px solid var(--metric-wind)',
+                  cursor: 'pointer',
+                }}
+              >
                 {result.windDirMean !== null && (
                   <Compass deg={result.windDirMean} lang={lang} size={88} />
                 )}

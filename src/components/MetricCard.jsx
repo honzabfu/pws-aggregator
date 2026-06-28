@@ -36,7 +36,7 @@ function getDisplay(metric, data, prefs, langStrings, lang) {
   }
 }
 
-export function MetricCard({ metric, label, data, prefs, langStrings, style, hero = false }) {
+export function MetricCard({ metric, label, data, prefs, langStrings, style, hero = false, onClick }) {
   const lang    = resolveLanguage(prefs.language)
   const display = getDisplay(metric, data, prefs, langStrings, lang)
   const color   = METRIC_COLORS[metric]
@@ -44,17 +44,24 @@ export function MetricCard({ metric, label, data, prefs, langStrings, style, her
   const hasData = display.value !== null
 
   return (
-    <div style={{
-      background: 'var(--bg-surface)',
-      border: `1px solid var(--border)`,
-      borderRadius: 'var(--radius-lg)',
-      padding: hero ? '20px 22px' : '16px 18px',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 4,
-      borderTop: `3px solid ${color}`,
-      ...style,
-    }}>
+    <div
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onClick={onClick}
+      onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') onClick() } : undefined}
+      style={{
+        background: 'var(--bg-surface)',
+        border: `1px solid var(--border)`,
+        borderRadius: 'var(--radius-lg)',
+        padding: hero ? '20px 22px' : '16px 18px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 4,
+        borderTop: `3px solid ${color}`,
+        cursor: onClick ? 'pointer' : undefined,
+        ...style,
+      }}
+    >
       {/* Label row */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
         <span style={{ fontSize: '1.5rem', lineHeight: 1 }}>{icon}</span>
