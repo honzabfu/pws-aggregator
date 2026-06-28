@@ -454,6 +454,15 @@ export default function App() {
             : stationFilter === 'outlier'
               ? raw.filter(r => r.isOutlier || r.approximate || r.excludedBySourceType)
               : raw
+
+          const SOURCE_LABELS = {
+            'open-meteo': t(lang, 'sourceOpenMeteo'),
+            'owm':        t(lang, 'sourceOWM'),
+            'tomorrow':   t(lang, 'sourceTomorrow'),
+            'windy':      t(lang, 'sourceWindy'),
+          }
+          const noKeySources = Object.entries(sourceStatus).filter(([, s]) => s.status === 'no-key')
+
           return (
             <>
               {raw.length > 0 && (
@@ -475,7 +484,7 @@ export default function App() {
                   ))}
                 </div>
               )}
-              {raw.length === 0 && !loading && (
+              {raw.length === 0 && noKeySources.length === 0 && !loading && (
                 <div style={{ color: 'var(--text-muted)', fontSize: '0.8125rem', padding: '12px 0' }}>
                   {t(lang, 'errorNoSources')}
                 </div>
@@ -486,6 +495,38 @@ export default function App() {
                 langStrings={langStrings}
                 onSelect={setSelectedStation}
               />
+              {noKeySources.length > 0 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: raw.length > 0 ? 12 : 0 }}>
+                  {noKeySources.map(([key]) => (
+                    <div key={key} style={{
+                      background: 'var(--bg-surface)',
+                      border: '1px solid var(--border)',
+                      borderRadius: 'var(--radius-md)',
+                      padding: '12px 14px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 12,
+                    }}>
+                      <span className="dot dot-idle" />
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontWeight: 600, fontSize: '0.8125rem' }}>
+                          {SOURCE_LABELS[key] ?? key}
+                        </div>
+                        <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
+                          {t(lang, 'sourceNoKey')}
+                        </div>
+                      </div>
+                      <button
+                        className="btn btn-ghost"
+                        style={{ padding: '4px 10px', fontSize: '0.75rem', whiteSpace: 'nowrap' }}
+                        onClick={() => setShowSettings(true)}
+                      >
+                        {t(lang, 'noApiKeysBannerCta')}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </>
           )
         })()}
