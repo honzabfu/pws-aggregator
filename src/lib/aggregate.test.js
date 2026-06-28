@@ -79,6 +79,33 @@ describe('source-type preference', () => {
     expect(result.stationCount).toBe(3)
     expect(result.perMetric.temp.value).toBe(21)
   })
+
+  it('falls back to models per-metric for data stations do not report (e.g. precip)', () => {
+    // Station reports temperature but no precipitation; models report precip.
+    const readings = [
+      station({ temp: 15 }),
+      model({ temp: 20, precip: 2 }),
+      model({ temp: 21, precip: 4 }),
+    ]
+    const result = aggregate(readings)
+    // Temperature still comes from the station only…
+    expect(result.perMetric.temp.value).toBe(15)
+    expect(result.perMetric.temp.usedFallback).toBe(false)
+    // …but precip falls back to the model readings instead of vanishing.
+    expect(result.perMetric.precip.total).toBe(2)
+    expect(result.perMetric.precip.value).toBe(3)
+    expect(result.perMetric.precip.usedFallback).toBe(true)
+  })
+
+  it('does not flag a fallback when stations themselves report the metric', () => {
+    const readings = [
+      station({ temp: 15, precip: 1 }),
+      model({ temp: 20, precip: 9 }),
+    ]
+    const result = aggregate(readings)
+    expect(result.perMetric.precip.value).toBe(1) // station value, models excluded
+    expect(result.perMetric.precip.usedFallback).toBe(false)
+  })
 })
 
 describe('approximate readings', () => {
