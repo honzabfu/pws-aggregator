@@ -14,6 +14,8 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, win
 
   const timerRef = useRef(null)
   const abortRef = useRef(null)
+  const lastUpdatedRef = useRef(null)
+  lastUpdatedRef.current = lastUpdated
 
   const addLog = useCallback((msg) => {
     setLog(l => [...l.slice(-49), `${new Date().toLocaleTimeString()} ${msg}`])
@@ -87,6 +89,23 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, win
       timerRef.current = setInterval(fetch, refreshIntervalMin * 60 * 1000)
     }
     return () => clearInterval(timerRef.current)
+  }, [fetch, refreshIntervalMin])
+
+  // Refresh on resume. setInterval is suspended/throttled while the PWA is
+  // backgrounded, and a warm resume (returning to a still-mounted app) fires no
+  // mount fetch — so without this the user could see stale data on reopen. When
+  // the tab becomes visible again we refetch if the data is older than the
+  // refresh interval (or 5 min when auto-refresh is off), ignoring quick
+  // tab-switches so we don't hammer the APIs.
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState !== 'visible') return
+      const staleAfterMs = (refreshIntervalMin > 0 ? refreshIntervalMin : 5) * 60 * 1000
+      const last = lastUpdatedRef.current
+      if (!last || Date.now() - last.getTime() >= staleAfterMs) fetch()
+    }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => document.removeEventListener('visibilitychange', onVisible)
   }, [fetch, refreshIntervalMin])
 
   // Fetch on location/key change

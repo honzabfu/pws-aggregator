@@ -18,7 +18,7 @@ export const DEFAULT_CONFIG = {
     iconSet:           'modern',
     windDisplay:       'combined',
     iqrFactor:         1.5,
-    refreshIntervalMin: 0,
+    refreshIntervalMin: 30,
     fontSize:          'medium',
     windyKeyFree:      true,
     apiKeyBannerDismissed: false,
