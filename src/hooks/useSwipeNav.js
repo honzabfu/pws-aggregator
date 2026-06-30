@@ -9,6 +9,19 @@ import { useEffect, useRef } from 'react'
 const THRESHOLD  = 60   // px of horizontal travel needed to fire
 const AXIS_RATIO = 1.5  // how much |dx| must exceed |dy| to count as horizontal
 
+// Walk up from the touched node; if any ancestor can actually scroll
+// horizontally (e.g. the overflow-x:auto wrapper around the stations table),
+// the swipe belongs to that element, not to tab navigation.
+function startedInHorizontalScroller(node) {
+  for (let el = node; el && el !== document.body; el = el.parentElement) {
+    if (el.scrollWidth > el.clientWidth) {
+      const ox = getComputedStyle(el).overflowX
+      if (ox === 'auto' || ox === 'scroll') return true
+    }
+  }
+  return false
+}
+
 export function useSwipeNav(onSwipeLeft, onSwipeRight, { disabled = false } = {}) {
   // Callbacks go through refs so the touch listeners stay registered once and
   // always see the latest handlers without re-subscribing.
@@ -24,7 +37,10 @@ export function useSwipeNav(onSwipeLeft, onSwipeRight, { disabled = false } = {}
     if (disabled) return
 
     const onStart = (e) => {
-      if (e.touches.length !== 1) { startX.current = null; return }
+      if (e.touches.length !== 1 || startedInHorizontalScroller(e.target)) {
+        startX.current = null
+        return
+      }
       startX.current = e.touches[0].clientX
       startY.current = e.touches[0].clientY
     }
