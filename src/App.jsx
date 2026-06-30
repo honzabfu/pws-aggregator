@@ -4,6 +4,7 @@ import { useConfig }   from './hooks/useConfig.js'
 import { useWeather }  from './hooks/useWeather.js'
 import { useTheme }    from './hooks/useTheme.js'
 import { usePullToRefresh } from './hooks/usePullToRefresh.js'
+import { useSwipeNav } from './hooks/useSwipeNav.js'
 import { MetricCard }    from './components/MetricCard.jsx'
 import { Compass }       from './components/Compass.jsx'
 import { StationsTable } from './components/StationsTable.jsx'
@@ -166,6 +167,21 @@ export default function App() {
     disabled: !activeLocation || showSettings || showAddLoc || !!editLoc,
   })
   const pullProgress = Math.min(1, pullDistance / threshold)
+
+  // Swipe left/right to move between tabs on touch devices. Disabled while a
+  // modal or a station detail is open, or when there's no location yet, so the
+  // gesture never yanks the user out of those contexts.
+  const changeTab = (dir) => {
+    setSelectedStation(null)
+    setTab(cur => {
+      const i = TABS.indexOf(cur)
+      const next = i + dir
+      return next < 0 || next >= TABS.length ? cur : TABS[next]
+    })
+  }
+  useSwipeNav(() => changeTab(1), () => changeTab(-1), {
+    disabled: !activeLocation || showSettings || showAddLoc || !!editLoc || !!selectedStation,
+  })
 
   const METRIC_DEFS = [
     { key: 'temp',      labelKey: 'metricTemp'     },
