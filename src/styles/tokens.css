@@ -226,6 +226,24 @@ body {
   }
 }
 
+/* ── Metric grid ──────────────────────────────────────────────────────────────
+   Two-up cards on phones and wider; the hero (temperature) card spans both
+   columns. On very narrow screens (≤359px, e.g. iPhone SE 1st gen / older
+   Androids) the two 150px tracks plus the wide numeric values (pressure can be
+   "1013.7 hPa") no longer fit, so collapse to a single column and drop the hero
+   span — otherwise the grid overflows the viewport horizontally. */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+.metric-grid > .metric-hero { grid-column: span 2; }
+
+@media (max-width: 359px) {
+  .metric-grid { grid-template-columns: 1fr; }
+  .metric-grid > .metric-hero { grid-column: span 1; }
+}
+
 /* ── Status dot ───────────────────────────────────────────────────────────── */
 .dot {
   display: inline-block;

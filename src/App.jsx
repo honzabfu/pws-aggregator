@@ -472,12 +472,7 @@ export default function App() {
                 {t(lang, result.usingStations ? 'aggUsingStations' : 'aggUsingModels', result.stationCount)}
               </div>
             )}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-              gap: 12,
-              marginBottom: 16,
-            }}>
+            <div className="metric-grid" style={{ marginBottom: 16 }}>
               {METRIC_DEFS.map(({ key, labelKey }) => {
                 const data = result.perMetric[key]
                 if (!data || data.total === 0) return null
@@ -491,7 +486,7 @@ export default function App() {
                     prefs={preferences}
                     langStrings={langStrings}
                     hero={isHero}
-                    style={isHero ? { gridColumn: 'span 2' } : undefined}
+                    className={isHero ? 'metric-hero' : undefined}
                     onClick={() => setTab('stations')}
                   />
                 )

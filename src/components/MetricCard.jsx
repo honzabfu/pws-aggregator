@@ -27,7 +27,7 @@ function getDisplay(metric, data, prefs, langStrings, lang) {
   }
 }
 
-export function MetricCard({ metric, label, data, prefs, langStrings, style, hero = false, onClick }) {
+export function MetricCard({ metric, label, data, prefs, langStrings, style, className, hero = false, onClick }) {
   const lang    = resolveLanguage(prefs.language)
   const display = getDisplay(metric, data, prefs, langStrings, lang)
   const color   = METRIC_COLORS[metric]
@@ -36,6 +36,7 @@ export function MetricCard({ metric, label, data, prefs, langStrings, style, her
 
   return (
     <div
+      className={className}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
       onClick={onClick}
