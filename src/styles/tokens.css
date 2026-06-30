@@ -1,5 +1,7 @@
 /* ── Reset ────────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* Suppress the grey flash browsers paint over tapped elements on touch. */
+* { -webkit-tap-highlight-color: transparent; }
 html { font-size: 16px; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { font-family: 'Inter', system-ui, -apple-system, sans-serif; line-height: 1.5; }
 button { cursor: pointer; font-family: inherit; }
@@ -128,6 +130,9 @@ body {
   background: var(--bg-base);
   color: var(--text-primary);
   min-height: 100vh;
+  /* Keep our custom pull-to-refresh from chaining into the browser's native
+     overscroll/bounce. */
+  overscroll-behavior-y: contain;
   transition: background 0.2s, color 0.2s;
 }
 
@@ -207,6 +212,19 @@ body {
   transition: border-color 0.15s;
 }
 .input:focus { border-color: var(--border-focus); }
+/* Touch-device tweaks. iOS Safari auto-zooms when an input under 16px gains
+   focus, so bump to 16px; and give the primary tap targets a ~44px minimum so
+   they're comfortable to hit with a thumb. */
+@media (pointer: coarse) {
+  .input { font-size: 16px; }
+  .btn, .btn-icon { min-height: 44px; }
+  .btn-icon {
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
 
 /* ── Status dot ───────────────────────────────────────────────────────────── */
 .dot {

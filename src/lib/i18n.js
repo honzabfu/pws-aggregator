@@ -199,6 +199,7 @@ const strings = {
     // Status
     statusFetching: 'Fetching data…',
     statusUpdated:  'Updated',
+    statusOffline:  'Offline — showing cached data',
     statusManual:   'Manual refresh',
 
     // Settings footer — About
@@ -385,6 +386,7 @@ const strings = {
 
     statusFetching: 'Načítám data…',
     statusUpdated:  'Aktualizováno',
+    statusOffline:  'Offline — zobrazuji uložená data',
     statusManual:   'Manuální obnovení',
 
     // Settings footer — About
@@ -571,6 +573,7 @@ const strings = {
 
     statusFetching: 'Obteniendo datos…',
     statusUpdated:  'Actualizado',
+    statusOffline:  'Sin conexión — mostrando datos en caché',
     statusManual:   'Actualización manual',
 
     // Settings footer — About

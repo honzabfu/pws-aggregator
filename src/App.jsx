@@ -4,6 +4,8 @@ import { useConfig }   from './hooks/useConfig.js'
 import { useWeather }  from './hooks/useWeather.js'
 import { useTheme }    from './hooks/useTheme.js'
 import { usePullToRefresh } from './hooks/usePullToRefresh.js'
+import { useSwipeNav } from './hooks/useSwipeNav.js'
+import { useOnlineStatus } from './hooks/useOnlineStatus.js'
 import { MetricCard }    from './components/MetricCard.jsx'
 import { Compass }       from './components/Compass.jsx'
 import { StationsTable } from './components/StationsTable.jsx'
@@ -167,6 +169,26 @@ export default function App() {
   })
   const pullProgress = Math.min(1, pullDistance / threshold)
 
+  // Swipe left/right to move between tabs on touch devices. Disabled while a
+  // modal or a station detail is open, or when there's no location yet, so the
+  // gesture never yanks the user out of those contexts.
+  const changeTab = (dir) => {
+    setSelectedStation(null)
+    setTab(cur => {
+      const i = TABS.indexOf(cur)
+      const next = i + dir
+      if (next < 0 || next >= TABS.length) return cur
+      // Light haptic tick on a successful swipe (Android; no-op on iOS).
+      navigator.vibrate?.(10)
+      return TABS[next]
+    })
+  }
+  useSwipeNav(() => changeTab(1), () => changeTab(-1), {
+    disabled: !activeLocation || showSettings || showAddLoc || !!editLoc || !!selectedStation,
+  })
+
+  const online = useOnlineStatus()
+
   const METRIC_DEFS = [
     { key: 'temp',      labelKey: 'metricTemp'     },
     { key: 'humidity',  labelKey: 'metricHumidity' },
@@ -220,7 +242,8 @@ export default function App() {
       <header style={{
         background: 'var(--bg-surface)',
         borderBottom: '1px solid var(--border)',
-        padding: '12px 16px',
+        // Pad past the notch / status bar and side cutouts in standalone PWA mode.
+        padding: 'calc(12px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 12px calc(16px + env(safe-area-inset-left))',
         display: 'flex',
         alignItems: 'center',
         flexWrap: 'wrap',
@@ -270,8 +293,27 @@ export default function App() {
         </button>
       </header>
 
+      {/* ── Offline banner ──────────────────────────────────────────────────── */}
+      {!online && (
+        <div style={{
+          background: 'var(--warning)',
+          color: '#000',
+          fontSize: '0.75rem',
+          fontWeight: 600,
+          textAlign: 'center',
+          padding: '6px calc(8px + env(safe-area-inset-right)) 6px calc(8px + env(safe-area-inset-left))',
+        }}>
+          {t(lang, 'statusOffline')}
+        </div>
+      )}
+
       {/* ── Main ────────────────────────────────────────────────────────────── */}
-      <main style={{ flex: 1, padding: '16px', maxWidth: 720, width: '100%', margin: '0 auto' }}>
+      <main style={{
+        flex: 1,
+        // Clear the home indicator and side cutouts; top stays 16px under the header.
+        padding: '16px calc(16px + env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left))',
+        maxWidth: 720, width: '100%', margin: '0 auto',
+      }}>
 
         {/* No location state */}
         {config.locations.length === 0 && (
