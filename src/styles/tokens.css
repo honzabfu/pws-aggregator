@@ -212,10 +212,18 @@ body {
   transition: border-color 0.15s;
 }
 .input:focus { border-color: var(--border-focus); }
-/* iOS Safari auto-zooms the page when an input under 16px gains focus.
-   Bump to 16px on touch devices to suppress the jump. */
+/* Touch-device tweaks. iOS Safari auto-zooms when an input under 16px gains
+   focus, so bump to 16px; and give the primary tap targets a ~44px minimum so
+   they're comfortable to hit with a thumb. */
 @media (pointer: coarse) {
   .input { font-size: 16px; }
+  .btn, .btn-icon { min-height: 44px; }
+  .btn-icon {
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 /* ── Status dot ───────────────────────────────────────────────────────────── */

@@ -5,6 +5,7 @@ import { useWeather }  from './hooks/useWeather.js'
 import { useTheme }    from './hooks/useTheme.js'
 import { usePullToRefresh } from './hooks/usePullToRefresh.js'
 import { useSwipeNav } from './hooks/useSwipeNav.js'
+import { useOnlineStatus } from './hooks/useOnlineStatus.js'
 import { MetricCard }    from './components/MetricCard.jsx'
 import { Compass }       from './components/Compass.jsx'
 import { StationsTable } from './components/StationsTable.jsx'
@@ -176,12 +177,17 @@ export default function App() {
     setTab(cur => {
       const i = TABS.indexOf(cur)
       const next = i + dir
-      return next < 0 || next >= TABS.length ? cur : TABS[next]
+      if (next < 0 || next >= TABS.length) return cur
+      // Light haptic tick on a successful swipe (Android; no-op on iOS).
+      navigator.vibrate?.(10)
+      return TABS[next]
     })
   }
   useSwipeNav(() => changeTab(1), () => changeTab(-1), {
     disabled: !activeLocation || showSettings || showAddLoc || !!editLoc || !!selectedStation,
   })
+
+  const online = useOnlineStatus()
 
   const METRIC_DEFS = [
     { key: 'temp',      labelKey: 'metricTemp'     },
@@ -286,6 +292,20 @@ export default function App() {
           </svg>
         </button>
       </header>
+
+      {/* ── Offline banner ──────────────────────────────────────────────────── */}
+      {!online && (
+        <div style={{
+          background: 'var(--warning)',
+          color: '#000',
+          fontSize: '0.75rem',
+          fontWeight: 600,
+          textAlign: 'center',
+          padding: '6px calc(8px + env(safe-area-inset-right)) 6px calc(8px + env(safe-area-inset-left))',
+        }}>
+          {t(lang, 'statusOffline')}
+        </div>
+      )}
 
       {/* ── Main ────────────────────────────────────────────────────────────── */}
       <main style={{
