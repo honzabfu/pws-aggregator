@@ -236,7 +236,8 @@ export default function App() {
       <header style={{
         background: 'var(--bg-surface)',
         borderBottom: '1px solid var(--border)',
-        padding: '12px 16px',
+        // Pad past the notch / status bar and side cutouts in standalone PWA mode.
+        padding: 'calc(12px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 12px calc(16px + env(safe-area-inset-left))',
         display: 'flex',
         alignItems: 'center',
         flexWrap: 'wrap',
@@ -287,7 +288,12 @@ export default function App() {
       </header>
 
       {/* ── Main ────────────────────────────────────────────────────────────── */}
-      <main style={{ flex: 1, padding: '16px', maxWidth: 720, width: '100%', margin: '0 auto' }}>
+      <main style={{
+        flex: 1,
+        // Clear the home indicator and side cutouts; top stays 16px under the header.
+        padding: '16px calc(16px + env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left))',
+        maxWidth: 720, width: '100%', margin: '0 auto',
+      }}>
 
         {/* No location state */}
         {config.locations.length === 0 && (
