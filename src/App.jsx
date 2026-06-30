@@ -274,14 +274,39 @@ export default function App() {
           />
         )}
 
-        <button
-          onClick={() => activeLocation ? refetch() : setShowAddLoc(true)}
-          disabled={loading}
-          className="btn btn-primary"
-          style={{ padding: '7px 14px' }}
-        >
-          {loading ? '⟳' : activeLocation ? t(lang, 'actionRefresh') : t(lang, 'actionAddLocation')}
-        </button>
+        {(() => {
+          // Icon-only to save header space on phones; the label lives in
+          // title/aria-label for hover and assistive tech.
+          const actionLabel = loading
+            ? t(lang, 'statusFetching')
+            : activeLocation ? t(lang, 'actionRefresh') : t(lang, 'actionAddLocation')
+          return (
+            <button
+              onClick={() => activeLocation ? refetch() : setShowAddLoc(true)}
+              disabled={loading}
+              className="btn btn-primary"
+              style={{ padding: '8px', minWidth: 40, justifyContent: 'center' }}
+              title={actionLabel}
+              aria-label={actionLabel}
+            >
+              {activeLocation ? (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+                  style={{ animation: loading ? 'spin 0.8s linear infinite' : 'none' }}>
+                  <polyline points="23 4 23 10 17 10" />
+                  <polyline points="1 20 1 14 7 14" />
+                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+                </svg>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              )}
+            </button>
+          )
+        })()}
 
         <button onClick={() => setShowSettings(true)} className="btn-icon" title={t(lang, 'actionSettings')}
           style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)' }}>
