@@ -27,8 +27,8 @@ export function useConfig() {
   }, [])
 
   // ── Locations ──────────────────────────────────────────────────────────────
-  const addLocation = useCallback((label, lat, lon, radiusKm = 10) => {
-    const loc = newLocation(label, lat, lon, radiusKm)
+  const addLocation = useCallback((label, lat, lon, radiusKm = 10, dynamic = false) => {
+    const loc = newLocation(label, lat, lon, radiusKm, dynamic)
     setConfig(c => {
       const locations = [...c.locations, loc]
       return {

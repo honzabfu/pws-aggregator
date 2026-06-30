@@ -5,11 +5,25 @@ import { aggregate } from '../lib/aggregate.js'
 
 const STATUS = { idle: 'idle', loading: 'loading', ok: 'ok', error: 'error', noKey: 'no-key' }
 
-export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, windyKeyFree = true) {
+// Promise wrapper around the browser geolocation API. A short maximumAge lets
+// quick successive refreshes reuse a recent fix instead of re-prompting the GPS.
+function getCurrentPosition() {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) { reject(new Error('Geolocation not supported')); return }
+    navigator.geolocation.getCurrentPosition(
+      pos => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+      err => reject(new Error(err?.message || 'Geolocation failed')),
+      { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }
+    )
+  })
+}
+
+export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, windyKeyFree = true, onResolveCoords) {
   const [result, setResult]       = useState(null)   // AggregatedResult
   const [sourceStatus, setStatus] = useState({})     // { [key]: { status, count, error, fetchedAt } }
   const [loading, setLoading]     = useState(false)
   const [lastUpdated, setLastUpdated] = useState(null)
+  const [geoError, setGeoError]   = useState(null)   // dynamic-location geolocation failure
   const [log, setLog]             = useState([])
 
   const timerRef = useRef(null)
@@ -29,6 +43,27 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, win
     setLoading(true)
     setLog([])
 
+    // ── Resolve coordinates ──────────────────────────────────────────────────
+    // A dynamic location re-checks the device's geolocation on every refresh and
+    // fetches data for wherever the user currently is. The resolved coordinates
+    // are cached back into config so the UI (info bar, station distances) shows
+    // the real position instead of the 0/0 placeholder.
+    let loc = location
+    if (location.dynamic) {
+      addLog('📍 Resolving current position…')
+      try {
+        const pos = await getCurrentPosition()
+        loc = { ...location, lat: pos.lat, lon: pos.lon }
+        setGeoError(null)
+        onResolveCoords?.(location.id, { lat: pos.lat, lon: pos.lon })
+      } catch (e) {
+        addLog(`✗ Geolocation failed: ${e.message}`)
+        setGeoError(e.message)
+        setLoading(false)
+        return
+      }
+    }
+
     // Initialize per-source status from the registry: a source whose required
     // key is missing starts as 'no-key', everything else as 'loading'.
     const status = {}
@@ -37,14 +72,14 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, win
     }
     setStatus(status)
 
-    addLog(`▶ Fetching for ${location.label} (${location.lat}, ${location.lon})`)
+    addLog(`▶ Fetching for ${loc.label} (${loc.lat}, ${loc.lon})`)
 
     // Run every active source in parallel.
     const active = SOURCES.filter(s => isSourceActive(s, apiKeys))
     active.forEach(s => addLog(`${s.key}: fetching…`))
 
     const settled = await Promise.allSettled(
-      active.map(s => s.fetch(location, apiKeys))
+      active.map(s => s.fetch(loc, apiKeys))
     )
 
     const allReadings = []
@@ -80,7 +115,7 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, win
     }
 
     setLoading(false)
-  }, [location, apiKeys, iqrFactor, windyKeyFree, addLog])
+  }, [location, apiKeys, iqrFactor, windyKeyFree, onResolveCoords, addLog])
 
   // Auto-refresh
   useEffect(() => {
@@ -110,8 +145,9 @@ export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, win
 
   // Fetch on location/key change
   useEffect(() => {
+    setGeoError(null)
     if (location) fetch()
   }, [location?.id, apiKeys.owm, apiKeys.tomorrow, apiKeys.windy])  // eslint-disable-line
 
-  return { result, sourceStatus, loading, lastUpdated, log, refetch: fetch }
+  return { result, sourceStatus, loading, lastUpdated, geoError, log, refetch: fetch }
 }

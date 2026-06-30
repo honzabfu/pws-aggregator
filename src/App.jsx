@@ -1,5 +1,5 @@
 // src/App.jsx
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { useConfig }   from './hooks/useConfig.js'
 import { useWeather }  from './hooks/useWeather.js'
 import { useTheme }    from './hooks/useTheme.js'
@@ -21,10 +21,11 @@ import strings from './lib/i18n.js'
 
 const TABS = ['aggregated', 'stations', 'sources']
 
-function LocationPicker({ locations, activeId, onSelect, onDelete, onEdit, onAdd, lang }) {
+function LocationPicker({ locations, activeId, onSelect, onDelete, onEdit, onAdd, onAddDynamic, lang }) {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
   const active = locations.find(l => l.id === activeId)
+  const hasDynamic = locations.some(l => l.dynamic)
 
   useEffect(() => {
     if (!open) return
@@ -49,7 +50,7 @@ function LocationPicker({ locations, activeId, onSelect, onDelete, onEdit, onAdd
         }}
       >
         <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>
-          📍 {active?.label ?? '—'}
+          {active?.dynamic ? '📡' : '📍'} {active?.label ?? '—'}
         </span>
         <span style={{ fontSize: '0.625rem', color: 'var(--text-muted)', flexShrink: 0 }}>▾</span>
       </button>
@@ -80,7 +81,18 @@ function LocationPicker({ locations, activeId, onSelect, onDelete, onEdit, onAdd
                   cursor: 'pointer',
                 }}
               >
-                {l.id === activeId && '✓ '}{l.label}
+                {l.id === activeId && '✓ '}{l.dynamic ? '📡 ' : ''}{l.label}
+                {l.dynamic && (
+                  <span style={{
+                    marginLeft: 6, padding: '1px 6px',
+                    fontSize: '0.5625rem', fontWeight: 700, letterSpacing: '0.03em',
+                    textTransform: 'uppercase',
+                    background: 'var(--accent)', color: '#fff',
+                    borderRadius: 'var(--radius-sm)', verticalAlign: 'middle',
+                  }}>
+                    {t(lang, 'locationDynamicBadge')}
+                  </span>
+                )}
               </button>
               <button
                 onClick={() => { onEdit(l); setOpen(false) }}
@@ -108,6 +120,21 @@ function LocationPicker({ locations, activeId, onSelect, onDelete, onEdit, onAdd
               </button>
             </div>
           ))}
+          {!hasDynamic && (
+            <button
+              onClick={() => { onAddDynamic(); setOpen(false) }}
+              style={{
+                display: 'block', width: '100%', textAlign: 'left',
+                padding: '10px 12px',
+                background: 'transparent', border: 'none',
+                borderBottom: '1px solid var(--border)',
+                color: 'var(--accent)', fontSize: '0.8125rem', fontWeight: 600,
+                cursor: 'pointer',
+              }}
+            >
+              📡 {t(lang, 'locationDynamicAdd')}
+            </button>
+          )}
           <button
             onClick={() => { onAdd(); setOpen(false) }}
             style={{
@@ -140,13 +167,29 @@ export default function App() {
 
   useTheme(preferences.theme, preferences.fontSize)
 
-  const { result, sourceStatus, loading, lastUpdated, log, refetch } = useWeather(
+  // Cache a dynamic location's resolved GPS coordinates back into config so the
+  // info bar and station-distance calculations reflect the real position.
+  const handleResolveCoords = useCallback(
+    (id, coords) => updateLocation(id, coords),
+    [updateLocation],
+  )
+
+  const { result, sourceStatus, loading, lastUpdated, geoError, log, refetch } = useWeather(
     activeLocation,
     apiKeys,
     preferences.iqrFactor,
     preferences.refreshIntervalMin,
     preferences.windyKeyFree,
+    handleResolveCoords,
   )
+
+  // A dynamic location starts at the 0/0 placeholder until its first GPS fix.
+  const dynamicUnresolved = !!activeLocation?.dynamic && activeLocation.lat === 0 && activeLocation.lon === 0
+
+  const addDynamicLocation = () => {
+    const id = addLocation(t(lang, 'locationDynamicLabel'), 0, 0, 10, true)
+    setActiveLocation(id)
+  }
 
   const [tab,             setTab]             = useState('aggregated')
   const [showSettings,    setShowSettings]    = useState(false)
@@ -270,6 +313,7 @@ export default function App() {
             onDelete={deleteLocation}
             onEdit={setEditLoc}
             onAdd={() => setShowAddLoc(true)}
+            onAddDynamic={addDynamicLocation}
             lang={lang}
           />
         )}
@@ -348,26 +392,59 @@ export default function App() {
           }}>
             <div style={{ fontSize: '2.5rem', marginBottom: 16 }}>📍</div>
             <div style={{ marginBottom: 16 }}>{t(lang, 'locationNoData')}</div>
-            <button className="btn btn-primary" onClick={() => setShowAddLoc(true)}
-              style={{ justifyContent: 'center' }}>
-              + {t(lang, 'actionAddLocation')}
-            </button>
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button className="btn btn-primary" onClick={() => setShowAddLoc(true)}
+                style={{ justifyContent: 'center' }}>
+                + {t(lang, 'actionAddLocation')}
+              </button>
+              <button className="btn btn-ghost" onClick={addDynamicLocation}
+                style={{ justifyContent: 'center' }}>
+                📡 {t(lang, 'locationDynamicAdd')}
+              </button>
+            </div>
           </div>
         )}
 
         {/* Location info bar */}
         {activeLocation && (
           <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>{activeLocation.label}</div>
-            <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>
-              {activeLocation.lat.toFixed(4)}° N, {activeLocation.lon.toFixed(4)}° E
-              {' · '}{activeLocation.radiusKm} km
-              {lastUpdated && (
-                <span style={{ marginLeft: 8 }}>
-                  · {t(lang, 'statusUpdated')} {lastUpdated.toLocaleTimeString()}
+            <div style={{ fontSize: '1.25rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
+              {activeLocation.dynamic && <span>📡</span>}
+              {activeLocation.label}
+              {activeLocation.dynamic && (
+                <span style={{
+                  padding: '2px 7px',
+                  fontSize: '0.5625rem', fontWeight: 700, letterSpacing: '0.03em',
+                  textTransform: 'uppercase',
+                  background: 'var(--accent)', color: '#fff',
+                  borderRadius: 'var(--radius-sm)',
+                }}>
+                  {t(lang, 'locationDynamicBadge')}
                 </span>
               )}
             </div>
+            {geoError ? (
+              <div style={{ fontSize: '0.6875rem', color: 'var(--error)', marginTop: 2 }}>
+                {t(lang, 'locationDynamicError')}
+              </div>
+            ) : (
+              <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>
+                {dynamicUnresolved
+                  ? t(lang, 'locationLocating')
+                  : <>{activeLocation.lat.toFixed(4)}° N, {activeLocation.lon.toFixed(4)}° E</>}
+                {' · '}{activeLocation.radiusKm} km
+                {lastUpdated && !dynamicUnresolved && (
+                  <span style={{ marginLeft: 8 }}>
+                    · {t(lang, 'statusUpdated')} {lastUpdated.toLocaleTimeString()}
+                  </span>
+                )}
+              </div>
+            )}
+            {activeLocation.dynamic && !geoError && (
+              <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                {t(lang, 'locationDynamicDesc')}
+              </div>
+            )}
           </div>
         )}
 
