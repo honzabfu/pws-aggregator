@@ -18,6 +18,7 @@ import { windDirLabel, displayWind } from './lib/units.js'
 import { metricIcon } from './lib/icons.js'
 import { t, resolveLanguage } from './lib/i18n.js'
 import strings from './lib/i18n.js'
+import { reverseGeocode } from './lib/geocode.js'
 
 const TABS = ['aggregated', 'stations', 'sources']
 
@@ -190,6 +191,24 @@ export default function App() {
     const id = addLocation(t(lang, 'locationDynamicLabel'), 0, 0, 10, true)
     setActiveLocation(id)
   }
+
+  // Reverse-geocode a dynamic location's resolved coordinates into a place name
+  // (best-effort, no key). Only fires when the position has actually moved
+  // (~>1 km) or no name exists yet, so a stationary user costs one call total.
+  useEffect(() => {
+    const loc = activeLocation
+    if (!loc?.dynamic || (loc.lat === 0 && loc.lon === 0)) return
+    const dLat = Math.abs((loc.placeNameLat ?? 999) - loc.lat)
+    const dLon = Math.abs((loc.placeNameLon ?? 999) - loc.lon)
+    if (loc.placeName && dLat < 0.01 && dLon < 0.01) return
+    const ctrl = new AbortController()
+    reverseGeocode(loc.lat, loc.lon, lang, ctrl.signal)
+      .then(name => {
+        if (name) updateLocation(loc.id, { placeName: name, placeNameLat: loc.lat, placeNameLon: loc.lon })
+      })
+      .catch(() => { /* best-effort — name stays optional */ })
+    return () => ctrl.abort()
+  }, [activeLocation?.id, activeLocation?.lat, activeLocation?.lon, activeLocation?.dynamic, lang, updateLocation])  // eslint-disable-line
 
   const [tab,             setTab]             = useState('aggregated')
   const [showSettings,    setShowSettings]    = useState(false)
@@ -410,7 +429,9 @@ export default function App() {
           <div style={{ marginBottom: 16 }}>
             <div style={{ fontSize: '1.25rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
               {activeLocation.dynamic && <span>📡</span>}
-              {activeLocation.label}
+              {activeLocation.dynamic && activeLocation.placeName && !dynamicUnresolved
+                ? activeLocation.placeName
+                : activeLocation.label}
               {activeLocation.dynamic && (
                 <span style={{
                   padding: '2px 7px',
