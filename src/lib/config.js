@@ -86,13 +86,17 @@ export function importConfig(file) {
 }
 
 // ── Location helpers ──────────────────────────────────────────────────────────
-export function newLocation(label, lat, lon, radiusKm = 10) {
+// A `dynamic` location has no fixed coordinates — its lat/lon are resolved from
+// the device's geolocation on every refresh. The stored lat/lon are only a
+// last-known cache (0/0 until first resolved) used for instant display.
+export function newLocation(label, lat, lon, radiusKm = 10, dynamic = false) {
   return {
     id:       crypto.randomUUID(),
     label,
     lat:      Number(lat),
     lon:      Number(lon),
     radiusKm: Number(radiusKm),
+    dynamic:  Boolean(dynamic),
   }
 }
 

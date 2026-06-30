@@ -15,8 +15,8 @@ Tests cover the pure logic in `src/lib/` (`aggregate.test.js`, `units.test.js`).
 ## Architecture
 - **Entry:** [src/main.jsx](src/main.jsx) → [src/App.jsx](src/App.jsx). App is a single component with 3 tabs (aggregated / stations / sources).
 - **State via hooks:**
-  - [src/hooks/useConfig.js](src/hooks/useConfig.js) — config persisted to LocalStorage (`pws:config`).
-  - [src/hooks/useWeather.js](src/hooks/useWeather.js) — fetch orchestration, source status, debug log, auto-refresh timer.
+  - [src/hooks/useConfig.js](src/hooks/useConfig.js) — config persisted to LocalStorage (`pws:config`). Locations carry a `dynamic` flag; a **dynamic location** (added manually via 📡 "My current position", never created by default) has no fixed coordinates — on every refresh `useWeather` resolves the device geolocation and fetches for the current position. Its stored lat/lon is only a last-known cache (`0/0` until first resolved), updated via `updateLocation` after each successful fix.
+  - [src/hooks/useWeather.js](src/hooks/useWeather.js) — fetch orchestration, source status, debug log, auto-refresh timer. For a `dynamic` location it calls `getCurrentPosition()` before fetching and reports failures via the returned `geoError`.
   - [src/hooks/useTheme.js](src/hooks/useTheme.js) — light/dark/system.
 - **Sources:** [src/lib/sources/](src/lib/sources/) — each exports `fetch<Source>()` returning `{ readings, errors }` and a `*_META` object.
   - `openmeteo.js` — no key, fetches 3 NWP models (best_match, ICON, ECMWF) in parallel.

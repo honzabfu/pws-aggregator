@@ -141,6 +141,11 @@ const strings = {
     locationLabelHint: 'e.g. Home, Cottage, Prague…',
     locationUseMine:   'Use my location',
     locationLocating:  'Locating…',
+    locationDynamicAdd:   'My current position',
+    locationDynamicLabel: 'My location',
+    locationDynamicBadge: 'Live',
+    locationDynamicDesc:  'Re-checks your position on every refresh',
+    locationDynamicError: 'Could not get your position — check location permissions and refresh.',
 
     // API keys
     keyOWM:       'OpenWeatherMap API key',
@@ -333,6 +338,11 @@ const strings = {
     locationLabelHint: 'např. Domov, Chata, Praha…',
     locationUseMine:   'Použít mou polohu',
     locationLocating:  'Zjišťuji polohu…',
+    locationDynamicAdd:   'Moje aktuální poloha',
+    locationDynamicLabel: 'Moje poloha',
+    locationDynamicBadge: 'Živě',
+    locationDynamicDesc:  'Při každém obnovení znovu zjistí vaši polohu',
+    locationDynamicError: 'Nepodařilo se zjistit polohu — zkontrolujte oprávnění a obnovte.',
 
     keyOWM:      'API klíč OpenWeatherMap',
     keyWindy:    'API klíč Windy',
@@ -520,6 +530,11 @@ const strings = {
     locationLabelHint: 'p. ej. Casa, Oficina, Madrid…',
     locationUseMine:   'Usar mi ubicación',
     locationLocating:  'Localizando…',
+    locationDynamicAdd:   'Mi ubicación actual',
+    locationDynamicLabel: 'Mi ubicación',
+    locationDynamicBadge: 'En vivo',
+    locationDynamicDesc:  'Recomprueba tu posición en cada actualización',
+    locationDynamicError: 'No se pudo obtener tu ubicación — revisa los permisos y actualiza.',
 
     keyOWM:      'Clave API OpenWeatherMap',
     keyWindy:    'Clave API Windy',
