@@ -5,17 +5,38 @@ import { aggregate } from '../lib/aggregate.js'
 
 const STATUS = { idle: 'idle', loading: 'loading', ok: 'ok', error: 'error', noKey: 'no-key' }
 
-// Promise wrapper around the browser geolocation API. A short maximumAge lets
-// quick successive refreshes reuse a recent fix instead of re-prompting the GPS.
-function getCurrentPosition() {
+// Single geolocation request. Rejects with the native GeolocationPositionError
+// so the caller can read its `.code` (1 denied / 2 unavailable / 3 timeout).
+function geolocateOnce(options) {
   return new Promise((resolve, reject) => {
-    if (!navigator.geolocation) { reject(new Error('Geolocation not supported')); return }
     navigator.geolocation.getCurrentPosition(
       pos => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
-      err => reject(new Error(err?.message || 'Geolocation failed')),
-      { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }
+      reject,
+      options,
     )
   })
+}
+
+// Resolve the device position, with a retry tuned for Safari. Safari in a normal
+// tab frequently fails the first fix (POSITION_UNAVAILABLE/timeout) even when the
+// permission is granted — a standalone PWA does not — so on failure we retry once
+// forcing a fresh high-accuracy fix with a longer timeout. The first attempt is
+// fast and may reuse a recent cached fix for quick successive refreshes.
+async function getCurrentPosition() {
+  if (!navigator.geolocation) throw new Error('Geolocation not supported')
+  try {
+    return await geolocateOnce({ enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 })
+  } catch {
+    try {
+      return await geolocateOnce({ enableHighAccuracy: true, timeout: 25000, maximumAge: 0 })
+    } catch (err) {
+      const label = err?.code === 1 ? 'permission denied'
+        : err?.code === 2 ? 'position unavailable'
+        : err?.code === 3 ? 'timeout'
+        : 'error'
+      throw new Error(`Geolocation ${label}${err?.message ? `: ${err.message}` : ''}`)
+    }
+  }
 }
 
 export function useWeather(location, apiKeys, iqrFactor, refreshIntervalMin, windyKeyFree = true, onResolveCoords) {
