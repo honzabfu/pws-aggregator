@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useConfig }   from './hooks/useConfig.js'
 import { useWeather }  from './hooks/useWeather.js'
 import { useTheme }    from './hooks/useTheme.js'
+import { usePullToRefresh } from './hooks/usePullToRefresh.js'
 import { MetricCard }    from './components/MetricCard.jsx'
 import { Compass }       from './components/Compass.jsx'
 import { StationsTable } from './components/StationsTable.jsx'
@@ -159,6 +160,13 @@ export default function App() {
     (apiKeys.windy && !preferences.windyKeyFree)
   )
 
+  // Pull-to-refresh (touch). Disabled while a modal is open or there's nothing
+  // to fetch, so the gesture never fights with an overlay or fires uselessly.
+  const { pullDistance, refreshing, threshold } = usePullToRefresh(refetch, {
+    disabled: !activeLocation || showSettings || showAddLoc || !!editLoc,
+  })
+  const pullProgress = Math.min(1, pullDistance / threshold)
+
   const METRIC_DEFS = [
     { key: 'temp',      labelKey: 'metricTemp'     },
     { key: 'humidity',  labelKey: 'metricHumidity' },
@@ -174,6 +182,39 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-base)', display: 'flex', flexDirection: 'column' }}>
+
+      {/* ── Pull-to-refresh indicator (touch) ───────────────────────────────── */}
+      {(pullDistance > 0 || refreshing) && (
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: '50%',
+            transform: `translateX(-50%) translateY(${(refreshing ? threshold : pullDistance) - 8}px)`,
+            width: 36, height: 36,
+            borderRadius: '50%',
+            background: 'var(--bg-surface)',
+            border: '1px solid var(--border)',
+            boxShadow: 'var(--shadow-md)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            zIndex: 100,
+            color: 'var(--accent)',
+            fontSize: '1.125rem',
+            opacity: refreshing ? 1 : pullProgress,
+            transition: refreshing || pullDistance === 0 ? 'transform 0.2s ease, opacity 0.2s ease' : 'none',
+            pointerEvents: 'none',
+          }}
+        >
+          <span style={{
+            display: 'inline-block',
+            animation: refreshing ? 'spin 0.8s linear infinite' : 'none',
+            transform: refreshing ? 'none' : `rotate(${pullProgress * 270}deg)`,
+          }}>
+            ⟳
+          </span>
+        </div>
+      )}
 
       {/* ── Header ──────────────────────────────────────────────────────────── */}
       <header style={{
