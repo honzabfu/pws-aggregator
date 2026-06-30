@@ -1,0 +1,738 @@
+[
+  {
+    "viewport": "mobile-320-small",
+    "profile": "iPhone SE (1st gen) — smallest common phone",
+    "size": "320x568",
+    "theme": "light",
+    "tab": "aggregated",
+    "file": "mobile-320-small__light__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "mobile-320-small",
+    "profile": "iPhone SE (1st gen) — smallest common phone",
+    "size": "320x568",
+    "theme": "light",
+    "tab": "stations",
+    "file": "mobile-320-small__light__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": [
+      {
+        "tag": "table",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "thead",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "tr",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 349
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 412
+      }
+    ]
+  },
+  {
+    "viewport": "mobile-320-small",
+    "profile": "iPhone SE (1st gen) — smallest common phone",
+    "size": "320x568",
+    "theme": "light",
+    "tab": "sources",
+    "file": "mobile-320-small__light__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "mobile-320-small",
+    "profile": "iPhone SE (1st gen) — smallest common phone",
+    "size": "320x568",
+    "theme": "dark",
+    "tab": "aggregated",
+    "file": "mobile-320-small__dark__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "mobile-320-small",
+    "profile": "iPhone SE (1st gen) — smallest common phone",
+    "size": "320x568",
+    "theme": "dark",
+    "tab": "stations",
+    "file": "mobile-320-small__dark__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": [
+      {
+        "tag": "table",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "thead",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "tr",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 349
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 412
+      }
+    ]
+  },
+  {
+    "viewport": "mobile-320-small",
+    "profile": "iPhone SE (1st gen) — smallest common phone",
+    "size": "320x568",
+    "theme": "dark",
+    "tab": "sources",
+    "file": "mobile-320-small__dark__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "mobile-375-iphonese",
+    "profile": "iPhone SE2 / iPhone 8",
+    "size": "375x667",
+    "theme": "light",
+    "tab": "aggregated",
+    "file": "mobile-375-iphonese__light__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "mobile-375-iphonese",
+    "profile": "iPhone SE2 / iPhone 8",
+    "size": "375x667",
+    "theme": "light",
+    "tab": "stations",
+    "file": "mobile-375-iphonese__light__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": [
+      {
+        "tag": "table",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "thead",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "tr",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 412
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 463
+      }
+    ]
+  },
+  {
+    "viewport": "mobile-375-iphonese",
+    "profile": "iPhone SE2 / iPhone 8",
+    "size": "375x667",
+    "theme": "light",
+    "tab": "sources",
+    "file": "mobile-375-iphonese__light__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "mobile-375-iphonese",
+    "profile": "iPhone SE2 / iPhone 8",
+    "size": "375x667",
+    "theme": "dark",
+    "tab": "aggregated",
+    "file": "mobile-375-iphonese__dark__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "mobile-375-iphonese",
+    "profile": "iPhone SE2 / iPhone 8",
+    "size": "375x667",
+    "theme": "dark",
+    "tab": "stations",
+    "file": "mobile-375-iphonese__dark__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": [
+      {
+        "tag": "table",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "thead",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "tr",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 412
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 463
+      }
+    ]
+  },
+  {
+    "viewport": "mobile-375-iphonese",
+    "profile": "iPhone SE2 / iPhone 8",
+    "size": "375x667",
+    "theme": "dark",
+    "tab": "sources",
+    "file": "mobile-375-iphonese__dark__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "mobile-390-iphone13",
+    "profile": "iPhone 12/13/14",
+    "size": "390x844",
+    "theme": "light",
+    "tab": "aggregated",
+    "file": "mobile-390-iphone13__light__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "mobile-390-iphone13",
+    "profile": "iPhone 12/13/14",
+    "size": "390x844",
+    "theme": "light",
+    "tab": "stations",
+    "file": "mobile-390-iphone13__light__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": [
+      {
+        "tag": "table",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "thead",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "tr",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 412
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 463
+      }
+    ]
+  },
+  {
+    "viewport": "mobile-390-iphone13",
+    "profile": "iPhone 12/13/14",
+    "size": "390x844",
+    "theme": "light",
+    "tab": "sources",
+    "file": "mobile-390-iphone13__light__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "mobile-390-iphone13",
+    "profile": "iPhone 12/13/14",
+    "size": "390x844",
+    "theme": "dark",
+    "tab": "aggregated",
+    "file": "mobile-390-iphone13__dark__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "mobile-390-iphone13",
+    "profile": "iPhone 12/13/14",
+    "size": "390x844",
+    "theme": "dark",
+    "tab": "stations",
+    "file": "mobile-390-iphone13__dark__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": [
+      {
+        "tag": "table",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "thead",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "tr",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 412
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 463
+      }
+    ]
+  },
+  {
+    "viewport": "mobile-390-iphone13",
+    "profile": "iPhone 12/13/14",
+    "size": "390x844",
+    "theme": "dark",
+    "tab": "sources",
+    "file": "mobile-390-iphone13__dark__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "mobile-412-android",
+    "profile": "Pixel 7 / typical Android",
+    "size": "412x915",
+    "theme": "light",
+    "tab": "aggregated",
+    "file": "mobile-412-android__light__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "mobile-412-android",
+    "profile": "Pixel 7 / typical Android",
+    "size": "412x915",
+    "theme": "light",
+    "tab": "stations",
+    "file": "mobile-412-android__light__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": [
+      {
+        "tag": "table",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "thead",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "tr",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 463
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 526
+      }
+    ]
+  },
+  {
+    "viewport": "mobile-412-android",
+    "profile": "Pixel 7 / typical Android",
+    "size": "412x915",
+    "theme": "light",
+    "tab": "sources",
+    "file": "mobile-412-android__light__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "mobile-412-android",
+    "profile": "Pixel 7 / typical Android",
+    "size": "412x915",
+    "theme": "dark",
+    "tab": "aggregated",
+    "file": "mobile-412-android__dark__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "mobile-412-android",
+    "profile": "Pixel 7 / typical Android",
+    "size": "412x915",
+    "theme": "dark",
+    "tab": "stations",
+    "file": "mobile-412-android__dark__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": [
+      {
+        "tag": "table",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "thead",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "tr",
+        "cls": "",
+        "right": 653
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 463
+      },
+      {
+        "tag": "th",
+        "cls": "",
+        "right": 526
+      }
+    ]
+  },
+  {
+    "viewport": "mobile-412-android",
+    "profile": "Pixel 7 / typical Android",
+    "size": "412x915",
+    "theme": "dark",
+    "tab": "sources",
+    "file": "mobile-412-android__dark__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "tablet-768-portrait",
+    "profile": "iPad portrait",
+    "size": "768x1024",
+    "theme": "light",
+    "tab": "aggregated",
+    "file": "tablet-768-portrait__light__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "tablet-768-portrait",
+    "profile": "iPad portrait",
+    "size": "768x1024",
+    "theme": "light",
+    "tab": "stations",
+    "file": "tablet-768-portrait__light__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "tablet-768-portrait",
+    "profile": "iPad portrait",
+    "size": "768x1024",
+    "theme": "light",
+    "tab": "sources",
+    "file": "tablet-768-portrait__light__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "tablet-768-portrait",
+    "profile": "iPad portrait",
+    "size": "768x1024",
+    "theme": "dark",
+    "tab": "aggregated",
+    "file": "tablet-768-portrait__dark__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "tablet-768-portrait",
+    "profile": "iPad portrait",
+    "size": "768x1024",
+    "theme": "dark",
+    "tab": "stations",
+    "file": "tablet-768-portrait__dark__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "tablet-768-portrait",
+    "profile": "iPad portrait",
+    "size": "768x1024",
+    "theme": "dark",
+    "tab": "sources",
+    "file": "tablet-768-portrait__dark__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "tablet-1024-landscape",
+    "profile": "iPad landscape",
+    "size": "1024x768",
+    "theme": "light",
+    "tab": "aggregated",
+    "file": "tablet-1024-landscape__light__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "tablet-1024-landscape",
+    "profile": "iPad landscape",
+    "size": "1024x768",
+    "theme": "light",
+    "tab": "stations",
+    "file": "tablet-1024-landscape__light__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "tablet-1024-landscape",
+    "profile": "iPad landscape",
+    "size": "1024x768",
+    "theme": "light",
+    "tab": "sources",
+    "file": "tablet-1024-landscape__light__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "tablet-1024-landscape",
+    "profile": "iPad landscape",
+    "size": "1024x768",
+    "theme": "dark",
+    "tab": "aggregated",
+    "file": "tablet-1024-landscape__dark__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "tablet-1024-landscape",
+    "profile": "iPad landscape",
+    "size": "1024x768",
+    "theme": "dark",
+    "tab": "stations",
+    "file": "tablet-1024-landscape__dark__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "tablet-1024-landscape",
+    "profile": "iPad landscape",
+    "size": "1024x768",
+    "theme": "dark",
+    "tab": "sources",
+    "file": "tablet-1024-landscape__dark__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "desktop-1280",
+    "profile": "Laptop",
+    "size": "1280x800",
+    "theme": "light",
+    "tab": "aggregated",
+    "file": "desktop-1280__light__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "desktop-1280",
+    "profile": "Laptop",
+    "size": "1280x800",
+    "theme": "light",
+    "tab": "stations",
+    "file": "desktop-1280__light__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "desktop-1280",
+    "profile": "Laptop",
+    "size": "1280x800",
+    "theme": "light",
+    "tab": "sources",
+    "file": "desktop-1280__light__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "desktop-1280",
+    "profile": "Laptop",
+    "size": "1280x800",
+    "theme": "dark",
+    "tab": "aggregated",
+    "file": "desktop-1280__dark__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "desktop-1280",
+    "profile": "Laptop",
+    "size": "1280x800",
+    "theme": "dark",
+    "tab": "stations",
+    "file": "desktop-1280__dark__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "desktop-1280",
+    "profile": "Laptop",
+    "size": "1280x800",
+    "theme": "dark",
+    "tab": "sources",
+    "file": "desktop-1280__dark__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "desktop-1920",
+    "profile": "Full-HD desktop",
+    "size": "1920x1080",
+    "theme": "light",
+    "tab": "aggregated",
+    "file": "desktop-1920__light__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "desktop-1920",
+    "profile": "Full-HD desktop",
+    "size": "1920x1080",
+    "theme": "light",
+    "tab": "stations",
+    "file": "desktop-1920__light__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "desktop-1920",
+    "profile": "Full-HD desktop",
+    "size": "1920x1080",
+    "theme": "light",
+    "tab": "sources",
+    "file": "desktop-1920__light__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "desktop-1920",
+    "profile": "Full-HD desktop",
+    "size": "1920x1080",
+    "theme": "dark",
+    "tab": "aggregated",
+    "file": "desktop-1920__dark__aggregated.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "desktop-1920",
+    "profile": "Full-HD desktop",
+    "size": "1920x1080",
+    "theme": "dark",
+    "tab": "stations",
+    "file": "desktop-1920__dark__stations.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  },
+  {
+    "viewport": "desktop-1920",
+    "profile": "Full-HD desktop",
+    "size": "1920x1080",
+    "theme": "dark",
+    "tab": "sources",
+    "file": "desktop-1920__dark__sources.png",
+    "overflowX": 0,
+    "horizOverflow": false,
+    "offenders": []
+  }
+]
